@@ -54,8 +54,8 @@ public class Joker {
 	 */
 	public void jokerWin() {
 		Quizz nbQuestion = new Quizz();
-		int compteur = nbQuestion.getNumber();
-		nbQuestion.setNumber(compteur++);
+		int compteur = nbQuestion.getCompteurQuestion();
+		nbQuestion.setCompteurQuestion(compteur++);
 		Utilisateur resultat = new Utilisateur();
 		int score = resultat.getScore() + 3;
 		resultat.setNumber(score);

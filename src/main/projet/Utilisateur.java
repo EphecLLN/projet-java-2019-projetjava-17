@@ -3,6 +3,8 @@
  */
 package projet;
 
+import java.util.Scanner;
+
 /**
  * @author Autome Edwin
  *
@@ -43,11 +45,19 @@ public class Utilisateur {
 	this.score = score;
     }
     
+    //METHODES
+    /**
+     * Paramètre le thème du quizz en fonction du choix de l'utilisateur
+     */
+    public void choisirTheme() {
+	System.out.println("Quel thème choisissez-vous ?");
+	Scanner sc = new Scanner();
+    }
+    
     /**
      * @param args
      */
     public static void main(String[] args) {
-	// TODO Auto-generated method stub
-
+	//TODO
     }
 }

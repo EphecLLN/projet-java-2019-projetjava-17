@@ -58,7 +58,7 @@ public class Joker {
 		nbQuestion.setCompteurQuestion(compteur++);
 		Utilisateur resultat = new Utilisateur();
 		int score = resultat.getScore() + 3;
-		resultat.setNumber(score);
+		resultat.setScore(score);
 		Question.genererQuestion();
 	}
 	

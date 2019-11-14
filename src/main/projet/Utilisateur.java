@@ -45,14 +45,17 @@ public class Utilisateur {
 	this.score = score;
     }
     
+    
     //METHODES
     /**
      * Paramètre le thème du quizz en fonction du choix de l'utilisateur
      */
-    public void choisirTheme() {
-	System.out.println("Quel thème choisissez-vous ?");
-	Scanner sc = new Scanner();
-    }
+    public void choisirTheme() {}
+    
+    /**
+     * Paramètre la difficulté du quizz en fonction du choix de l'utilisateur
+     */
+    public void choisirDifficulte() {}
     
     /**
      * @param args

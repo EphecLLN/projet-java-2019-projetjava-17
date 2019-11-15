@@ -32,12 +32,12 @@ public class Joker {
 	 * Va prendre les mauvaises réponses de la classe Question et n'en retourner plus qu'une.
 	 * @return retourne aléatoirement une mauvaise réponse.
 	 */
-	public String jokerMM() {
+	public void jokerMM() {
 		Question mauvaiseReponse = new Question();
 		String[] reponseFausse = mauvaiseReponse.getReponseF();
 		Random rep = new Random();
 		int num = rep.nextInt(reponseFausse.length);
-		return reponseFausse[num];				
+		mauvaiseReponse.setReponseF(reponseFausse[num]);				
 	}
 	
 	/**

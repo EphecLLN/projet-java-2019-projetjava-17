@@ -10,10 +10,23 @@ import java.util.*;
  *
  */
 public class Question {
-	private String question = "";
-	private String[] reponsesF = {"","", ""};
+	private String question;
+	private String[] reponsesF;
 	private String reponseV;
 	
+	public Question() {
+	this.question = "Qui suis-je ?";
+	String[] repF = {"Lui", "Il", "Toi"};
+	this.reponsesF = repF;
+	this.reponseV = "Moi";
+	}
+	
+	
+	public Question(String question, String[] reponsesF, String reponseV) {
+		this.question = question;
+		this.reponsesF = reponsesF;
+		this.reponseV = reponseV;
+	}
 	/**
 	 * @return the question
 	 */
@@ -52,41 +65,39 @@ public class Question {
 	}	
 	
 	/**
+	 * Génère une question (actuellement prédéfinie) et renvoie les points issus de la réponse à cette question
+	 * Méthode à améliorer
+	 * @param choix - La méthode de réponse ("Carre" ou "Cash")
+	 * @param rep - La réponse choisie
+	 * @return le nombre de points obtenus
 	 * 
 	 */
-	public void genererQuestion() {
-		this.setQuestion("Comment je m'appelle?");
-		System.out.println(getQuestion());
-		Scanner scanner = new Scanner(System.in);
-		String inputString = "";
-		while ((inputString != "Carre") || (inputString != "Cash")) {
-			System.out.println("Comment souhaitez-vous Répondre ?");
-			inputString = scanner.nextLine();
+	public int genererQuestion(String choix, String rep) {
+		int points;
+		Question maQuest = new Question();
+		System.out.println(maQuest.question);
+		points = maQuest.genererReponse(choix,rep);
+		return points;
+	}
+	
+	/**
+	 * 
+	 * @param choix - La méthode de réponse ("Carre" ou "Cash")
+	 * @param rep - La réponse choisie
+	 * @return le nombre de points obtenus
+	 */
+	public int genererReponse(String choix, String rep) {
+		if (choix.compareTo("Carre") == 0) {
+			if (rep.compareTo(reponseV) == 0) {System.out.println("Correct ! +1");return 1;}
+			else {return 0;}
 		}
-		scanner.close();
-		genererReponse(inputString);
-		
-	}
-	public void genererReponse(String choix) {
-		int[] flags = {0,0,0,0};
-		setReponseV("Moi");
-		String[] rep = {"Lui", "Il", "Toi"};
-		Random rand = new Random();
-		int num;
-		if (choix == "Carre") {
-			for (int i = 0;i<(rep.length+1);i++) {
-				num = rand.nextInt((rep.length+1));
-				System.out.println(num);
-			}
+		else if (choix.compareTo("Cash") == 0) {
+			if (rep.compareTo(reponseV) == 0) {System.out.println("Correct ! +3");return 3;}
+			else {return 0;}
 		}
-	}
-	public int reponseCash() {
-		return 3;
-	}
-	public int reponseCarre() {
-		return 1;
-	}
-	public boolean checkReponse(String rep) {
-		return true;
+		else {
+			System.out.println("Mauvais choix encodé");
+			return -1;
+		}
 	}
 }

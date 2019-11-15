@@ -46,6 +46,9 @@ public class Utilisateur {
     }
     
     //CONSTRUCTEUR
+    /**
+      *Constucteur par défaut de l'objet Utilisateur
+      */
     public Utilisateur() {
 	this.pseudo = "";
 	this.score = 0;

@@ -15,14 +15,14 @@ public class Joker {
 	private String[] jokers = {"le moite/moite", "le switch", "le j'aime pas ta question donne moi mes points"};
 	
 	/**
-	 * @return getter de la variable jokers.
+	 * @return l'array jokers.
 	 */
 	public String[] getJokers() {
 		return jokers;
 	}
 
 	/**
-	 * @param setter de la variable jokers.
+	 * @param modifie de la variable jokers.
 	 */
 	public void setJokers(String[] jokers) {
 		this.jokers = jokers;

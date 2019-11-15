@@ -29,8 +29,7 @@ public class Joker {
 	}
 
 	/**
-	 * Va prendre les mauvaises réponses de la classe Question et n'en retourner plus qu'une.
-	 * @return retourne aléatoirement une mauvaise réponse.
+	 * Va prendre les mauvaises réponses de la classe Question et n'en retourner plus qu'une aléatoirement.
 	 */
 	public void jokerMM() {
 		Question mauvaiseReponse = new Question();

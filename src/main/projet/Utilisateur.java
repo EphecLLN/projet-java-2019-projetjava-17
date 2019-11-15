@@ -45,7 +45,6 @@ public class Utilisateur {
 	this.score = score;
     }
     
-    
     //METHODES
     /**
      * Paramètre le thème du quizz en fonction du choix de l'utilisateur
@@ -53,7 +52,7 @@ public class Utilisateur {
     public void choisirTheme() {
 	Scanner sc = new Scanner(System.in);
 	System.out.println("Choisissez le thème de vos questions : ");
-	Quizz.gettheme() = sc.nextLine();
+	Quizz.getTheme() = sc.nextLine();
     }
     
     /**

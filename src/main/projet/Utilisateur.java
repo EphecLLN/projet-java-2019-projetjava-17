@@ -45,6 +45,12 @@ public class Utilisateur {
 	this.score = score;
     }
     
+    //CONSTRUCTEUR
+    public Utilisateur() {
+	this.pseudo = "";
+	this.score = 0;
+    }
+    
     //METHODES
     /**
      * Paramètre le thème du quizz en fonction du choix de l'utilisateur
@@ -68,6 +74,6 @@ public class Utilisateur {
      * @param args
      */
     public static void main(String[] args) {
-	//TODO
+	Utilisateur user = new Utilisateur();
     }
 }

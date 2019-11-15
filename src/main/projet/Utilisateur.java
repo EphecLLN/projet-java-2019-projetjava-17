@@ -50,7 +50,11 @@ public class Utilisateur {
     /**
      * Paramètre le thème du quizz en fonction du choix de l'utilisateur
      */
-    public void choisirTheme() {}
+    public void choisirTheme() {
+	Scanner sc = new Scanner(System.in);
+	System.out.println("Quel thème choisissez-vous ?");
+	Quizz.gettheme() = sc.nextLine();
+    }
     
     /**
      * Paramètre la difficulté du quizz en fonction du choix de l'utilisateur

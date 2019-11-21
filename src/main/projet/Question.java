@@ -72,12 +72,23 @@ public class Question {
 	 * @return le nombre de points obtenus
 	 * 
 	 */
-	public int genererQuestion(String choix, String rep) {
-		int points;
+	public void genererQuestion() {
 		Question maQuest = new Question();
 		System.out.println(maQuest.question);
-		points = maQuest.genererReponse(choix,rep);
-		return points;
+		Scanner myScan = new Scanner(System.in);
+		String choix;
+		int i = 0;
+		while (i != 1) {
+			choix = (String) myScan.nextLine();
+			if (choix.compareTo("Carre") == 0 || choix.compareTo("Cash") == 0) {
+				maQuest.genererReponse(choix);
+				i = 1;
+			}
+			else {
+				System.out.println("Mauvais choix encodé");
+			}
+			myScan.close();
+		}
 	}
 	
 	/**
@@ -86,10 +97,28 @@ public class Question {
 	 * @param rep - La réponse choisie
 	 * @return le nombre de points obtenus
 	 */
-	public int genererReponse(String choix, String rep) {
+	public int genererReponse(String choix) {
+		String rep;
+		Scanner myScan;
+		
 		if (choix.compareTo("Carre") == 0) {
-			if (rep.compareTo(reponseV) == 0) {System.out.println("Correct ! +1");return 1;}
-			else {return 0;}
+			for (int i = 0;i<this.reponsesF.length;i++) {
+				System.out.println(this.reponsesF[i]+ "\n");
+			}
+			System.out.println(this.reponseV);
+		}
+		myScan = new Scanner(System.in);
+		rep = (String) myScan.nextLine();
+		if (rep.compareTo(reponseV) == 0) {
+			if (choix.compareTo("Carre") == 0) {
+				System.out.println("Correct ! +1");
+				myScan.close();
+				return 1;
+			}
+			else {
+				myScan.close();
+				return 0;
+			}
 		}
 		else if (choix.compareTo("Cash") == 0) {
 			if (rep.compareTo(reponseV) == 0) {System.out.println("Correct ! +3");return 3;}

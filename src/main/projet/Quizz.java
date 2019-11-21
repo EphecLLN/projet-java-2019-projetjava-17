@@ -2,18 +2,19 @@
  * 
  */
 package projet;
+import java.util.*;
 
 /**
- * @author obi-o
+ * @author Gauthier Verschraegen
  *
  */
 public class Quizz {
 
-	private static int compteurQuestion = 0;
-	private static int nombreQuestionRatees = 0;
+	private int compteurQuestion = 0;
+	private int nombreQuestionRatees = 0;
 	
-	private static String theme = "";
-	private static String difficulte = "";
+	private String theme = "";
+	private String difficulte = "";
 	
 	/**
 	 * @return the compteurQuestion
@@ -72,12 +73,18 @@ public class Quizz {
 	}
 
 	public void questionner() {
-		Question maQuestion = new Question();
-		for (setCompteurQuestion(0);getCompteurQuestion()<10;setCompteurQuestion((getCompteurQuestion()+1))) {
+		
+		Question maQuestion;
+		String i;
+		//Scanner sc = new Scanner(System.in);
+		//for (setCompteurQuestion(0);getCompteurQuestion()<10;setCompteurQuestion((getCompteurQuestion()+1))) {
+			maQuestion = new Question();
 			maQuestion.genererQuestion();
-		}
+			//i = sc.nextLine();
+		//}
 	}
 	public static void main (String[] args){
+		//Utilisateur user = new Utilisateur();
 		Quizz quizz = new Quizz();
 		quizz.questionner();
 		}

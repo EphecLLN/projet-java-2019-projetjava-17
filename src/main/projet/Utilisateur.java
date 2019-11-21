@@ -61,16 +61,18 @@ public class Utilisateur {
     public void choisirTheme() {
 	Scanner sc = new Scanner(System.in);
 	System.out.println("Choisissez le thème de vos questions : ");
-	Quizz.getTheme() = sc.nextLine();
+	Quizz.setTheme(sc.nextLine());
     }
     
     /**
      * Paramètre la difficulté du quizz en fonction du choix de l'utilisateur
      */
     public void choisirDifficulte() {
+    String i;
 	Scanner sc = new Scanner(System.in);
 	System.out.println("Choisissez votre difficulté?");
-	Quizz.getDifficulte() = sc.nextLine();
+	i = sc.nextLine();
+	Quizz.setDifficulte(i);
     }
     
     /**

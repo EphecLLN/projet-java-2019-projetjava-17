@@ -75,19 +75,21 @@ public class Question {
 	public void genererQuestion() {
 		Question maQuest = new Question();
 		System.out.println(maQuest.question);
-		Scanner myScan = new Scanner(System.in);
+		Scanner myScan;
 		String choix;
 		int i = 0;
 		while (i != 1) {
+			System.out.println("Réponse Carrée ou Cash ?");
+			myScan = new Scanner(System.in);
 			choix = (String) myScan.nextLine();
-			if (choix.compareTo("Carre") == 0 || choix.compareTo("Cash") == 0) {
+			if (choix.toLowerCase().compareTo("carre") == 0 || choix.toLowerCase().compareTo("cash") == 0) {
+				myScan.close();
 				maQuest.genererReponse(choix);
 				i = 1;
 			}
 			else {
 				System.out.println("Mauvais choix encodé");
 			}
-			myScan.close();
 		}
 	}
 	
@@ -98,29 +100,43 @@ public class Question {
 	 * @return le nombre de points obtenus
 	 */
 	public int genererReponse(String choix) {
-		String rep;
+		String rep = "";
 		Scanner myScan;
 		
-		if (choix.compareTo("Carre") == 0) {
-			for (int i = 0;i<this.reponsesF.length;i++) {
-				System.out.println(this.reponsesF[i]+ "\n");
+		if (choix.toLowerCase().compareTo("carre") == 0) {
+			ArrayList<String> reponses = new ArrayList<String>();
+			int n = new Random().nextInt(3);
+			for (int i = 0;i<this.reponsesF.length;i++) { 
+				if (i == n) {
+					reponses.add(this.reponseV);
+					i--;
+					n = -1;
+				}
+				else {
+					reponses.add(this.reponsesF[i]);
+				}
 			}
-			System.out.println(this.reponseV);
+			for (String k : reponses) {
+				System.out.println(k);
+			}
+			
+			myScan = new Scanner(System.in);
+			rep = myScan.nextLine();
+			myScan.close();
+			for (int j = 0;j < reponses.size();j++) {
+				if (reponses.get(j).compareTo(this.reponseV) == 0) {
+					System.out.println("Correct ! +1");
+					return 1;
+				}
+				for (int k = 0;k < this.reponsesF.length;k++) {
+					if (reponses.get(j).compareTo(this.reponsesF[k]) == 0) {
+						System.out.println("Dommage ! Mauvais choix");
+						return 0;
+					}
+				}
+			}
 		}
-		myScan = new Scanner(System.in);
-		rep = (String) myScan.nextLine();
-		if (rep.compareTo(reponseV) == 0) {
-			if (choix.compareTo("Carre") == 0) {
-				System.out.println("Correct ! +1");
-				myScan.close();
-				return 1;
-			}
-			else {
-				myScan.close();
-				return 0;
-			}
-		}
-		else if (choix.compareTo("Cash") == 0) {
+		else if (choix.toLowerCase().compareTo("cash") == 0) {
 			if (rep.compareTo(reponseV) == 0) {System.out.println("Correct ! +3");return 3;}
 			else {return 0;}
 		}

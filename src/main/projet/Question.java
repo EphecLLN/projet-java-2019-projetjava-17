@@ -13,19 +13,22 @@ public class Question {
 	private String question;
 	private String[] reponsesF;
 	private String reponseV;
+	Scanner myScan = new Scanner(System.in);
 	
 	public Question() {
-	this.question = "Qui suis-je ?";
-	String[] repF = {"Lui", "Il", "Toi"};
+	this.question = "";
+	String[] repF = {"", "", ""};
 	this.reponsesF = repF;
-	this.reponseV = "Moi";
+	this.reponseV = "";
 	}
 	
 	
-	public Question(String question, String[] reponsesF, String reponseV) {
-		this.question = question;
-		this.reponsesF = reponsesF;
-		this.reponseV = reponseV;
+	public Question(int numTheme, String numQuest) {
+		
+		Repertoire monRep = new Repertoire();
+		this.question = monRep.getRepertoire().get(numTheme).get(numQuest)[0];
+		this.reponsesF = Arrays.copyOfRange(monRep.getRepertoire().get(numTheme).get(numQuest), 2,monRep.getRepertoire().get(numTheme).get(numQuest).length);
+		this.reponseV = monRep.getRepertoire().get(numTheme).get(numQuest)[1];
 	}
 	/**
 	 * @return the question
@@ -72,25 +75,23 @@ public class Question {
 	 * @return le nombre de points obtenus
 	 * 
 	 */
-	public void genererQuestion() {
-		Question maQuest = new Question();
-		System.out.println(maQuest.question);
-		Scanner myScan;
+	public int genererQuestion() {
+		System.out.println(this.question);
 		String choix;
 		int i = 0;
+		int resultat = 0;
 		while (i != 1) {
-			System.out.println("Réponse Carrée ou Cash ?");
-			myScan = new Scanner(System.in);
+			System.out.println("Réponse Carré ou Cash ? --> Ecrivez \"carre\" ou \"cash\"");
 			choix = (String) myScan.nextLine();
 			if (choix.toLowerCase().compareTo("carre") == 0 || choix.toLowerCase().compareTo("cash") == 0) {
-				myScan.close();
-				maQuest.genererReponse(choix);
+				resultat = this.genererReponse(choix);
 				i = 1;
 			}
 			else {
 				System.out.println("Mauvais choix encodé");
 			}
 		}
+		return resultat;
 	}
 	
 	/**
@@ -101,48 +102,81 @@ public class Question {
 	 */
 	public int genererReponse(String choix) {
 		String rep = "";
-		Scanner myScan;
+		Scanner maRep;
+		boolean bonneRep = false;
+		int boucle = 0;
 		
-		if (choix.toLowerCase().compareTo("carre") == 0) {
-			ArrayList<String> reponses = new ArrayList<String>();
-			int n = new Random().nextInt(3);
-			for (int i = 0;i<this.reponsesF.length;i++) { 
-				if (i == n) {
-					reponses.add(this.reponseV);
-					i--;
-					n = -1;
+			//Réponse CARRE choisie
+			if (choix.toLowerCase().compareTo("carre") == 0) {
+				//Enregistrement aléatoire des réponses
+				ArrayList<String> reponses = new ArrayList<String>();
+				int n = new Random().nextInt(4);
+				for (int i = 0;reponses.size() != 4;i++) { 
+					if (i == n && bonneRep == false) {
+						reponses.add(this.reponseV);
+						i--;
+						bonneRep = true;
+					}
+					else {
+						reponses.add(this.reponsesF[i]);
+					}
 				}
-				else {
-					reponses.add(this.reponsesF[i]);
+				
+				//Affichage des réponses
+				for (String k : reponses) {
+					System.out.println((reponses.indexOf(k)+1) + ". " + k);
 				}
-			}
-			for (String k : reponses) {
-				System.out.println(k);
-			}
-			
-			myScan = new Scanner(System.in);
-			rep = myScan.nextLine();
-			myScan.close();
-			for (int j = 0;j < reponses.size();j++) {
-				if (reponses.get(j).compareTo(this.reponseV) == 0) {
-					System.out.println("Correct ! +1");
-					return 1;
-				}
-				for (int k = 0;k < this.reponsesF.length;k++) {
-					if (reponses.get(j).compareTo(this.reponsesF[k]) == 0) {
+				
+				//Réponse client
+				maRep = new Scanner(System.in);
+				while (boucle != 1) {
+					rep = maRep.nextLine();
+					if (Question.isNumeric(rep) == false || Integer.parseInt(rep) > reponses.size() ) {
+						System.out.println("Mauvais choix encodé. Notez bien un chiffre allant de 1 à 4");
+					}
+					else if (Integer.parseInt(rep) == (reponses.indexOf(this.reponseV)+1)) {
+						System.out.println("Correct ! +1");
+						boucle = 1;
+						return 1;
+					}
+					else if (Question.isNumeric(rep) == true && Integer.parseInt(rep)<=4 && Integer.parseInt(rep) > 0){
+						boucle = 1;
 						System.out.println("Dommage ! Mauvais choix");
 						return 0;
 					}
 				}
+				
 			}
-		}
-		else if (choix.toLowerCase().compareTo("cash") == 0) {
-			if (rep.compareTo(reponseV) == 0) {System.out.println("Correct ! +3");return 3;}
-			else {return 0;}
-		}
-		else {
-			System.out.println("Mauvais choix encodé");
-			return -1;
-		}
+			
+			//Reponse CASH
+			else if (choix.toLowerCase().compareTo("cash") == 0) {
+				System.out.println("N'oubliez pas les majuscules !");
+				maRep = new Scanner(System.in);
+				rep = maRep.nextLine().toString();
+				if (rep.compareTo(reponseV) == 0) {
+					boucle = 1;
+					System.out.println("Correct ! +3");
+					return 3;
+				}
+				else {
+					System.out.println("Dommage ! Mauvais choix");
+					return 0;
+				}
+			}
+			else {
+				System.out.println("Mauvais choix encodé");
+			}
+		return -1;
+	}
+	public static boolean isNumeric(String strNum) {
+	    if (strNum == null) {
+	        return false;
+	    }
+	    try {
+	        int d = Integer.parseInt(strNum);
+	    } catch (NumberFormatException nfe) {
+	        return false;
+	    }
+	    return true;
 	}
 }

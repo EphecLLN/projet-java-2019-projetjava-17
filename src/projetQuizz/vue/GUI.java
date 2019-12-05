@@ -1,9 +1,11 @@
 /**
- * 
+ *
  */
 package projetQuizz.vue;
 
 import projetQuizz.Quizz;
+import projetQuizz.modele.Question;
+import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Theme;
 
 /**
@@ -34,6 +36,42 @@ public class GUI extends InterfaceDeJeu {
 
 	@Override
 	public void afficherErreur(Exception e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void demanderDifficulte() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void demanderCarreCash(Question questionActuelle) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void demanderReponseCash(Question questionActuelle) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void demanderReponseCarreJoker(Question questionActuelle, Reponse reponsesPossiblesActuelles) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void demanderMoiteMoite(Question questionActuelle, Reponse reponsesPossiblesActuelles) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void afficherScores() {
 		// TODO Auto-generated method stub
 
 	}

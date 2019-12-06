@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package projetQuizz.modele;
 
@@ -12,7 +12,7 @@ public class Question {
 	private int id;
 	private String question;
 	private Reponse[] reponses;
-	
+
 	Question(int id, String question, Reponse[] reponses) {
 		this.id = id;
 		this.question = question;

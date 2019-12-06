@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package projetQuizz.modele;
 
@@ -28,5 +28,5 @@ public class Utilisateur {
 		// TODO créer ou récup en db si existant + faire un throw exception si le nom est vide ou trop long
 		return new Utilisateur(nom);
 	}
-	
+
 }

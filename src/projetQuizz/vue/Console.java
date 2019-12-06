@@ -49,9 +49,13 @@ public class Console extends InterfaceDeJeu {
 	}
 
 	@Override
-	public void demanderDifficulte() {
-		// TODO Auto-generated method stub
-
+	public void demanderDifficulte(String[] difficulte) throws Exception {
+		System.out.println("Choisissez parmis ces difficultés:");
+		for (int i = 0; i < difficulte.length; i++) {
+			System.out.println(Integer.toString(i + 1) + ". " + difficulte[i]);
+		}
+		int index = in.nextInt();
+		getQuizz().recevoirDifficulte(difficulte[index-1]);
 	}
 
 	@Override

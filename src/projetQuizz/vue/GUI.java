@@ -41,7 +41,7 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
-	public void demanderDifficulte() {
+	public void demanderDifficulte(String[] difficulte) throws Exception {
 		// TODO Auto-generated method stub
 
 	}

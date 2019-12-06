@@ -10,12 +10,11 @@ package projetQuizz.modele;
 public class Partie {
 	public enum CarreCash {CARRE, CASH};
 	public enum Etat {DEMANDER_LE_NOM, DEMANDER_LE_THEME, DEMANDER_LA_DIFFCULTE, DEMANDER_CARRE_CASH, DEMANDER_REPONSE_CASH, DEMANDER_REPONSE_CARRE_OU_JOKER, DEMANDER_REPONSE_MOITE_MOITE, JEU_FINI};
-	public enum Difficulte {FACILE, MOYEN, DIFFICILE, EXPERT};
+	private String difficulteChoisie;
 	public enum ReponseCarreOuJoker {UN, DEUX, TROIS, QUATRE, JOKER};
 	private Theme theme;
 	private Utilisateur utilisateur;
 	private Etat etat = Etat.DEMANDER_LE_NOM;
-	private Difficulte difficulte;
 
 	public Etat getEtat() {
 		return this.etat;
@@ -47,9 +46,9 @@ public class Partie {
 		return null;
 	}
 
-	public void setDifficulte(Difficulte difficulte) {
+	public void setDifficulteChoisie(String difficulte) {
 		// TODO Auto-generated method stub
-		this.difficulte = difficulte;
+		this.difficulteChoisie = difficulte;
 	}
 
 	public boolean verifierReponseCash(String reponseCash) {
@@ -79,10 +78,15 @@ public class Partie {
 		this.etat = Partie.Etat.DEMANDER_LA_DIFFCULTE;
 	}
 
-	public void recevoirDifficulte(Partie.Difficulte difficulte) throws Exception {
+	public void recevoirDifficulte(String difficulte) throws Exception {
 		verifierEtat(Partie.Etat.DEMANDER_LA_DIFFCULTE, "Aucune difficulté n'était attendue à ce moment.");
-		setDifficulte(difficulte);
-		this.etat = Partie.Etat.DEMANDER_CARRE_CASH;
+		setDifficulteChoisie(difficulte);
+		//TODO Traitement Jokers
+		for (int i = 0;i<2;i++) {
+			getQuestionActuelle();
+			this.etat = Partie.Etat.DEMANDER_CARRE_CASH;
+			
+		}
 	}
 
 	public void recevoirCarreCash(Partie.CarreCash carreCash) throws Exception {

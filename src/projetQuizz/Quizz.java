@@ -59,7 +59,8 @@ public class Quizz {
 				interfaceDeJeu.choisirTheme(themes);
 				break;
 			case DEMANDER_LA_DIFFCULTE:
-				interfaceDeJeu.demanderDifficulte();
+				String[] difficulte = {"Facile", "Moyen", "Difficulte", "Expert"};
+				interfaceDeJeu.demanderDifficulte(difficulte);
 				break;
 			case DEMANDER_CARRE_CASH:
 				interfaceDeJeu.demanderCarreCash(this.partie.getQuestionActuelle());
@@ -94,7 +95,7 @@ public class Quizz {
 		executeActionEtatActuel();
 	}
 
-	public void recevoirDifficulte(Partie.Difficulte difficulte) throws Exception {
+	public void recevoirDifficulte(String difficulte) throws Exception {
 		this.partie.recevoirDifficulte(difficulte);
 		executeActionEtatActuel();
 	}

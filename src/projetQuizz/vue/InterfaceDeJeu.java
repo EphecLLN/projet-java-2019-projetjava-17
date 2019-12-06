@@ -22,13 +22,13 @@ public abstract class InterfaceDeJeu {
 
 	public abstract void choisirTheme(Theme[] themesPossibles) throws Exception;
 	public abstract void demanderNom() throws Exception;
+	public abstract void demanderDifficulte(String[] difficulte) throws Exception;
 
 	public Quizz getQuizz() {
 		return quizz;
 	}
 
 	public abstract void afficherErreur(Exception e);
-	public abstract void demanderDifficulte();
 	public abstract void demanderCarreCash(Question questionActuelle);
 	public abstract void demanderReponseCash(Question questionActuelle);
 	public abstract void demanderReponseCarreJoker(Question questionActuelle, Reponse reponsesPossiblesActuelles);

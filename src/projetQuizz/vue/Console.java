@@ -10,6 +10,7 @@ import projetQuizz.QuizzException;
 import projetQuizz.modele.Partie;
 import projetQuizz.modele.Partie.CarreCash;
 import projetQuizz.modele.Partie.Difficulte;
+import projetQuizz.modele.Partie.Joker;
 import projetQuizz.modele.Question;
 import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Resultat;
@@ -97,7 +98,7 @@ public class Console extends InterfaceDeJeu {
 			System.out.println(Integer.toString(i + 1) + ". " + reponsesPossiblesActuelles[i].getReponse());
 		}
 		int index = demanderNombre(1, reponsesPossiblesActuelles.length);
-		getQuizz().recevoirReponseCarre(reponsesPossiblesActuelles[index - 1]);
+		getQuizz().recevoirReponseMoiteMoite(reponsesPossiblesActuelles[index - 1]);
 	}
 
 	@Override
@@ -125,13 +126,24 @@ public class Console extends InterfaceDeJeu {
 	}
 
 	@Override
-	public void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles) throws Exception {
+	public void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles)
+			throws Exception {
 		System.out.println("Choisissez parmis ces possibilités:");
 		for (int i = 0; i < reponsesPossiblesActuelles.length; i++) {
 			System.out.println(Integer.toString(i + 1) + ". " + reponsesPossiblesActuelles[i].getReponse());
 		}
-		int index = demanderNombre(1, reponsesPossiblesActuelles.length);
-		getQuizz().recevoirReponseCarre(reponsesPossiblesActuelles[index - 1]);
+		for (int i = 0; i < jokersPossibles.length; i++) {
+			System.out.println(Integer.toString(i + 1 + reponsesPossiblesActuelles.length) + ". "
+					+ Partie.getNomJokers(jokersPossibles[i]));
+
+		}
+		int index = demanderNombre(1, reponsesPossiblesActuelles.length + jokersPossibles.length);
+		if (index <= reponsesPossiblesActuelles.length) {
+			getQuizz().recevoirReponseCarre(reponsesPossiblesActuelles[index - 1]);
+		} else {
+			getQuizz().recevoirJoker(jokersPossibles[index - 1 - reponsesPossiblesActuelles.length]);
+		}
+
 	}
 
 	@Override
@@ -139,5 +151,4 @@ public class Console extends InterfaceDeJeu {
 		System.out.println("Inscrivez votre réponse");
 		getQuizz().recevoirReponseCash(in.nextLine());
 	}
-
 }

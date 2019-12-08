@@ -5,6 +5,7 @@ package projetQuizz;
 
 import projetQuizz.modele.Partie;
 import projetQuizz.modele.Partie.Difficulte;
+import projetQuizz.modele.Partie.Joker;
 import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Theme;
 import projetQuizz.vue.Console;
@@ -81,7 +82,8 @@ public class Quizz {
 				interfaceDeJeu.demanderReponseCash();
 				break;
 			case DEMANDER_REPONSE_CARRE_OU_JOKER:
-				interfaceDeJeu.demanderReponseCarreJoker(this.partie.getReponsesPossiblesActuelles());
+				interfaceDeJeu.demanderReponseCarreJoker(this.partie.getReponsesPossiblesActuelles(),
+						partie.getJokersPossibles());
 				break;
 			case DEMANDER_REPONSE_MOITE_MOITE:
 				interfaceDeJeu.demanderMoiteMoite(this.partie.getReponsesPossiblesActuelles());
@@ -113,6 +115,11 @@ public class Quizz {
 
 	public void recevoirDifficulte(Difficulte difficulte) throws Exception {
 		this.partie.recevoirDifficulte(difficulte);
+		executeActionEtatActuel();
+	}
+
+	public void recevoirJoker(Joker joker) throws Exception {
+		this.partie.utiliserJoker(joker);
 		executeActionEtatActuel();
 	}
 

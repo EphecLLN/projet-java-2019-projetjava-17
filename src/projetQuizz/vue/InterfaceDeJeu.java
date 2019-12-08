@@ -5,6 +5,7 @@ package projetQuizz.vue;
 
 import projetQuizz.Quizz;
 import projetQuizz.modele.Partie.Difficulte;
+import projetQuizz.modele.Partie.Joker;
 import projetQuizz.modele.Question;
 import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Resultat;
@@ -38,7 +39,8 @@ public abstract class InterfaceDeJeu {
 
 	public abstract void demanderNom() throws Exception;
 
-	public abstract void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles) throws Exception;
+	public abstract void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles)
+			throws Exception;
 
 	public abstract void demanderReponseCash() throws Exception;
 

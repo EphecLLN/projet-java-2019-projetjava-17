@@ -6,6 +6,7 @@ package projetQuizz.vue;
 import java.util.Scanner;
 
 import projetQuizz.Quizz;
+import projetQuizz.modele.Partie;
 import projetQuizz.modele.Question;
 import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Theme;
@@ -60,26 +61,28 @@ public class Console extends InterfaceDeJeu {
 
 	@Override
 	public void demanderCarreCash(Question questionActuelle) {
-		// TODO Auto-generated method stub
-
+		// TODO A FAIRE
+		System.out.println("Choisissez parmis carré ou cash");
 	}
 
 	@Override
 	public void demanderReponseCash(Question questionActuelle) {
 		// TODO Auto-generated method stub
+		System.out.println("Inscrivez votre réponse");
 
 	}
 
 	@Override
 	public void demanderReponseCarreJoker(Question questionActuelle, Reponse reponsesPossiblesActuelles) {
 		// TODO Auto-generated method stub
+		System.out.println("Choisissez parmis ces possibilités:");
 
 	}
 
 	@Override
 	public void demanderMoiteMoite(Question questionActuelle, Reponse reponsesPossiblesActuelles) {
 		// TODO Auto-generated method stub
-
+		System.out.println("Choisissez parmis ces possibilités:");
 	}
 
 	@Override

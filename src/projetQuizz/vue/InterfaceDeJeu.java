@@ -29,10 +29,10 @@ public abstract class InterfaceDeJeu {
 	}
 
 	public abstract void afficherErreur(Exception e);
-	public abstract void demanderCarreCash(Question questionActuelle);
-	public abstract void demanderReponseCash(Question questionActuelle);
-	public abstract void demanderReponseCarreJoker(Question questionActuelle, Reponse reponsesPossiblesActuelles);
-	public abstract void demanderMoiteMoite(Question questionActuelle, Reponse reponsesPossiblesActuelles);
+	public abstract void demanderCarreCash(Question questionActuelle) throws Exception;
+	public abstract void demanderReponseCash(Question questionActuelle) throws Exception;
+	public abstract void demanderReponseCarreJoker(Question questionActuelle, Reponse reponsesPossiblesActuelles) throws Exception;
+	public abstract void demanderMoiteMoite(Question questionActuelle, Reponse reponsesPossiblesActuelles) throws Exception;
 	public abstract void afficherScores();
 
 

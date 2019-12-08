@@ -4,8 +4,10 @@
 package projetQuizz.vue;
 
 import projetQuizz.Quizz;
+import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Question;
 import projetQuizz.modele.Reponse;
+import projetQuizz.modele.Resultat;
 import projetQuizz.modele.Theme;
 
 /**
@@ -20,21 +22,27 @@ public abstract class InterfaceDeJeu {
 		this.quizz = quizz;
 	}
 
+	public abstract void afficherErreur(Exception e);
+
+	public abstract void afficherResultat(Resultat resultat) throws Exception;
+
+	public abstract void afficherScores(Resultat[] resultats);
+
 	public abstract void choisirTheme(Theme[] themesPossibles) throws Exception;
+
+	public abstract void demanderCarreCash(Question questionActuelle) throws Exception;
+
+	public abstract void demanderDifficulte(Difficulte[] difficultes) throws Exception;
+
+	public abstract void demanderMoiteMoite(Reponse[] reponsesPossiblesActuelles) throws Exception;
+
 	public abstract void demanderNom() throws Exception;
-	public abstract void demanderDifficulte(String[] difficulte) throws Exception;
+
+	public abstract void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles) throws Exception;
+
+	public abstract void demanderReponseCash() throws Exception;
 
 	public Quizz getQuizz() {
 		return quizz;
 	}
-
-	public abstract void afficherErreur(Exception e);
-	public abstract void demanderCarreCash(Question questionActuelle) throws Exception;
-	public abstract void demanderReponseCash(Question questionActuelle) throws Exception;
-	public abstract void demanderReponseCarreJoker(Question questionActuelle, Reponse reponsesPossiblesActuelles) throws Exception;
-	public abstract void demanderMoiteMoite(Question questionActuelle, Reponse reponsesPossiblesActuelles) throws Exception;
-	public abstract void afficherScores();
-
-
-
 }

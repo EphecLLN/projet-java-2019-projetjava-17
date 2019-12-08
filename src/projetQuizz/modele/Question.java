@@ -18,4 +18,13 @@ public class Question {
 		this.question = question;
 		this.reponses = reponses;
 	}
+
+	public String getQuestion() {
+		return this.question;
+	}
+
+	public Reponse[] getReponses() {
+		return reponses;
+	}
+
 }

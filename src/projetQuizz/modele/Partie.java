@@ -26,6 +26,10 @@ public class Partie {
 		DEMANDER_REPONSE_CARRE_OU_JOKER, DEMANDER_REPONSE_MOITE_MOITE, AFFICHER_RESULTAT_QUESTION, JEU_FINI
 	};
 
+	public enum Joker {
+		MOITE_MOITE, SWITCH, DONNE_MON_POINT
+	};
+
 	public enum ReponseCarreOuJoker {
 		UN, DEUX, TROIS, QUATRE, JOKER
 	};
@@ -44,14 +48,39 @@ public class Partie {
 		return null;
 	}
 
+	public static String getNomJokers(Joker joker) {
+		switch (joker) {
+		case MOITE_MOITE:
+			return "Moite/moite";
+		case SWITCH:
+			return "Switch";
+		case DONNE_MON_POINT:
+			return "Donne mon point";
+		}
+		return null;
+	}
+
 	private Theme theme;
 	private Utilisateur utilisateur;
 	private Etat etat = Etat.DEMANDER_LE_NOM;
 	private Difficulte difficulte;
+	private List<Reponse> reponsesPossiblesActuelles;
 	private List<Question> questionsPossibles;
-	private int compteurQuestionsPosees = 0;
-
 	private List<Resultat> resultats = new ArrayList<Resultat>();
+	private List<Joker> jokersPossibles = new ArrayList<Joker>();
+
+	private void _passerQuestionSuivante(boolean premiereQuestion) {
+		if (!premiereQuestion) {
+			questionsPossibles.remove(0);
+		}
+		if (resultats.size() == 10 || questionsPossibles.isEmpty()) {
+			this.etat = Partie.Etat.JEU_FINI;
+		} else {
+			this.reponsesPossiblesActuelles = new ArrayList<Reponse>(
+					Arrays.asList(getQuestionActuelle().getReponses()));
+			this.etat = Partie.Etat.DEMANDER_CARRE_CASH;
+		}
+	}
 
 	private void ajouterResultat(int pointsGagnes, boolean bonneReponse) {
 		resultats.add(new Resultat(getQuestionActuelle(), pointsGagnes, bonneReponse));
@@ -62,12 +91,20 @@ public class Partie {
 		return this.etat;
 	}
 
+	public Joker[] getJokersPossibles() {
+		Joker[] jokers = new Joker[jokersPossibles.size()];
+		jokersPossibles.toArray(jokers);
+		return jokers;
+	}
+
 	public Question getQuestionActuelle() {
 		return questionsPossibles.get(0);
 	}
 
 	public Reponse[] getReponsesPossiblesActuelles() {
-		return getQuestionActuelle().getReponses();
+		Reponse[] reponses = new Reponse[reponsesPossiblesActuelles.size()];
+		reponsesPossiblesActuelles.toArray(reponses);
+		return reponses;
 	}
 
 	public Resultat getResultat() {
@@ -91,14 +128,7 @@ public class Partie {
 	public void passerQuestionSuivante() throws Exception {
 		verifierEtat(Partie.Etat.AFFICHER_RESULTAT_QUESTION,
 				"Impossible de passer à la question suivante en ce moment.");
-		questionsPossibles.remove(0);
-		compteurQuestionsPosees++;
-		if (compteurQuestionsPosees == 10 || questionsPossibles.isEmpty()) {
-			this.etat = Partie.Etat.JEU_FINI;
-		} else {
-			this.etat = Partie.Etat.DEMANDER_CARRE_CASH;
-
-		}
+		_passerQuestionSuivante(false);
 	}
 
 	public void recevoirCarreCash(Partie.CarreCash carreCash) throws Exception {
@@ -113,7 +143,7 @@ public class Partie {
 	public void recevoirDifficulte(Difficulte difficulte) throws Exception {
 		verifierEtat(Partie.Etat.DEMANDER_LA_DIFFCULTE, "Aucune difficulté n'était attendue à ce moment.");
 		setDifficulte(difficulte);
-		this.etat = Partie.Etat.DEMANDER_CARRE_CASH;
+		_passerQuestionSuivante(true);
 	}
 
 	public void recevoirNomUtilisateur(String nom) throws Exception {
@@ -123,8 +153,7 @@ public class Partie {
 	}
 
 	public void recevoirReponseCarre(Reponse reponse) throws Exception {
-		verifierEtat(Partie.Etat.DEMANDER_REPONSE_CARRE_OU_JOKER,
-				"Aucune réponse carré ou joker n'était attendu à ce moment.");
+		verifierEtat(Partie.Etat.DEMANDER_REPONSE_CARRE_OU_JOKER, "Aucune réponse carré n'était attendue à ce moment.");
 		boolean bonneReponse = verifierReponseCarre(reponse);
 		int pointsGagnes = bonneReponse ? 1 : 0;
 		ajouterResultat(pointsGagnes, bonneReponse);
@@ -154,6 +183,16 @@ public class Partie {
 
 	public void setDifficulte(Difficulte difficulte) {
 		this.difficulte = difficulte;
+		switch (this.difficulte) {
+		case FACILE:
+			jokersPossibles.add(Joker.DONNE_MON_POINT);
+		case MOYEN:
+			jokersPossibles.add(Joker.SWITCH);
+		case DIFFICILE:
+			jokersPossibles.add(Joker.MOITE_MOITE);
+		default:
+			break;
+		}
 	}
 
 	public void setTheme(Theme theme) {
@@ -164,6 +203,32 @@ public class Partie {
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
+	}
+
+	public void utiliserJoker(Joker joker) throws Exception {
+		verifierEtat(Partie.Etat.DEMANDER_REPONSE_CARRE_OU_JOKER, "Aucun joker n'était attendu à ce moment.");
+		if (!jokersPossibles.contains(joker)) {
+			throw new Exception("Ce joker n'est pas disponible.");
+		}
+		switch (joker) {
+		case MOITE_MOITE:
+			while (reponsesPossiblesActuelles.size() > 2) {
+				int index = (int) (Math.random() * (reponsesPossiblesActuelles.size() - 1));
+				if (!reponsesPossiblesActuelles.get(index).getEstBonneReponse()) {
+					reponsesPossiblesActuelles.remove(index);
+				}
+			}
+			etat = Partie.Etat.DEMANDER_REPONSE_MOITE_MOITE;
+			break;
+		case SWITCH:
+			_passerQuestionSuivante(false);
+			break;
+		case DONNE_MON_POINT:
+			// TODO afficher un message propre au joker (afficher bonne reponse).
+			ajouterResultat(1, true);
+			break;
+		}
+		jokersPossibles.remove(joker);
 	}
 
 	private void verifierEtat(Partie.Etat etat, String messageErreur) throws Exception {

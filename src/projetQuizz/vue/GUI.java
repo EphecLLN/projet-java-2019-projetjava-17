@@ -5,6 +5,7 @@ package projetQuizz.vue;
 
 import projetQuizz.Quizz;
 import projetQuizz.modele.Partie.Difficulte;
+import projetQuizz.modele.Partie.Joker;
 import projetQuizz.modele.Question;
 import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Resultat;
@@ -73,7 +74,7 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
-	public void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles) {
+	public void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles) {
 		// TODO Auto-generated method stub
 
 	}

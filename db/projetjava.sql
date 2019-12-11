@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  lun. 09 déc. 2019 à 22:27
+-- Généré le :  mer. 11 déc. 2019 à 21:22
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -31,11 +31,28 @@ SET time_zone = "+00:00";
 CREATE TABLE `partie` (
   `partie_id` int(11) NOT NULL,
   `utilisateur_id` int(11) NOT NULL,
-  `dateEtHeure` datetime NOT NULL,
+  `dateEtHeure` datetime NOT NULL DEFAULT current_timestamp(),
   `partie_difficulte` varchar(20) NOT NULL,
   `theme_id` int(11) NOT NULL,
   `partie_score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `partie`
+--
+
+INSERT INTO `partie` (`partie_id`, `utilisateur_id`, `dateEtHeure`, `partie_difficulte`, `theme_id`, `partie_score`) VALUES
+(6, 3, '2019-12-11 20:34:16', 'facile', 1, 1),
+(7, 3, '2019-12-11 20:34:21', 'facile', 1, 2),
+(8, 3, '2019-12-11 20:34:26', 'facile', 1, 3),
+(9, 3, '2019-12-11 20:34:31', 'facile', 1, 4),
+(10, 3, '2019-12-11 20:34:37', 'facile', 1, 5),
+(11, 3, '2019-12-11 20:34:41', 'facile', 1, 6),
+(12, 3, '2019-12-11 20:34:44', 'facile', 1, 7),
+(13, 3, '2019-12-11 20:34:48', 'facile', 1, 8),
+(14, 3, '2019-12-11 20:34:52', 'facile', 1, 9),
+(15, 3, '2019-12-11 20:34:55', 'facile', 1, 10),
+(16, 3, '2019-12-11 20:34:59', 'facile', 1, 11);
 
 -- --------------------------------------------------------
 
@@ -422,15 +439,13 @@ ALTER TABLE `partie`
 -- Index pour la table `question`
 --
 ALTER TABLE `question`
-  ADD PRIMARY KEY (`question_id`),
-  ADD KEY `fk_Question_Theme` (`theme_id`);
+  ADD PRIMARY KEY (`question_id`);
 
 --
 -- Index pour la table `reponse`
 --
 ALTER TABLE `reponse`
-  ADD PRIMARY KEY (`reponse_id`),
-  ADD KEY `fk_Reponse_Question` (`question_id`);
+  ADD PRIMARY KEY (`reponse_id`);
 
 --
 -- Index pour la table `theme`
@@ -452,7 +467,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `partie`
 --
 ALTER TABLE `partie`
-  MODIFY `partie_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `partie_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT pour la table `question`
@@ -481,6 +496,12 @@ ALTER TABLE `utilisateur`
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `question`
+--
+ALTER TABLE `question`
+  ADD CONSTRAINT `fk_Question-Theme` FOREIGN KEY (`theme_id`) REFERENCES `theme` (`theme_id`);
 
 --
 -- Contraintes pour la table `reponse`

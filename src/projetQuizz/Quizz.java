@@ -29,6 +29,13 @@ public class Quizz {
 	 */
 	public static void main(String[] args) throws Exception {
 		// TODO définir typeInterface en fonction de args
+
+		try { // Chargement du driver JDBC pour utilisation de la db
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
 		TypeInterface typeInterface = TypeInterface.CONSOLE;
 		new Quizz(typeInterface);
 	}

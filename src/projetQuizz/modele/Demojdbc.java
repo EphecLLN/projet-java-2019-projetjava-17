@@ -170,6 +170,10 @@ public class Demojdbc {
 	}
 
 	
+	public static boolean userExist(String username) {
+		
+	}
+	
 	/**
 	 * @param args
 	 */

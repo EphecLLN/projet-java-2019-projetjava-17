@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 11 déc. 2019 à 21:22
+-- Généré le :  jeu. 12 déc. 2019 à 17:51
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `projetjava`
 --
+CREATE DATABASE IF NOT EXISTS `projetjava` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `projetjava`;
 
 -- --------------------------------------------------------
 

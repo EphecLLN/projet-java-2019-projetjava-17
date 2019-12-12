@@ -67,15 +67,10 @@ public class Demojdbc {
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM question WHERE theme_id =" + themeId);
 
 			while (resultSet.next()) {
-				Statement st2 = connection.createStatement();
-				ResultSet rs2 = st2
-						.executeQuery("SELECT * FROM reponse WHERE question_id =" + resultSet.getInt("question_id"));
-				// questions.add(new Question(resultSet.getInt("question_id"),
-				// resultSet.getString("question"), ));
-				// TODO
-			}
+				questions.add(new Question(resultSet.getInt("question_id"), resultSet.getString("question"),
+						getReponsesFromDB(resultSet.getInt("question_id"))));
 
-			System.out.println(questions);
+			}
 
 			statement.close();
 			resultSet.close();
@@ -90,17 +85,52 @@ public class Demojdbc {
 	/**
 	 * @author autome edwin
 	 * 
+	 *         Récupère les réponses spécifiques à une question depuis la base de
+	 *         données
+	 * 
+	 * @param questionId : id de la question pour laquelle on récupère les reponses
+	 *                   possibles en db
+	 * @return reponses: array contenant les objets reponses correspondant à la
+	 *         question dont l'id est reçu en paramètre de la fonction
+	 */
+	private static Reponse[] getReponsesFromDB(int questionId) {
+		Reponse[] reponses = new Reponse[4];
+		try {
+			Connection connection = DriverManager.getConnection(url, login, passwd);
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM reponse WHERE question_id =" + questionId);
+
+			int i = 0;
+
+			while (resultSet.next()) {
+				reponses[i] = new Reponse(resultSet.getInt("reponse_id"), resultSet.getString("reponse"),
+						resultSet.getBoolean("estBonneReponse"));
+				i++;
+			}
+
+			return reponses;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	/**
+	 * @author autome edwin
+	 * 
 	 *         Envoi les résultats de la partie terminée dans la table 'partie' de
 	 *         la db
 	 * 
 	 * @param partie: l'objet partie
 	 */
-	public static void insertPartieResult() {
+	public static void insertPartieResult(Partie endedpartie) {
 		try {
 			Connection connection = DriverManager.getConnection(url, login, passwd);
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(
 					"INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) VALUES ()");
+			//TODO	paramètrer valeurs de l'insert
 
 			connection.close();
 			statement.close();
@@ -109,7 +139,7 @@ public class Demojdbc {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * @author autome edwin
 	 * 
@@ -139,6 +169,7 @@ public class Demojdbc {
 		}
 	}
 
+	
 	/**
 	 * @param args
 	 */
@@ -149,11 +180,11 @@ public class Demojdbc {
 			e.printStackTrace();
 		}
 
-		// System.out.println(getThemeFromDB());
+		// getThemeFromDB();
 		// getQuestionFromDB(2);
 		// insertPartieResult();
 		// showTopTenTheme(1);
-		// System.out.println(getQuestionFromDB(1));
+		//getQuestionFromDB(1);
 
 	}
 

@@ -3,6 +3,8 @@
  */
 package projetQuizz.modele;
 
+import java.util.ArrayList;
+
 /**
  * @author Flo
  *
@@ -11,9 +13,9 @@ public class Question {
 
 	private int id;
 	private String question;
-	private Reponse[] reponses;
+	private ArrayList<Reponse> reponses;
 
-	Question(int id, String question, Reponse[] reponses) {
+	Question(int id, String question, ArrayList<Reponse> reponses) {
 		this.id = id;
 		this.question = question;
 		this.reponses = reponses;
@@ -23,7 +25,7 @@ public class Question {
 		return this.question;
 	}
 
-	public Reponse[] getReponses() {
+	public ArrayList<Reponse> getReponses() {
 		return reponses;
 	}
 

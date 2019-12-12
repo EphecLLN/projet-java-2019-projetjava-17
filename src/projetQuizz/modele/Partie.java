@@ -3,6 +3,11 @@
  */
 package projetQuizz.modele;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -65,25 +70,27 @@ public class Partie {
 	private Etat etat = Etat.DEMANDER_LE_NOM;
 	private Difficulte difficulte;
 	private List<Reponse> reponsesPossiblesActuelles;
-	private List<Question> questionsPossibles;
+	private List<Question> questionsPossibles = new ArrayList<Question>();
 	private List<Resultat> resultats = new ArrayList<Resultat>();
 	private List<Joker> jokersPossibles = new ArrayList<Joker>();
+	static String url = "jdbc:mysql://localhost/projetjava";
+	static String login = "root";
+	static String passwd = "";
 
 	private void _passerQuestionSuivante(boolean premiereQuestion) {
 		if (!premiereQuestion) {
 			questionsPossibles.remove(0);
 		}
-		if (resultats.size() == 10 || questionsPossibles.isEmpty()) {
+		if (this.resultats.size() == 10 || questionsPossibles.isEmpty()) {
 			this.etat = Partie.Etat.JEU_FINI;
 		} else {
-			this.reponsesPossiblesActuelles = new ArrayList<Reponse>(
-					Arrays.asList(getQuestionActuelle().getReponses()));
+			this.reponsesPossiblesActuelles = getQuestionActuelle().getReponses();
 			this.etat = Partie.Etat.DEMANDER_CARRE_CASH;
 		}
 	}
 
 	private void ajouterResultat(int pointsGagnes, boolean bonneReponse) {
-		resultats.add(new Resultat(getQuestionActuelle(), pointsGagnes, bonneReponse));
+		this.resultats.add(new Resultat(getQuestionActuelle(), pointsGagnes, bonneReponse));
 		this.etat = Partie.Etat.AFFICHER_RESULTAT_QUESTION;
 	}
 
@@ -196,9 +203,35 @@ public class Partie {
 	}
 
 	public void setTheme(Theme theme) {
-		this.theme = theme;
-		questionsPossibles = new ArrayList<Question>(Arrays.asList(theme.getQuestions()));
-		Collections.shuffle(questionsPossibles);
+		try {
+			this.theme = theme;
+			ArrayList<Question> questionsPossibles = new ArrayList<Question>();
+			Connection connection = DriverManager.getConnection(url, login, passwd);
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM question WHERE theme_id =" + theme.getId());
+			while (resultSet.next()) {
+				Statement st2 = connection.createStatement();
+				ResultSet rs2 = st2.executeQuery("SELECT * FROM reponse WHERE question_id =" + resultSet.getInt("question_id") + " ORDER BY reponse_id");
+				ArrayList<Reponse> reponses = new  ArrayList<Reponse>();
+				while (rs2.next()) {
+					if (rs2.getInt("estBonneReponse") == 1) {
+						reponses.add(new Reponse(rs2.getInt("reponse_id"),rs2.getString("reponse"),true));
+					}
+					else {
+						reponses.add(new Reponse(rs2.getInt("reponse_id"),rs2.getString("reponse")));
+					}
+				}
+				
+				this.questionsPossibles.add(new Question(resultSet.getInt("question_id"),resultSet.getString("question"),reponses ));
+			}
+			Collections.shuffle(this.questionsPossibles);
+			statement.close();
+			resultSet.close();
+
+		} 
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setUtilisateur(Utilisateur utilisateur) {

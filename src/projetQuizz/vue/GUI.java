@@ -3,6 +3,8 @@
  */
 package projetQuizz.vue;
 
+import java.util.ArrayList;
+
 import projetQuizz.Quizz;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
@@ -44,7 +46,7 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
-	public void choisirTheme(Theme[] themesPossibles) throws Exception {
+	public void choisirTheme(ArrayList<Theme> themesPossibles) throws Exception {
 		// TODO Auto-generated method stub
 
 	}

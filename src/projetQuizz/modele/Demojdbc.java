@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  */
 public class Demojdbc {
-	static String url = "jdbc:mysql://localhost/projetJava";
+	static String url = "jdbc:mysql://localhost/projetjava";
 	static String login = "root";
 	static String passwd = "";
 
@@ -35,8 +35,9 @@ public class Demojdbc {
 			ResultSet resultSet = statement.executeQuery("SELECT * FROM theme");
 
 			while (resultSet.next()) {
-				themes.add(new Theme(resultSet.getInt("theme_id"), resultSet.getString("theme_nom")));
+				//themes.add(new Theme(resultSet.getInt("theme_id"), resultSet.getString("theme_nom")));
 				// Il faut retirer l'attribut question au constructeur de l'objet Theme
+				System.out.println(resultSet.getString("theme_id"));
 			}
 
 			statement.close();
@@ -149,7 +150,7 @@ public class Demojdbc {
 			e.printStackTrace();
 		}
 
-		// System.out.println(getThemeFromDB());
+		System.out.println(getThemeFromDB());
 		// getQuestionFromDB(2);
 		// insertPartieResult();
 		// showTopTenTheme(1);

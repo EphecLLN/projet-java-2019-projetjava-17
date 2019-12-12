@@ -3,6 +3,8 @@
  */
 package projetQuizz;
 
+import java.util.ArrayList;
+
 import projetQuizz.modele.Partie;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
@@ -74,7 +76,7 @@ public class Quizz {
 				interfaceDeJeu.demanderNom();
 				break;
 			case DEMANDER_LE_THEME:
-				Theme[] themes = Theme.chargerThemes();
+				ArrayList<Theme> themes = Theme.chargerThemes();
 				interfaceDeJeu.choisirTheme(themes);
 				break;
 			case DEMANDER_LA_DIFFCULTE:

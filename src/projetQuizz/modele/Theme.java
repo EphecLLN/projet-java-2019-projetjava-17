@@ -3,47 +3,52 @@
  */
 package projetQuizz.modele;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 /**
  * @author Flo
  *
  */
 public class Theme {
-	public static Theme[] chargerThemes() {
-		return new Theme[] {
-				new Theme(1, "Géograpie",
-						new Question[] {
-								new Question(1, "Quel tropique se trouve dans l'hémisphère nord ?",
-										new Reponse[] { new Reponse(1, "Cancer", true), new Reponse(2, "Capricorne"),
-												new Reponse(3, "Equateur"), new Reponse(4, "Mer Noire"), }),
-								new Question(2, "Quelle est la capitale de la Mongolie ?",
-										new Reponse[] { new Reponse(1, "Oulan-Bator", true), new Reponse(2, "Kaboul"),
-												new Reponse(3, "Bagdad"), new Reponse(4, "Douchanbé"), }), }),
-				new Theme(2, "L'espace",
-						new Question[] {
-								new Question(1, "Quel est l'âge approximatif de l'univers (en milliards d'années) ?",
-										new Reponse[] { new Reponse(1, "14", true), new Reponse(2, "25"),
-												new Reponse(3, "2"), new Reponse(4, "60"), }),
-								new Question(2, "Qui a observé l'éloignement des galaxies grace au décalage spectral ?",
-										new Reponse[] { new Reponse(1, "Hubble", true), new Reponse(2, "Einstein"),
-												new Reponse(3, "Planck"), new Reponse(4, "Hawking"), }), }), };
-	}
-
 	private String nom;
 	private int id;
 
-	private Question[] questions;
+	public static ArrayList<Theme> chargerThemes() {
+		try {
+			ArrayList<Theme> themes = new ArrayList<Theme>();
+			Connection connection = DriverManager.getConnection(Partie.url, Partie.login, Partie.passwd);
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery("SELECT * FROM theme");
 
-	Theme(int id, String nom, Question[] questions) {
+			while (resultSet.next()) {
+				themes.add(new Theme(resultSet.getInt("theme_id"),resultSet.getString("theme_nom")));	
+			}
+
+			statement.close();
+			resultSet.close();
+
+			return (themes);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	Theme(int id, String nom) {
 		this.id = id;
 		this.nom = nom;
-		this.questions = questions;
 	}
 
 	public String getNom() {
 		return nom;
 	}
-
-	public Question[] getQuestions() {
-		return questions;
+	public int getId() {
+		return id;
 	}
 }

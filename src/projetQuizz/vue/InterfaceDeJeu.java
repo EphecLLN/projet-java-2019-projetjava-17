@@ -3,6 +3,8 @@
  */
 package projetQuizz.vue;
 
+import java.util.ArrayList;
+
 import projetQuizz.Quizz;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
@@ -29,7 +31,7 @@ public abstract class InterfaceDeJeu {
 
 	public abstract void afficherScores(Resultat[] resultats);
 
-	public abstract void choisirTheme(Theme[] themesPossibles) throws Exception;
+	public abstract void choisirTheme(ArrayList<Theme> themesPossibles) throws Exception;
 
 	public abstract void demanderCarreCash(Question questionActuelle) throws Exception;
 

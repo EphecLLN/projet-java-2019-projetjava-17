@@ -29,5 +29,5 @@ public class Reponse {
 	public String getReponse() {
 		return reponse;
 	}
-
+	
 }

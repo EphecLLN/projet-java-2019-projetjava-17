@@ -3,6 +3,7 @@
  */
 package projetQuizz.vue;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import projetQuizz.Quizz;
@@ -62,13 +63,13 @@ public class Console extends InterfaceDeJeu {
 	}
 
 	@Override
-	public void choisirTheme(Theme[] themesPossibles) throws Exception {
+	public void choisirTheme(ArrayList<Theme> themesPossibles) throws Exception {
 		System.out.println("Choisissez parmis ces thèmes:");
-		for (int i = 0; i < themesPossibles.length; i++) {
-			System.out.println(Integer.toString(i + 1) + ". " + themesPossibles[i].getNom());
+		for (int i = 0; i < themesPossibles.size(); i++) {
+			System.out.println(Integer.toString(i + 1) + ". " + themesPossibles.get(i).getNom());
 		}
-		int index = demanderNombre(1, themesPossibles.length);
-		getQuizz().recevoirTheme(themesPossibles[index - 1]);
+		int index = demanderNombre(1, themesPossibles.size());
+		getQuizz().recevoirTheme(themesPossibles.get(index -1));
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package projetQuizz.modele;
 
+import java.util.ArrayList;
+
 public class Resultat {
 
 	private Question question;
@@ -13,20 +15,20 @@ public class Resultat {
 	}
 
 	public Reponse getBonneReponse() {
-		Reponse[] reponses = question.getReponses();
-		for (int i = 0; i < reponses.length; i++) {
-			if (reponses[i].getEstBonneReponse()) {
-				return reponses[i];
+		ArrayList<Reponse> reponses = question.getReponses();
+		for (int i=0;i<reponses.size();i++) {
+			if (reponses.get(i).getEstBonneReponse()) {
+				return reponses.get(i);
 			}
 		}
 		return null;
 	}
 
-	public boolean getEstBonneReponse() {
-		return estBonneReponse;
-	}
-
 	public int getScore() {
 		return score;
+	}
+	
+	public boolean getEstBonneReponse() {
+		return estBonneReponse;
 	}
 }

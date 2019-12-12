@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author autom
  *
  */
-public class Demojdbc {
+public class JDBCRequests {
 	static String url = "jdbc:mysql://localhost/projetJava";
 	static String login = "root";
 	static String passwd = "";
@@ -115,7 +115,6 @@ public class Demojdbc {
 		return null;
 	}
 
-	
 	/**
 	 * @author autome edwin
 	 * 
@@ -130,7 +129,7 @@ public class Demojdbc {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(
 					"INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) VALUES ()");
-			//TODO	paramètrer valeurs de l'insert
+			// TODO paramètrer valeurs de l'insert
 
 			connection.close();
 			statement.close();
@@ -139,7 +138,7 @@ public class Demojdbc {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * @author autome edwin
 	 * 
@@ -169,11 +168,29 @@ public class Demojdbc {
 		}
 	}
 
-	
+	/**
+	 * @author autome edwin
+	 * 
+	 *         Vérifie si le pseudo de l'utilisateur existe dans la base de données
+	 * 
+	 * @param username: pseudo de l'utilisateur courant
+	 * @return true si le pseudo existe dans la base de données sinon false
+	 */
 	public static boolean userExist(String username) {
-		
+		try {
+			Connection connection = DriverManager.getConnection(url, login, passwd);
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement
+					.executeQuery("SELECT * FROM utilisateur WHERE utilisateur_pseudo = '" + username + "'");
+
+			return resultSet.next();//resultSet.next() revoie false s'il n'y a aucun valeur récupérée
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
-	
+
 	/**
 	 * @param args
 	 */
@@ -188,7 +205,8 @@ public class Demojdbc {
 		// getQuestionFromDB(2);
 		// insertPartieResult();
 		// showTopTenTheme(1);
-		//getQuestionFromDB(1);
+		// getQuestionFromDB(1);
+		//System.out.println(userExist("Edwin"));
 
 	}
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 11 déc. 2019 à 21:22
+-- Généré le :  jeu. 12 déc. 2019 à 17:51
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -21,6 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `projetjava`
 --
+CREATE DATABASE IF NOT EXISTS `projetjava` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `projetjava`;
 
 -- --------------------------------------------------------
 
@@ -211,13 +213,13 @@ INSERT INTO `reponse` (`reponse_id`, `question_id`, `estBonneReponse`, `reponse`
 (59, 51, 0, 'Olympe'),
 (60, 51, 0, 'Kilimanjaro'),
 (61, 52, 1, 'Banquise'),
-(62, 52, 1, 'Glacier'),
-(63, 52, 1, 'Iceberg'),
-(64, 52, 1, 'Poudreuse'),
+(62, 52, 0, 'Glacier'),
+(63, 52, 0, 'Iceberg'),
+(64, 52, 0, 'Poudreuse'),
 (65, 53, 1, 'Antarctique'),
-(66, 53, 1, 'Océanie'),
-(67, 53, 1, 'Afrique'),
-(68, 53, 1, 'Asie'),
+(66, 53, 0, 'Océanie'),
+(67, 53, 0, 'Afrique'),
+(68, 53, 0, 'Asie'),
 (69, 54, 1, 'Hydrogène'),
 (70, 54, 0, 'Hélium'),
 (71, 54, 0, 'Oxygène'),
@@ -390,7 +392,6 @@ INSERT INTO `reponse` (`reponse_id`, `question_id`, `estBonneReponse`, `reponse`
 (238, 105, 0, 'Le jeu de la bouteille'),
 (239, 105, 0, 'Crapette'),
 (240, 105, 0, 'La dame de fer');
-
 -- --------------------------------------------------------
 
 --

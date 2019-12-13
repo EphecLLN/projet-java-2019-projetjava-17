@@ -7,6 +7,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.0.5-bin.jar"/>
+<<<<<<< HEAD
 	<classpathentry combineaccessrules="false" kind="src" path="/src"/>
+=======
+>>>>>>> master
 	<classpathentry kind="output" path="bin"/>
 </classpath>

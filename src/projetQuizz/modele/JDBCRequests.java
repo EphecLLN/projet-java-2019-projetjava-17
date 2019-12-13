@@ -83,8 +83,9 @@ public class JDBCRequests {
 	}
 
 	/**
-	 * Récupère les réponses spécifiques à une question depuis la base de données
-	 * Fonction appelée par getQuestionFromDB() pour terminer la création d'un objet Question
+	 * Récupère les réponses spécifiques à une question depuis la base de données.
+	 * Fonction appelée par getQuestionFromDB() pour terminer la création d'un objet
+	 * Question
 	 * 
 	 * @param questionId : id de la question pour laquelle on récupère les reponses
 	 *                   possibles en db
@@ -130,8 +131,9 @@ public class JDBCRequests {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(
 					"INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
-							+ "VALUES (" + endedPartie.getUtilisateur().getNom() + "," + endedPartie + ","
+							+ "VALUES (" + endedPartie.getUtilisateur().getId() + ", ,"
 							+ endedPartie.getTheme().getNom() + ", " + endedPartie.getResultat().getScore() + "");
+			//TODO Récupérer la difficulté de la partie
 
 			connection.close();
 			statement.close();
@@ -194,8 +196,8 @@ public class JDBCRequests {
 		}
 		return false;
 	}
-
-	/**
+	
+	 /** 
 	 * @param args
 	 */
 	public static void main(String[] args) {

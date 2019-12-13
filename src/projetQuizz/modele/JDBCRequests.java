@@ -123,13 +123,14 @@ public class JDBCRequests {
 	 * 
 	 * @param partie: l'objet partie
 	 */
-	public static void insertPartieResult(Partie endedpartie) {
+	public static void insertPartieResult(Partie endedPartie) {
 		try {
 			Connection connection = DriverManager.getConnection(url, login, passwd);
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(
-					"INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) VALUES ()");
-			// TODO paramètrer valeurs de l'insert
+					"INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
+							+ "VALUES (" + endedPartie.getUtilisateur() + "," + endedPartie.getNomDifficulte() + ","
+							+ endedPartie.getTheme() + ", " + endedPartie.getResultats() + "");// TODO
 
 			connection.close();
 			statement.close();
@@ -183,7 +184,7 @@ public class JDBCRequests {
 			ResultSet resultSet = statement
 					.executeQuery("SELECT * FROM utilisateur WHERE utilisateur_pseudo = '" + username + "'");
 
-			return resultSet.next();//resultSet.next() revoie false s'il n'y a aucun valeur récupérée
+			return resultSet.next();// resultSet.next() revoie false s'il n'y a aucun valeur récupérée
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -206,7 +207,7 @@ public class JDBCRequests {
 		// insertPartieResult();
 		// showTopTenTheme(1);
 		// getQuestionFromDB(1);
-		//System.out.println(userExist("Edwin"));
+		// System.out.println(userExist("Edwin"));
 
 	}
 

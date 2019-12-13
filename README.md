@@ -6,66 +6,81 @@
 
 ## Description contexte
 
-Dans le cadre du cours pratique de développement informatique orienté-objet, il est demandé aux étudiants de créer un projet informatique basé sur le langage JAVA.
+old: Dans le cadre du cours pratique de dï¿½veloppement informatique orientï¿½-objet, il est demandï¿½ aux ï¿½tudiants de crï¿½er un projet informatique basï¿½ sur le langage JAVA.
+
+new: Ce quizz s'addresse Ã  tous le monde, aussi bien Ã  celui ou celle qui souhaite se divertir ou encore, Ã©largir/tester ses connaissances sur les sujets que propose le quizz. C'est sujet sont la gÃ©ographie, l'espace, l'histoire, les langues, la musique et les jeux.
 
 ## Objectif
 
-Ce projet aura pour objectif de proposer une application fonctionnelle et bien documentée, créée à par un travail collaboratif notamment grâce à l’utilisation de la plateforme GitHub. 
+old: Ce projet aura pour objectif de proposer une application fonctionnelle et bien documentï¿½e, crï¿½ï¿½e ï¿½ par un travail collaboratif notamment grï¿½ce ï¿½ lï¿½utilisation de la plateforme GitHub. 
+
+new :Ce quizz a pour objectif de permettre Ã  ses utilisateurs d'apprendre en s'amusant ou de simplement se divertir le temps d'un quizz sur l'un des thÃ¨mes proposÃ© par celui-ci.
 
 ## Contraintes techniques
 
+old:
 Le projet devra respecter les contraintes suivantes :
-* Respect d’une architecture MVC, permettant l’utilisation de deux interfaces utilisateurs (une interface console et une interface graphique).
-* Présence d’une base de données, d’un service web ou d’une fonction multijoueur.
-* Utilisation d’une structure de données du Framework Java Collection.
-* Implémentation de l’application via les outils de collaboration offerts par GitHub.
+* Respect dï¿½une architecture MVC, permettant lï¿½utilisation de deux interfaces utilisateurs (une interface console et une interface graphique).
+* Prï¿½sence dï¿½une base de donnï¿½es, dï¿½un service web ou dï¿½une fonction multijoueur.
+* Utilisation dï¿½une structure de donnï¿½es du Framework Java Collection.
+* Implï¿½mentation de lï¿½application via les outils de collaboration offerts par GitHub.
+
+new:
+Le projet devra respecter les contraintes suivantes :
+* Respect dï¿½une architecture MVC, permettant lï¿½utilisation de deux interfaces utilisateurs (une interface console et une interface graphique).
+* Utilisation dï¿½une structure de donnï¿½es du Framework Java Collection.
+* Implï¿½mentation de lï¿½application via les outils de collaboration offerts par GitHub.
+* Le serveur contenant la base de donnÃ©es Ã©tant lancÃ© sur une machine local, le fichier d'import de la base de donnÃ©es doit Ãªtre mis Ã  jour et envoyÃ© sur le repo GitHub Ã  la fin de chaque partie ou session de jeu afin que les diverses fonctionnalitÃ©s requierant une base de donnÃ©es Ã  jour renvoient des valeurs cohÃ©rentes
+* Utilisation de JDBC (Java DataBase Connectivity) permettant de se connecter et d'interagir avec la base de donnÃ©es
 
 ## Description des besoins
 
-Le projet consiste dans le fait de développer un jeu de type quizz.
+old: Le projet consiste dans le fait de dï¿½velopper un jeu de type quizz.
 
-### Démarrage du quizz :
+new: User stories ???
 
-* Première étape : le joueur devra encoder un nom d’utilisateur.
-* Deuxième étape : le joueur aura le choix entre six thèmes différents.
-* Troisième étape : l’utilisateur aura le choix entre quatre niveaux de difficulté.
+### Dï¿½marrage du quizz :
 
-### Déroulement du quizz : 
+* Premiï¿½re ï¿½tape : le joueur devra encoder un nom dï¿½utilisateur.
+* Deuxiï¿½me ï¿½tape : le joueur aura le choix entre six thï¿½mes diffï¿½rents.
+* Troisiï¿½me ï¿½tape : lï¿½utilisateur aura le choix entre quatre niveaux de difficultï¿½.
 
-Il sera proposé aléatoirement dix questions différentes au joueur parmis un ensemble de 15 questions uniques.
-L’utilisateur devra donc essayer de répondre correctement à chaque question posée. Deux choix s’offrent à lui, chacune rapportant un certain nombre de points :
-* Écrire sa réponse manuellement, offrant le plus grand nombre de point.
-* Choisir une réponse parmis quatre proposées à l’écran, offrant moins de points. Un joker ne peut être utilisé qu’une fois arrivé dans cette interface.
+### Dï¿½roulement du quizz : 
 
-Une mauvaise réponse ne rapporte pas de points.
+Il sera proposï¿½ alï¿½atoirement dix questions diffï¿½rentes au joueur parmis un ensemble de 15 questions uniques.
+Lï¿½utilisateur devra donc essayer de rï¿½pondre correctement ï¿½ chaque question posï¿½e. Deux choix sï¿½offrent ï¿½ lui, chacune rapportant un certain nombre de points :
+* ï¿½crire sa rï¿½ponse manuellement, offrant le plus grand nombre de point.
+* Choisir une rï¿½ponse parmis quatre proposï¿½es ï¿½ lï¿½ï¿½cran, offrant moins de points. Un joker ne peut ï¿½tre utilisï¿½ quï¿½une fois arrivï¿½ dans cette interface.
+
+Une mauvaise rï¿½ponse ne rapporte pas de points.
 
 ### Fin de partie : 
 
-Plusieurs informations seront affichées en fin de partie :
-* Un classement des 10 meilleurs personnes dans le thème courant.
-* La place que le joueur a pris dans le classement global du thème courant.
-* Le nombre de questions réussies/ratées.
-Les deux premiers points expliqués ci-dessus seront fournis et mis à jour via une base de données.
+Plusieurs informations seront affichï¿½es en fin de partie :
+* Un classement des 10 meilleurs personnes dans le thï¿½me courant.
+* La place que le joueur a pris dans le classement global du thï¿½me courant. //Heu on implÃ©mente ou pas ?
+* Le nombre de questions rï¿½ussies/ratï¿½es.
+Les deux premiers points expliquï¿½s ci-dessus seront fournis et mis ï¿½ jour via une base de donnï¿½es.
 
 ### Principe des jokers: 
 
-Il y aura un système de trois jokers mis en place :
-* Le “Moite/Moite” : Deux propositions incorrectes sont supprimées parmis les quatres disponibles. Donne un point si la bonne réponse est trouvée.
-* Le “Change moi ça, j’aime pas ta question” : Permet à l’utilisateur de changer de question.
-* Le “J’en sais rien, donne moi mon point” : Permet de réussir la question au prix d’un seul point gagné.
+Il y aura un systï¿½me de trois jokers mis en place :
+* Le ï¿½Moite/Moiteï¿½ : Deux propositions incorrectes sont supprimï¿½es parmis les quatres disponibles. Donne un point si la bonne rï¿½ponse est trouvï¿½e.
+* Le ï¿½Change moi ï¿½a, jï¿½aime pas ta questionï¿½ : Permet ï¿½ lï¿½utilisateur de changer de question.
+* Le ï¿½Jï¿½en sais rien, donne moi mon pointï¿½ : Permet de rï¿½ussir la question au prix dï¿½un seul point gagnï¿½.
 
-Chaque mode de difficulté offre un certain nombre de joker :
-* En mode “facile”, les trois jokers seront utilisables.
-* En mode “normal”, l’utilisateur aura accès au “Moite/Moite” et au “Change moi ça, j’aime pas ta question”.
-* En mode “difficile”, le joueur ne pourra bénéficier que du “Moite/Moite”.
-* En mode “expert”, aucun joker n’est à la disposition de l’utilisateur.
+Chaque mode de difficultï¿½ offre un certain nombre de joker :
+* En mode ï¿½facileï¿½, les trois jokers seront utilisables.
+* En mode ï¿½normalï¿½, lï¿½utilisateur aura accï¿½s au ï¿½Moite/Moiteï¿½ et au ï¿½Change moi ï¿½a, jï¿½aime pas ta questionï¿½.
+* En mode ï¿½difficileï¿½, le joueur ne pourra bï¿½nï¿½ficier que du ï¿½Moite/Moiteï¿½.
+* En mode ï¿½expertï¿½, aucun joker nï¿½est ï¿½ la disposition de lï¿½utilisateur.
 
 ## Organisation du projet
 
-### Les impératifs temporels : 
+### Les impï¿½ratifs temporels : 
 * 25 octobre 2019 : remise du cahier des charges.
 * 8 novembre 2019 : remise du diagramme de classe UML.
-* 15 novembre 2019 : remise de l’implémentation d’une classe par étudiant.
-* 29 novembre 2019 : démo des interactions possibles du projet en interface console.
-* Dernière semaine de cours : remise du projet final.
-projet-java-2019-projetjava-17
+* 15 novembre 2019 : remise de lï¿½implï¿½mentation dï¿½une classe par ï¿½tudiant.
+* 29 novembre 2019 : dï¿½mo des interactions possibles du projet en interface console.
+* 17 dÃ©cembre 2019 : remise du projet final.
+* 20 dÃ©cembre 2019 : DÃ©fense du projet

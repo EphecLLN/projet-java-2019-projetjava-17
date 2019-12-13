@@ -392,7 +392,6 @@ INSERT INTO `reponse` (`reponse_id`, `question_id`, `estBonneReponse`, `reponse`
 (238, 105, 0, 'Le jeu de la bouteille'),
 (239, 105, 0, 'Crapette'),
 (240, 105, 0, 'La dame de fer');
-
 -- --------------------------------------------------------
 
 --

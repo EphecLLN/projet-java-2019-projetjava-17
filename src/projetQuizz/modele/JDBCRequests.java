@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
- * @author autom
+ * @author autome edwin
  *
  */
 public class JDBCRequests {
@@ -20,12 +20,12 @@ public class JDBCRequests {
 	static String passwd = "";
 
 	/**
-	 * @author autome edwin
-	 * 
-	 *         Récupère en db tous les thèmes possibles du quizz et les ajoute dans
-	 *         ArrayList<Theme> themes
+	 * Récupère en db tous les thèmes possibles du quizz et les ajoute dans
+	 * ArrayList<Theme> themes
 	 * 
 	 * @return l'ArrayList contenant tous les objets Theme
+	 * 
+	 * @author autome edwin
 	 */
 	public static ArrayList<Theme> getThemeFromDB() {
 		try {
@@ -51,13 +51,13 @@ public class JDBCRequests {
 	}
 
 	/**
-	 * @author autome edwin
-	 * 
-	 *         Récupère les question du thème choisi par l'utilisateur et le push
-	 *         dans le tableau des Questions
+	 * Récupère les question du thème choisi par l'utilisateur et le push dans le
+	 * tableau des Questions
 	 * 
 	 * @param themeId : id du theme choisi par l'utilisateur
 	 * @return questions: ArrayList contenant toutes les questions du quizz
+	 * 
+	 * @author autome edwin
 	 */
 	public static ArrayList<Question> getQuestionFromDB(int themeId) {
 		try {
@@ -83,15 +83,15 @@ public class JDBCRequests {
 	}
 
 	/**
-	 * @author autome edwin
-	 * 
-	 *         Récupère les réponses spécifiques à une question depuis la base de
-	 *         données
+	 * Récupère les réponses spécifiques à une question depuis la base de données
+	 * Fonction appelée par getQuestionFromDB() pour terminer la création d'un objet Question
 	 * 
 	 * @param questionId : id de la question pour laquelle on récupère les reponses
 	 *                   possibles en db
 	 * @return reponses: array contenant les objets reponses correspondant à la
 	 *         question dont l'id est reçu en paramètre de la fonction
+	 * 
+	 * @author autome edwin
 	 */
 	private static Reponse[] getReponsesFromDB(int questionId) {
 		Reponse[] reponses = new Reponse[4];
@@ -116,12 +116,13 @@ public class JDBCRequests {
 	}
 
 	/**
+	 * 
+	 * Envoi les résultats de la partie terminée dans la table 'partie' de la db
+	 * 
+	 * @param partie: l'objet partie contenant les info de la partie venant de se
+	 *                terminer
+	 * 
 	 * @author autome edwin
-	 * 
-	 *         Envoi les résultats de la partie terminée dans la table 'partie' de
-	 *         la db
-	 * 
-	 * @param partie: l'objet partie
 	 */
 	public static void insertPartieResult(Partie endedPartie) {
 		try {
@@ -129,8 +130,8 @@ public class JDBCRequests {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(
 					"INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
-							+ "VALUES (" + endedPartie.getUtilisateur() + "," + endedPartie.getNomDifficulte() + ","
-							+ endedPartie.getTheme() + ", " + endedPartie.getResultats() + "");// TODO
+							+ "VALUES (" + endedPartie.getUtilisateur().getNom() + "," + endedPartie + ","
+							+ endedPartie.getTheme().getNom() + ", " + endedPartie.getResultat().getScore() + "");
 
 			connection.close();
 			statement.close();
@@ -141,11 +142,12 @@ public class JDBCRequests {
 	}
 
 	/**
-	 * @author autome edwin
+	 * Affiche les 10 meilleurs parties au même theme que la partie venant de se
+	 * terminer
 	 * 
-	 *         Affiche les 10 meilleurs parties au même theme que la partie venant
-	 *         de se terminer
 	 * @param themeId : id du theme de la partie terminée
+	 * 
+	 * @author autome edwin
 	 */
 	public static void showTopTenTheme(int themeId) {
 		try {
@@ -170,12 +172,13 @@ public class JDBCRequests {
 	}
 
 	/**
-	 * @author autome edwin
-	 * 
-	 *         Vérifie si le pseudo de l'utilisateur existe dans la base de données
+	 * Vérifie si le pseudo de l'utilisateur existe dans la base de données
 	 * 
 	 * @param username: pseudo de l'utilisateur courant
+	 * 
 	 * @return true si le pseudo existe dans la base de données sinon false
+	 * 
+	 * @author autome edwin
 	 */
 	public static boolean userExist(String username) {
 		try {

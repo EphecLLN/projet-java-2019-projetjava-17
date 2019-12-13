@@ -133,7 +133,7 @@ public class JDBCRequests {
 					"INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
 							+ "VALUES (" + endedPartie.getUtilisateur().getId() + ", ,"
 							+ endedPartie.getTheme().getNom() + ", " + endedPartie.getResultat().getScore() + "");
-			//TODO Récupérer la difficulté de la partie
+			// TODO Récupérer la difficulté de la partie
 
 			connection.close();
 			statement.close();
@@ -196,8 +196,22 @@ public class JDBCRequests {
 		}
 		return false;
 	}
-	
-	 /** 
+
+	public static void createNewUserInDB(String newUsername) {
+		try {
+			Connection connection = DriverManager.getConnection(url, login, passwd);
+			Statement statement = connection.createStatement();
+			statement.executeUpdate("INSERT INTO `utilisateur`(`utilisateur_pseudo`) VALUES ('" + newUsername + "')");
+
+			connection.close();
+			statement.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -213,6 +227,7 @@ public class JDBCRequests {
 		// showTopTenTheme(1);
 		// getQuestionFromDB(1);
 		// System.out.println(userExist("Edwin"));
+		//createNewUserInDB("Jojo");
 
 	}
 

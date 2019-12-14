@@ -8,10 +8,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.text.Collator;
+import java.util.*;
 
 /**
  * @author Flo
@@ -20,24 +18,46 @@ import java.util.List;
 public class Partie {
     public enum CarreCash {
         CARRE, CASH
-    };
+    }
+
+    ;
 
     public enum Difficulte {
         FACILE, MOYEN, DIFFICILE, EXPERT
-    };
+    }
+
+    ;
 
     public enum Etat {
         DEMANDER_LE_NOM, DEMANDER_LE_THEME, DEMANDER_LA_DIFFCULTE, DEMANDER_CARRE_CASH, DEMANDER_REPONSE_CASH,
         DEMANDER_REPONSE_CARRE_OU_JOKER, DEMANDER_REPONSE_MOITE_MOITE, AFFICHER_RESULTAT_QUESTION, JEU_FINI
-    };
+    }
+
+    ;
 
     public enum Joker {
         MOITE_MOITE, SWITCH, DONNE_MON_POINT
-    };
+    }
+
+    ;
 
     public enum ReponseCarreOuJoker {
         UN, DEUX, TROIS, QUATRE, JOKER
-    };
+    }
+
+    ;
+
+    public static Map<String, String> Case = Map.of(
+            "à", "a",
+            "é", "e",
+            "è", "e",
+            "â", "a",
+            "ê", "e",
+            "ç", "c",
+            "ô", "o",
+            "ö", "o",
+            "ù", "u",
+            "û", "u");
 
     public static String getNomDifficulte(Difficulte difficulte) {
         switch (difficulte) {
@@ -209,27 +229,26 @@ public class Partie {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM question WHERE theme_id =" + theme.getId());
+            ArrayList<Reponse> reponses;
             while (resultSet.next()) {
                 Statement st2 = connection.createStatement();
                 ResultSet rs2 = st2.executeQuery("SELECT * FROM reponse WHERE question_id =" + resultSet.getInt("question_id") + " ORDER BY reponse_id");
-                ArrayList<Reponse> reponses = new  ArrayList<Reponse>();
+                reponses = new ArrayList<Reponse>();
                 while (rs2.next()) {
                     if (rs2.getInt("estBonneReponse") == 1) {
-                        reponses.add(new Reponse(rs2.getInt("reponse_id"),rs2.getString("reponse"),true));
-                    }
-                    else {
-                        reponses.add(new Reponse(rs2.getInt("reponse_id"),rs2.getString("reponse")));
+                        reponses.add(new Reponse(rs2.getInt("reponse_id"), rs2.getString("reponse"), true));
+                    } else {
+                        reponses.add(new Reponse(rs2.getInt("reponse_id"), rs2.getString("reponse")));
                     }
                 }
-
-                this.questionsPossibles.add(new Question(resultSet.getInt("question_id"),resultSet.getString("question"),reponses ));
+                Collections.shuffle(reponses);
+                this.questionsPossibles.add(new Question(resultSet.getInt("question_id"), resultSet.getString("question"), reponses));
             }
             Collections.shuffle(this.questionsPossibles);
             statement.close();
             resultSet.close();
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -254,7 +273,8 @@ public class Partie {
                 etat = Partie.Etat.DEMANDER_REPONSE_MOITE_MOITE;
                 break;
             case SWITCH:
-                _passerQuestionSuivante(false);
+                Collections.shuffle(questionsPossibles);
+                _passerQuestionSuivante(true);
                 break;
             case DONNE_MON_POINT:
                 // TODO afficher un message propre au joker (afficher bonne reponse).
@@ -277,11 +297,40 @@ public class Partie {
     private boolean verifierReponseCash(String reponseCash) {
         Reponse[] reponses = getReponsesPossiblesActuelles();
         for (int i = 0; i < reponses.length; i++) {
-            // TODO améliorer la détection
-            if (reponses[i].getEstBonneReponse() && reponseCash.contentEquals(reponses[i].getReponse())) {
+            if (Partie.isNum(reponseCash)) {
+                if (reponses[i].getEstBonneReponse() && reponses[i].getReponse().compareTo(reponseCash) == 0) {
+                    return true;
+                }
+            }
+            if (reponses[i].getEstBonneReponse() && simpleCase((reponses[i].getReponse()).toLowerCase()).contains(simpleCase(reponseCash).toLowerCase())) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static String simpleCase (String s) {
+        String newString = "";
+        for (String str : s.split("")) {
+            String c = Case.get(str);
+            if (c != null) {
+                newString += c;
+            } else {
+                newString += str;
+            }
+        }
+        return newString;
+    }
+
+    public static boolean isNum (String strNum) {
+        boolean ret = true;
+        try {
+
+            Double.parseDouble(strNum);
+
+        }catch (NumberFormatException e) {
+            ret = false;
+        }
+        return ret;
     }
 }

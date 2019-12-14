@@ -8,7 +8,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * @author autome edwin
@@ -212,6 +214,36 @@ public class JDBCRequests {
         }
     }
 
+    public static String simpleCase(String s) {
+        String newString = "";
+        for (String str : s.split("")) {
+            String c = Partie.Case.get(str);
+            if (c != null) {
+                newString += c;
+            } else {
+                newString += str;
+            }
+        }
+        return newString;
+    }
+
+    private static boolean verifierReponseCash(String reponseCash) {
+        Reponse[] reponses = {new Reponse(1,"15",true),new Reponse(2,"14"), new Reponse(3,"13")};
+        for (int i = 0; i < reponses.length; i++) {
+            if (Partie.isNum(reponseCash)) {
+                if (reponses[i].getEstBonneReponse() && reponses[i].getReponse().compareTo(reponseCash) == 0) {
+                    return true;
+                }
+                return false;
+            }
+            if (reponses[i].getEstBonneReponse() && simpleCase((reponses[i].getReponse()).toLowerCase()).contains(simpleCase(reponseCash).toLowerCase())) {
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     /**
      * @param args
      */
@@ -230,7 +262,12 @@ public class JDBCRequests {
         // getQuestionFromDB(1);
         // System.out.println(userExist("Edwin"));
         //createNewUserInDB("Jojo");
-
+        /*Collator usCollator = Collator.getInstance(Locale.US);
+        usCollator.setStrength(Collator.PRIMARY);
+        if( usCollator.compare("âbc", "ABC") == 0 ) {
+            System.out.println("Strings are equivalent");
+        }*/
+        System.out.println(verifierReponseCash("15"));
     }
 
 }

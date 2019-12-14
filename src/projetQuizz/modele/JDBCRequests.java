@@ -14,13 +14,8 @@ import java.util.ArrayList;
  * @author autome edwin
  *
  */
-<<<<<<< HEAD:src/projetQuizz/modele/Demojdbc.java
-public class Demojdbc {
-	static String url = "jdbc:mysql://localhost/projetjava";
-=======
 public class JDBCRequests {
 	static String url = "jdbc:mysql://localhost/projetJava";
->>>>>>> master:src/projetQuizz/modele/JDBCRequests.java
 	static String login = "root";
 	static String passwd = "";
 

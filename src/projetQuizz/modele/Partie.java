@@ -155,7 +155,7 @@ public class Partie {
 
 	public void recevoirNomUtilisateur(String nom) throws Exception {
 		verifierEtat(Partie.Etat.DEMANDER_LE_NOM, "Aucun nom n'était attendu à ce moment.");
-		setUtilisateur(Utilisateur.choisirOuCreer(nom));
+		//setUtilisateur(Utilisateur.choisirOuCreer(nom));
 		this.etat = Partie.Etat.DEMANDER_LE_THEME;
 	}
 

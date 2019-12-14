@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  jeu. 12 déc. 2019 à 17:51
+-- Généré le :  sam. 14 déc. 2019 à 18:39
 -- Version du serveur :  10.4.10-MariaDB
 -- Version de PHP :  7.3.12
 
@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `projetjava`
 --
-CREATE DATABASE IF NOT EXISTS `projetjava` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `projetjava` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `projetjava`;
 
 -- --------------------------------------------------------
@@ -37,7 +37,7 @@ CREATE TABLE `partie` (
   `partie_difficulte` varchar(20) NOT NULL,
   `theme_id` int(11) NOT NULL,
   `partie_score` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `partie`
@@ -66,7 +66,7 @@ CREATE TABLE `question` (
   `question_id` int(11) NOT NULL,
   `question` varchar(255) NOT NULL,
   `theme_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `question`
@@ -129,10 +129,40 @@ INSERT INTO `question` (`question_id`, `question`, `theme_id`) VALUES
 (99, 'Quelle société a créé le jeu de carte à collectionner \"Yu-Gi-Oh!\"', 6),
 (100, 'Quelle version du jeu vidéo \"Pokémon\" est sortie en Europe en 2000 ?', 6),
 (101, 'Ou le bowling a-t-il été créé ?', 6),
-(102, 'Quel jeu de carte se joue avec seulement 32 cartes ?', 6),
+(102, 'Avec combien de carte joue-t-on à la belote ?', 6),
 (103, 'Au loup-garou, qui lie 2 amoureux jusqu\'à la fin de la partie ?', 6),
 (104, 'Quel dessin animé s\'est inspiré des toupies comme univers ?', 6),
-(105, 'Quel \"jeu\" pouvant engendrer la mort se joue avec un revolver ?', 6);
+(105, 'Quel \"jeu\" pouvant engendrer la mort se joue avec un revolver ?', 6),
+(106, 'Quel événement marque le passage des Temps Modernes à l\'Epoque Contemporaine ?', 3),
+(107, 'En quelle année débute la Seconde Guerre Mondiale ?', 3),
+(108, 'En quelle année a-t-on marché pour la première fois sur la Lune ?', 3),
+(109, 'En quelle année s\'est déroulée la Bataille de Waterloo ?', 3),
+(110, 'Quel événement marque la fin de la Préhistoire ?', 3),
+(111, 'Quelle est la date d\'indépendance de la Belgique ?', 3),
+(112, 'Quel célèbre Italien a peint la Joconde (nom et prénom prononcé à la française) ?', 3),
+(113, 'Comment surnommait-on les soldats de la Première Guerre Mondiale ?', 3),
+(114, 'Quel roi a rendu l\'école obligatoire ?', 3),
+(115, 'Quelle est la plus connue des reines de l\'Egypte antique notamment pour avoir épousée Jules César (nom sans accents) ?', 3),
+(116, 'Quel célèbre ordre religieux et militaire est connu pour ses croisades ?', 3),
+(117, 'En quelle année fut larguée la première bombe atomique ?', 3),
+(118, 'Quel chef politique romain fut assassiné par de multiples coup de poignards ?', 3),
+(119, 'En quelle année est tombé le mur de Berlin ?', 3),
+(120, 'Qui a découvert l\'Amérique (nom de famille seulement) ?', 3),
+(121, 'Quelle est la langue officielle du Mexique ?', 4),
+(122, 'Quelle est la langue la plus parlé dans le monde ?', 4),
+(123, 'De quel continent est originaire le japonais ?', 4),
+(124, 'Dans quelle région parle-t-on le Maori ?', 4),
+(125, 'Quelle est la 3e langue officielle de la Belgique (après le français et le néerlandais) ?', 4),
+(126, 'Quelle langue est considérée comme langue internationale ?', 4),
+(127, 'Quelle est cette langue: \"Hallo wie geht es dir ?\" ?', 4),
+(128, 'Quelle est cette langue: \"No se como se llama\" ?', 4),
+(129, 'Quelle est la langue officielle en France ?', 4),
+(130, 'Dans la célèbre saga Harry Potter, comment s\'appelle la langue des serpents ?', 4),
+(131, 'Quelle langue parle-t-on dans le pays de Putin ?', 4),
+(132, 'Quelle langue parlent les extraterrestes dans le film Avatar ?', 4),
+(133, 'Comment s\'écrit \"Bonjour\" en anglais ?', 4),
+(134, 'Quelle langue est parlé par les petits bonshommes bleus de Peyo ?', 4),
+(135, 'Quelle langue parlais le célèbre inventeur et peintre Léonard De Vinci ?', 4);
 
 -- --------------------------------------------------------
 
@@ -145,7 +175,7 @@ CREATE TABLE `reponse` (
   `question_id` int(11) NOT NULL,
   `estBonneReponse` tinyint(4) NOT NULL,
   `reponse` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `reponse`
@@ -376,22 +406,143 @@ INSERT INTO `reponse` (`reponse_id`, `question_id`, `estBonneReponse`, `reponse`
 (222, 101, 0, 'Canada'),
 (223, 101, 0, 'Angleterre'),
 (224, 101, 0, 'Australie'),
-(225, 102, 1, 'La belote'),
-(226, 102, 0, 'Le poker'),
-(227, 102, 0, 'Le bridge'),
-(228, 102, 0, 'La bataille Corse'),
+(225, 102, 1, '32'),
+(226, 102, 0, '52'),
+(227, 102, 0, '26'),
+(228, 102, 0, '40'),
 (229, 103, 1, 'Cupidon'),
 (230, 103, 0, 'Aphrodite'),
 (231, 103, 0, 'La voyante'),
 (232, 103, 0, 'La sorcière'),
 (233, 104, 1, 'Beyblade'),
-(234, 104, 0, 'Byakugan'),
+(234, 104, 0, 'Bakugan'),
 (235, 104, 0, 'Pokemon'),
 (236, 104, 0, 'Code Lyoko'),
 (237, 105, 1, 'La roulette russe'),
 (238, 105, 0, 'Le jeu de la bouteille'),
 (239, 105, 0, 'Crapette'),
-(240, 105, 0, 'La dame de fer');
+(240, 105, 0, 'La dame de fer'),
+(492, 106, 1, 'La Révolution française'),
+(493, 106, 0, 'L\'invention de l\'imprimerie'),
+(494, 106, 0, 'La Chute du Mur de Berlin'),
+(495, 106, 0, 'Le concert de Queen à Wembley'),
+(496, 107, 1, '1939'),
+(497, 107, 0, '1944'),
+(498, 107, 0, '1961'),
+(499, 107, 0, '1957'),
+(500, 108, 1, '1969'),
+(501, 108, 0, '1944'),
+(502, 108, 0, '1961'),
+(503, 108, 0, '1957'),
+(504, 109, 1, '1815'),
+(505, 109, 0, '1830'),
+(506, 109, 0, '1802'),
+(507, 109, 0, '1799'),
+(508, 110, 1, 'L\'invention de l\'écriture'),
+(509, 110, 0, 'L\'invention de la roue'),
+(510, 110, 0, 'Le premier homme dans l\'espace'),
+(511, 110, 0, 'La mort de Rasputin'),
+(512, 111, 1, '1830'),
+(513, 111, 0, '1815'),
+(514, 111, 0, '1789'),
+(515, 111, 0, '1800'),
+(516, 112, 1, 'Léonard de Vinci'),
+(517, 112, 0, 'Léonardo DiCaprio'),
+(518, 112, 0, 'Vincent Van Gogh'),
+(519, 112, 0, 'Salvador Dali'),
+(520, 113, 1, 'Les poilus'),
+(521, 113, 0, 'Les chairs à canons'),
+(522, 113, 0, 'Les retranchés'),
+(523, 113, 0, 'Les planqués'),
+(524, 114, 1, 'Charlemagne'),
+(525, 114, 0, 'Louis XIV'),
+(526, 114, 0, 'Henri IV'),
+(527, 114, 0, 'Emmanuel Macron'),
+(528, 115, 1, 'Cleopatre'),
+(529, 115, 0, 'Nefertiti'),
+(530, 115, 0, 'Elisabeth 2'),
+(531, 115, 0, 'Toutankhamon'),
+(532, 116, 1, 'Les Templiers'),
+(533, 116, 0, 'Les Franc-maçons'),
+(534, 116, 0, 'Les Illuminati'),
+(535, 116, 0, 'Le Ku Klux Klan'),
+(536, 117, 1, '1945'),
+(537, 117, 0, '1918'),
+(538, 117, 0, '1961'),
+(539, 117, 0, '1946'),
+(540, 118, 1, 'Jules César'),
+(541, 118, 0, 'Néron de Cicéron'),
+(542, 118, 0, 'Alexandre le Grand'),
+(543, 118, 0, 'Brutus'),
+(544, 119, 1, '1991'),
+(545, 119, 0, '1961'),
+(546, 119, 0, '1969'),
+(547, 119, 0, '1989'),
+(548, 120, 1, 'Colomb'),
+(549, 120, 0, 'Magellan'),
+(550, 120, 0, 'Cartier'),
+(551, 120, 0, 'Nimitz'),
+(552, 121, 1, 'Espagnol'),
+(553, 121, 0, 'Portugais'),
+(554, 121, 0, 'Allemand'),
+(555, 121, 0, 'Papou'),
+(556, 122, 1, 'Chinois Mandarin'),
+(557, 122, 0, 'Anglais'),
+(558, 122, 0, 'Français'),
+(559, 122, 0, 'Javanais'),
+(560, 123, 1, 'Asie'),
+(561, 123, 0, 'Europe'),
+(562, 123, 0, 'Océanie'),
+(563, 123, 0, 'Amérique du Sud'),
+(564, 124, 1, 'Nouvelle-Zélande'),
+(565, 124, 0, 'Hawai'),
+(566, 124, 0, 'Papouasie-Nouvelle-Guinée'),
+(567, 124, 0, 'Polynésie française'),
+(568, 125, 1, 'Allemand'),
+(569, 125, 0, 'Arabe'),
+(570, 125, 0, 'Turque'),
+(571, 125, 0, 'Anglais'),
+(572, 126, 1, 'Anglais'),
+(573, 126, 0, 'Chinois'),
+(574, 126, 0, 'Japonais'),
+(575, 126, 0, 'Allemand'),
+(576, 127, 1, 'Allemand'),
+(577, 127, 0, 'Néerlandais'),
+(578, 127, 0, 'Russe'),
+(579, 127, 0, 'Polonais'),
+(580, 128, 1, 'Espagnol'),
+(581, 128, 0, 'Portugais'),
+(582, 128, 0, 'Italien'),
+(583, 128, 0, 'Allemand'),
+(584, 129, 1, 'Français'),
+(585, 129, 0, 'Anglais'),
+(586, 129, 0, 'Allemand'),
+(587, 129, 0, 'Swahili'),
+(588, 130, 1, 'Fourchelang'),
+(589, 130, 0, 'Klingon'),
+(590, 130, 0, 'Dothraki'),
+(591, 130, 0, 'Quenya'),
+(592, 131, 1, 'Russe'),
+(593, 131, 0, 'Polonais'),
+(594, 131, 0, 'Javanais'),
+(595, 131, 0, 'Allemand'),
+(596, 132, 1, 'Na\'vi'),
+(597, 132, 0, 'Klingon'),
+(598, 132, 0, 'Pandore'),
+(599, 132, 0, 'Schtroumpf'),
+(600, 133, 1, 'Hello'),
+(601, 133, 0, 'Hallo'),
+(602, 133, 0, 'Goeidag'),
+(603, 133, 0, 'Ola'),
+(604, 134, 1, 'Schtroumpf'),
+(605, 134, 0, 'Fourchelang'),
+(606, 134, 0, 'Klingon'),
+(607, 134, 0, 'Allemand'),
+(608, 135, 1, 'Italien'),
+(609, 135, 0, 'Portuguais'),
+(610, 135, 0, 'Espagnol'),
+(611, 135, 0, 'Grec');
+
 -- --------------------------------------------------------
 
 --
@@ -401,7 +552,7 @@ INSERT INTO `reponse` (`reponse_id`, `question_id`, `estBonneReponse`, `reponse`
 CREATE TABLE `theme` (
   `theme_id` int(11) NOT NULL,
   `theme_nom` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `theme`
@@ -424,7 +575,16 @@ INSERT INTO `theme` (`theme_id`, `theme_nom`) VALUES
 CREATE TABLE `utilisateur` (
   `utilisateur_id` int(11) NOT NULL,
   `utilisateur_pseudo` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `utilisateur`
+--
+
+INSERT INTO `utilisateur` (`utilisateur_id`, `utilisateur_pseudo`) VALUES
+(1, 'Edwin'),
+(2, 'Florent'),
+(3, 'Gauthier');
 
 --
 -- Index pour les tables déchargées
@@ -474,13 +634,13 @@ ALTER TABLE `partie`
 -- AUTO_INCREMENT pour la table `question`
 --
 ALTER TABLE `question`
-  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 --
 -- AUTO_INCREMENT pour la table `reponse`
 --
 ALTER TABLE `reponse`
-  MODIFY `reponse_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=241;
+  MODIFY `reponse_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=612;
 
 --
 -- AUTO_INCREMENT pour la table `theme`
@@ -492,23 +652,7 @@ ALTER TABLE `theme`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `utilisateur_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `question`
---
-ALTER TABLE `question`
-  ADD CONSTRAINT `fk_Question-Theme` FOREIGN KEY (`theme_id`) REFERENCES `theme` (`theme_id`);
-
---
--- Contraintes pour la table `reponse`
---
-ALTER TABLE `reponse`
-  ADD CONSTRAINT `fk_Reponse_Question` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`);
+  MODIFY `utilisateur_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,6 +1,3 @@
-/**
- *
- */
 package projetQuizz.vue;
 
 import java.awt.*;
@@ -18,10 +15,6 @@ import projetQuizz.modele.Theme;
 
 import javax.swing.*;
 
-/**
- * @author Flo
- *
- */
 public class GUI extends InterfaceDeJeu implements ActionListener {
     private JFrame gui = new JFrame("EpheQuizz");
     private Box affichage = Box.createVerticalBox();

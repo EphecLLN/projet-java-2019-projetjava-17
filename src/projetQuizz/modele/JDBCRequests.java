@@ -1,6 +1,3 @@
-/**
- *
- */
 package projetQuizz.modele;
 
 import java.sql.Connection;

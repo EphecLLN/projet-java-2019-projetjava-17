@@ -1,6 +1,3 @@
-/**
- *
- */
 package projetQuizz;
 
 import java.util.ArrayList;
@@ -15,8 +12,7 @@ import projetQuizz.vue.GUI;
 import projetQuizz.vue.InterfaceDeJeu;
 
 /**
- * @author Flo Il s'agit du controleur qui fait le lien entre l'interface de jeu
- *         et la logique de partie
+ *	Il s'agit du controleur qui fait le lien entre l'interface de jeu et la logique de partie
  */
 public class Quizz {
     enum TypeInterface {
@@ -24,9 +20,7 @@ public class Quizz {
     };
 
     /**
-     * Point d'entrée du programme, choix du type d'interface via les paramètre de
-     * la ligne de commande
-     *
+     * Point d'entrée du programme, choix du type d'interface via les paramètre de la ligne de commande.
      * @param args
      * @throws Exception
      */
@@ -39,7 +33,7 @@ public class Quizz {
             e.printStackTrace();
         }
 
-        TypeInterface typeInterface = TypeInterface.GUI;
+        TypeInterface typeInterface = TypeInterface.CONSOLE;
         new Quizz(typeInterface);
     }
 
@@ -49,7 +43,6 @@ public class Quizz {
 
     /**
      * Initialise l'état du jeu et de l'interface Lance le jeu
-     *
      * @param typeInterface
      * @throws Exception
      */
@@ -65,8 +58,7 @@ public class Quizz {
     }
 
     /**
-     * Passe d'un état du jeu à un autre fait appel à l'interface
-     *
+     * Passe d'un état du jeu à un autre fait appel à l'interface.
      * @throws Exception
      */
 
@@ -105,14 +97,16 @@ public class Quizz {
                     interfaceDeJeu.afficherScores(this.partie.getResultats());
                     break;
             }
-        } // Tant que l'utilisateur n'a pas encodé ce qu'il fallait répète l'action de
-        // l'état actuel.
+        } 
+        // Tant que l'utilisateur n'a pas encodé ce qu'il fallait répète l'action de l'état actuel.
         catch (QuizzException e) {
             interfaceDeJeu.afficherErreur(e);
             executeActionEtatActuel();
         }
     }
-
+    
+    // ---METHODES GERANT LE DEROULEMENT DE LA PARTIE EN FAISANT LE LIEN ENTRE LES METHODES DU MODELE ET LES METHODES DE LA VUE---
+    
     public void passerQuestionSuivante() throws Exception {
         partie.passerQuestionSuivante();
         executeActionEtatActuel();

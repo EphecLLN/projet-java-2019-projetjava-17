@@ -1,6 +1,3 @@
-/**
- *
- */
 package projetQuizz.modele;
 
 import java.sql.Connection;
@@ -10,10 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-/**
- * @author Flo
- *
- */
 public class Theme {
     private String nom;
     private int id;

@@ -1,6 +1,3 @@
-/**
- *
- */
 package projetQuizz.vue;
 
 import java.util.ArrayList;
@@ -17,10 +14,6 @@ import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Resultat;
 import projetQuizz.modele.Theme;
 
-/**
- * @author Flo
- *
- */
 public class Console extends InterfaceDeJeu {
 
     private Scanner in;

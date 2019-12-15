@@ -135,9 +135,8 @@ public class JDBCRequests {
             Statement statement = connection.createStatement();
             statement.executeUpdate(
                     "INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
-                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", ,"
+                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", "+ endedPartie.getDifficulte()+" ,"
                             + endedPartie.getTheme().getNom() + ", " + endedPartie.getResultat().getScore() + "");
-            // TODO Récupérer la difficulté de la partie
 
             connection.close();
             statement.close();
@@ -176,6 +175,8 @@ public class JDBCRequests {
             e.printStackTrace();
         }
     }
+
+
 
     /**
      * Vérifie si le pseudo de l'utilisateur existe dans la base de données
@@ -311,7 +312,7 @@ public class JDBCRequests {
         //System.out.println(getThemeFromDB());
         // getThemeFromDB();
         // getQuestionFromDB(2);
-        // insertPartieResult();
+        //insertPartieResult();
         // showTopTenTheme(1);
         // getQuestionFromDB(1);
         // System.out.println(userExist("Edwin"));
@@ -324,6 +325,7 @@ public class JDBCRequests {
         //System.out.println(verifierReponseCash("15"));
 
         //checkUserIdentity();
+
     }
 
 }

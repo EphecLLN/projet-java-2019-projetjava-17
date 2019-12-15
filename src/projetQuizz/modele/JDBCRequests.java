@@ -1,14 +1,15 @@
 package projetQuizz.modele;
 
+import projetQuizz.Quizz;
+import projetQuizz.vue.InterfaceDeJeu;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @author autome edwin
@@ -68,14 +69,14 @@ public class JDBCRequests {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM question WHERE theme_id =" + themeId);
 
             while (resultSet.next()) {
-               /* questions.add(new Question(resultSet.getInt("question_id"), resultSet.getString("question"),
-                        getReponsesFromDB(resultSet.getInt("question_id"))));*/
-
+                questions.add(new Question(resultSet.getInt("question_id"), resultSet.getString("question"),
+                        getReponsesFromDB(resultSet.getInt("question_id"))));
             }
 
             statement.close();
             resultSet.close();
 
+            Collections.shuffle(questions);
             return (questions);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,21 +96,18 @@ public class JDBCRequests {
      *
      * @author autome edwin
      */
-    private static Reponse[] getReponsesFromDB(int questionId) {
-        Reponse[] reponses = new Reponse[4];
+    private static ArrayList<Reponse> getReponsesFromDB(int questionId) {
+        ArrayList<Reponse> reponses = new ArrayList<Reponse>();
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM reponse WHERE question_id =" + questionId);
 
-            int i = 0;
-
             while (resultSet.next()) {
-                reponses[i] = new Reponse(resultSet.getInt("reponse_id"), resultSet.getString("reponse"),
-                        resultSet.getBoolean("estBonneReponse"));
-                i++;
+                reponses.add(new Reponse(resultSet.getInt("reponse_id"), resultSet.getString("reponse"),
+                        resultSet.getBoolean("estBonneReponse")));
             }
-
+            Collections.shuffle(reponses);
             return reponses;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -121,7 +119,7 @@ public class JDBCRequests {
      *
      * Envoi les résultats de la partie terminée dans la table 'partie' de la db
      *
-     * @param partie: l'objet partie contenant les info de la partie venant de se
+     * @param endedPartie: l'objet partie contenant les info de la partie venant de se
      *                terminer
      *
      * @author autome edwin
@@ -132,8 +130,9 @@ public class JDBCRequests {
             Statement statement = connection.createStatement();
             statement.executeUpdate(
                     "INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
-                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", "+ endedPartie.getDifficulte()+" ,"
+                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", ,"
                             + endedPartie.getTheme().getNom() + ", " + endedPartie.getResultat().getScore() + "");
+            // TODO Récupérer la difficulté de la partie
 
             connection.close();
             statement.close();
@@ -172,8 +171,6 @@ public class JDBCRequests {
             e.printStackTrace();
         }
     }
-
-
 
     /**
      * Vérifie si le pseudo de l'utilisateur existe dans la base de données
@@ -232,38 +229,17 @@ public class JDBCRequests {
         return null;
     }
 
-    public static void checkUserIdentity(){
-        System.out.println("Quelle est votre nom:");
-        Scanner sc = new Scanner(System.in);
-        String name = sc.nextLine();
-
-        if(userExist(name)){ //Vérifie si l'utilisateur existe dans la base de données
+    public static boolean checkUserIdentity(String name){
+        if(userExist(name)) { //Vérifie si l'utilisateur existe dans la base de données
             Utilisateur currentUser = getUserInfos(name);
-            System.out.println("Bienvenue " + currentUser.getNom() + "[id: " + currentUser.getId() + "]");
-
-        } else {
-            System.out.println("Nom d'utilisateur inconnu ! \nVoulez-vous créér un nouvel utilisateur ? O/N \nSi vous choisssez 'non'(N), le programme s'arretera");
-            String str = sc.nextLine();
-            char choix = str.charAt(0);
-
-            if(Character.toUpperCase(choix) == 'O'){ //Création du nouvel utilisateur
-                System.out.println("Quel est le nom du nouvel utilisateur ?");
-                String newUser = sc.nextLine();
-
-                while(userExist(newUser)){ // Vérifie si le nom du nouvel utilisateur n'est pas déjà pris
-                    System.out.println("Pseudo déjà utilisé ! Veuillez en choisir un autre !");
-                    newUser = sc.nextLine();
-                }
-
-                System.out.println("Nom valide ! Création d'un nouvel utilisateur !");
-                createNewUserInDB(newUser);
-                System.out.println("Nouvel utilisateur créé !\n");
-
-            } else {
-                System.exit(0);
-            }
+            return true;
         }
-        sc.close();
+        if (name != null && !name.isEmpty()) {
+            createNewUserInDB(name);
+            getUserInfos(name);
+            return true;
+        }
+        return false;
     }
 
     public static String simpleCase(String s) {
@@ -279,21 +255,16 @@ public class JDBCRequests {
         return newString;
     }
 
-    private static boolean verifierReponseCash(String reponseCash) {
-        Reponse[] reponses = {new Reponse(1,"15",true),new Reponse(2,"14"), new Reponse(3,"13")};
-        for (int i = 0; i < reponses.length; i++) {
-            if (Partie.isNum(reponseCash)) {
-                if (reponses[i].getEstBonneReponse() && reponses[i].getReponse().compareTo(reponseCash) == 0) {
-                    return true;
-                }
-                return false;
-            }
-            if (reponses[i].getEstBonneReponse() && simpleCase((reponses[i].getReponse()).toLowerCase()).contains(simpleCase(reponseCash).toLowerCase())) {
-                return true;
-            }
-            return false;
+    public static boolean isNum (String strNum) {
+        boolean ret = true;
+        try {
+
+            Double.parseDouble(strNum);
+
+        }catch (NumberFormatException e) {
+            ret = false;
         }
-        return false;
+        return ret;
     }
 
     /**
@@ -309,7 +280,7 @@ public class JDBCRequests {
         //System.out.println(getThemeFromDB());
         // getThemeFromDB();
         // getQuestionFromDB(2);
-        //insertPartieResult();
+        // insertPartieResult();
         // showTopTenTheme(1);
         // getQuestionFromDB(1);
         // System.out.println(userExist("Edwin"));
@@ -322,7 +293,6 @@ public class JDBCRequests {
         //System.out.println(verifierReponseCash("15"));
 
         //checkUserIdentity();
-
     }
 
 }

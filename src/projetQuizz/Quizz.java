@@ -7,6 +7,7 @@ import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
 import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Theme;
+import projetQuizz.modele.Utilisateur;
 import projetQuizz.vue.Console;
 import projetQuizz.vue.GUI;
 import projetQuizz.vue.InterfaceDeJeu;
@@ -127,8 +128,8 @@ public class Quizz {
         executeActionEtatActuel();
     }
 
-    public void recevoirNomUtilisateur(String nom) throws Exception {
-        this.partie.recevoirNomUtilisateur(nom);
+    public void recevoirNomUtilisateur(Utilisateur user) throws Exception {
+        this.partie.recevoirNomUtilisateur(user);
         executeActionEtatActuel();
     }
 
@@ -151,5 +152,4 @@ public class Quizz {
         this.partie.recevoirTheme(theme);
         executeActionEtatActuel();
     }
-
 }

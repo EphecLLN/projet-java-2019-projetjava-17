@@ -5,14 +5,10 @@ import java.util.Scanner;
 
 import projetQuizz.Quizz;
 import projetQuizz.QuizzException;
-import projetQuizz.modele.Partie;
+import projetQuizz.modele.*;
 import projetQuizz.modele.Partie.CarreCash;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
-import projetQuizz.modele.Question;
-import projetQuizz.modele.Reponse;
-import projetQuizz.modele.Resultat;
-import projetQuizz.modele.Theme;
 
 public class Console extends InterfaceDeJeu {
 
@@ -97,9 +93,12 @@ public class Console extends InterfaceDeJeu {
 
     @Override
     public void demanderNom() throws Exception {
+        String name = "";
         System.out.println("Quel est votre nom:");
-        getQuizz().recevoirNomUtilisateur(in.nextLine());
-
+        while (JDBCRequests.checkUserIdentity(name = in.nextLine())) {
+            System.out.println("Quel est votre nom:");
+        }
+        getQuizz().recevoirNomUtilisateur(JDBCRequests.getUserInfos(name));
     }
 
     /**

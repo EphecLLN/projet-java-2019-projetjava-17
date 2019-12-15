@@ -184,6 +184,7 @@ public class Partie {
         return theme;
     }
 
+<<<<<<< HEAD
     /**
      * Getter de difficulte.
      */
@@ -194,6 +195,8 @@ public class Partie {
    /**
     * Getter de utilisateur.
     */
+=======
+>>>>>>> 2433d94000fc9205c83299627e015bf7d9dea4bd
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
@@ -232,6 +235,7 @@ public class Partie {
         setDifficulte(difficulte);
         _passerQuestionSuivante(true);
     }
+<<<<<<< HEAD
     
     /**
      * Récupère le nom de l'utilisateur et passe à l'état suivant.
@@ -239,8 +243,12 @@ public class Partie {
      * @throws Exception
      */
     public void recevoirNomUtilisateur(String nom) throws Exception {
+=======
+
+    public void recevoirNomUtilisateur(Utilisateur user) throws Exception {
+>>>>>>> 2433d94000fc9205c83299627e015bf7d9dea4bd
         verifierEtat(Partie.Etat.DEMANDER_LE_NOM, "Aucun nom n'était attendu à ce moment.");
-        //setUtilisateur(Utilisateur.choisirOuCreer(nom));
+
         this.etat = Partie.Etat.DEMANDER_LE_THEME;
     }
 
@@ -316,34 +324,8 @@ public class Partie {
      * @param theme
      */
     public void setTheme(Theme theme) {
-        try {
-            this.theme = theme;
-            ArrayList<Question> questionsPossibles = new ArrayList<Question>();
-            Connection connection = DriverManager.getConnection(url, login, passwd);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM question WHERE theme_id =" + theme.getId());
-            ArrayList<Reponse> reponses;
-            while (resultSet.next()) {
-                Statement st2 = connection.createStatement();
-                ResultSet rs2 = st2.executeQuery("SELECT * FROM reponse WHERE question_id =" + resultSet.getInt("question_id") + " ORDER BY reponse_id");
-                reponses = new ArrayList<Reponse>();
-                while (rs2.next()) {
-                    if (rs2.getInt("estBonneReponse") == 1) {
-                        reponses.add(new Reponse(rs2.getInt("reponse_id"), rs2.getString("reponse"), true));
-                    } else {
-                        reponses.add(new Reponse(rs2.getInt("reponse_id"), rs2.getString("reponse")));
-                    }
-                }
-                Collections.shuffle(reponses);
-                this.questionsPossibles.add(new Question(resultSet.getInt("question_id"), resultSet.getString("question"), reponses));
-            }
-            Collections.shuffle(this.questionsPossibles);
-            statement.close();
-            resultSet.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.theme = theme;
+        this.questionsPossibles = JDBCRequests.getQuestionFromDB(theme.getId());
     }
     
     /**
@@ -415,17 +397,18 @@ public class Partie {
     private boolean verifierReponseCash(String reponseCash) {
         Reponse[] reponses = getReponsesPossiblesActuelles();
         for (int i = 0; i < reponses.length; i++) {
-            if (Partie.isNum(reponseCash)) {
+            if (JDBCRequests.isNum(reponseCash)) {
                 if (reponses[i].getEstBonneReponse() && reponses[i].getReponse().compareTo(reponseCash) == 0) {
                     return true;
                 }
             }
-            if (reponses[i].getEstBonneReponse() && simpleCase((reponses[i].getReponse()).toLowerCase()).contains(simpleCase(reponseCash).toLowerCase())) {
+            if (reponses[i].getEstBonneReponse() && JDBCRequests.simpleCase((reponses[i].getReponse()).toLowerCase()).contains(JDBCRequests.simpleCase(reponseCash).toLowerCase())) {
                 return true;
             }
         }
         return false;
     }
+<<<<<<< HEAD
     
     /**
      * Permet de mettre en string sans case et sans accent un string reçu.
@@ -461,4 +444,6 @@ public class Partie {
         }
         return ret;
     }
+=======
+>>>>>>> 2433d94000fc9205c83299627e015bf7d9dea4bd
 }

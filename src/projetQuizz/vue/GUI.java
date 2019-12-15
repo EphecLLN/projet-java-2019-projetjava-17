@@ -9,12 +9,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import projetQuizz.Quizz;
+import projetQuizz.modele.*;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
-import projetQuizz.modele.Question;
-import projetQuizz.modele.Reponse;
-import projetQuizz.modele.Resultat;
-import projetQuizz.modele.Theme;
 
 import javax.swing.*;
 
@@ -106,7 +103,7 @@ public class GUI extends InterfaceDeJeu implements ActionListener {
         ecrireReponse.add(envoyer);
 
         envoyer.addActionListener(this);
-        getQuizz().recevoirNomUtilisateur(this.info);
+        getQuizz().recevoirNomUtilisateur(JDBCRequests.getUserInfos(this.info));
     }
 
     @Override

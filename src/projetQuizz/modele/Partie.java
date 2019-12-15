@@ -148,10 +148,6 @@ public class Partie {
         return theme;
     }
 
-    public Difficulte getDifficulte(){
-        return this.difficulte;
-    }
-
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
@@ -177,9 +173,9 @@ public class Partie {
         _passerQuestionSuivante(true);
     }
 
-    public void recevoirNomUtilisateur(String nom) throws Exception {
+    public void recevoirNomUtilisateur(Utilisateur user) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_LE_NOM, "Aucun nom n'était attendu à ce moment.");
-        //setUtilisateur(Utilisateur.choisirOuCreer(nom));
+
         this.etat = Partie.Etat.DEMANDER_LE_THEME;
     }
 
@@ -227,34 +223,8 @@ public class Partie {
     }
 
     public void setTheme(Theme theme) {
-        try {
-            this.theme = theme;
-            ArrayList<Question> questionsPossibles = new ArrayList<Question>();
-            Connection connection = DriverManager.getConnection(url, login, passwd);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM question WHERE theme_id =" + theme.getId());
-            ArrayList<Reponse> reponses;
-            while (resultSet.next()) {
-                Statement st2 = connection.createStatement();
-                ResultSet rs2 = st2.executeQuery("SELECT * FROM reponse WHERE question_id =" + resultSet.getInt("question_id") + " ORDER BY reponse_id");
-                reponses = new ArrayList<Reponse>();
-                while (rs2.next()) {
-                    if (rs2.getInt("estBonneReponse") == 1) {
-                        reponses.add(new Reponse(rs2.getInt("reponse_id"), rs2.getString("reponse"), true));
-                    } else {
-                        reponses.add(new Reponse(rs2.getInt("reponse_id"), rs2.getString("reponse")));
-                    }
-                }
-                Collections.shuffle(reponses);
-                this.questionsPossibles.add(new Question(resultSet.getInt("question_id"), resultSet.getString("question"), reponses));
-            }
-            Collections.shuffle(this.questionsPossibles);
-            statement.close();
-            resultSet.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        this.theme = theme;
+        this.questionsPossibles = JDBCRequests.getQuestionFromDB(theme.getId());
     }
 
     public void setUtilisateur(Utilisateur utilisateur) {
@@ -301,40 +271,15 @@ public class Partie {
     private boolean verifierReponseCash(String reponseCash) {
         Reponse[] reponses = getReponsesPossiblesActuelles();
         for (int i = 0; i < reponses.length; i++) {
-            if (Partie.isNum(reponseCash)) {
+            if (JDBCRequests.isNum(reponseCash)) {
                 if (reponses[i].getEstBonneReponse() && reponses[i].getReponse().compareTo(reponseCash) == 0) {
                     return true;
                 }
             }
-            if (reponses[i].getEstBonneReponse() && simpleCase((reponses[i].getReponse()).toLowerCase()).contains(simpleCase(reponseCash).toLowerCase())) {
+            if (reponses[i].getEstBonneReponse() && JDBCRequests.simpleCase((reponses[i].getReponse()).toLowerCase()).contains(JDBCRequests.simpleCase(reponseCash).toLowerCase())) {
                 return true;
             }
         }
         return false;
-    }
-
-    public static String simpleCase (String s) {
-        String newString = "";
-        for (String str : s.split("")) {
-            String c = Case.get(str);
-            if (c != null) {
-                newString += c;
-            } else {
-                newString += str;
-            }
-        }
-        return newString;
-    }
-
-    public static boolean isNum (String strNum) {
-        boolean ret = true;
-        try {
-
-            Double.parseDouble(strNum);
-
-        }catch (NumberFormatException e) {
-            ret = false;
-        }
-        return ret;
     }
 }

@@ -24,13 +24,20 @@ public class Console extends InterfaceDeJeu {
         super(quizz);
         in = new Scanner(System.in);
     }
-
-
+    
+    /**
+     * Affichage de message d'erreur.
+     */
     @Override
     public void afficherErreur(Exception e) {
         System.out.println(e.getMessage());
     }
 
+    /**
+     * Affiche le résultat de la question après que l'utilisateur ait répondu.
+     * @param resultat : résultat de l'utilisateur.
+     * @throws Exception : Si erreur dans l'etat.
+     */
     @Override
     public void afficherResultat(Resultat resultat) throws Exception {
         if (resultat.getEstBonneReponse()) {
@@ -40,7 +47,11 @@ public class Console extends InterfaceDeJeu {
         }
         getQuizz().passerQuestionSuivante();
     }
-
+    
+	/**
+	 * Affiche le résultat final qu'à eu l'utilisateur à la fin du quizz.
+	 * @param resultats : résultat du total des questions durant la partie.
+	 */
     @Override
     public void afficherScores(Partie endedPartie) {
         Date today = Date.valueOf(LocalDate.now());
@@ -74,7 +85,12 @@ public class Console extends InterfaceDeJeu {
             e.printStackTrace();
         }
     }
-
+    
+   /**
+    * L'utilisateur choisit parmi un choix de thèmes prédéfinis.
+    * @param themesPossibles : choix des thème disponible pour l'utilisateur.
+    * @throws Exception : Si erreur dans l'etat.
+    */
     @Override
     public void choisirTheme(ArrayList<Theme> themesPossibles) throws Exception {
         System.out.println("Choisissez parmis ces thèmes:");
@@ -85,6 +101,11 @@ public class Console extends InterfaceDeJeu {
         getQuizz().recevoirTheme(themesPossibles.get(index -1));
     }
 
+    /**
+     * Affiche la question à l'utilisateur et lui demande s'il veut répondre en carré ou en cash.
+     * @param questionActuelle : la question posé à l'utilisateur.
+     * @throws Exception : Si erreur dans l'etat.
+     */
     @Override
     public void demanderCarreCash(Question questionActuelle) throws Exception {
         System.out.println(questionActuelle.getQuestion());
@@ -95,6 +116,11 @@ public class Console extends InterfaceDeJeu {
         getQuizz().recevoirCarreCash(carreCash == 1 ? CarreCash.CARRE : CarreCash.CASH);
     }
 
+    /**
+     * Demande à l'utilisateur de choisir parmi les difficultés proposées.
+     * @param difficultes : choix des difficultés disponibles.
+     * @throws Exception : Si erreur dans l'etat.
+     */
     @Override
     public void demanderDifficulte(Difficulte[] difficultes) throws Exception {
         System.out.println("Choisissez parmis ces difficultés:");
@@ -105,6 +131,11 @@ public class Console extends InterfaceDeJeu {
         getQuizz().recevoirDifficulte(difficultes[index - 1]);
     }
 
+    /**
+     * Demande la réponse à l'utilisateur parmi les deux qui lui seront proposées.
+     * @param reponsesPossiblesActuelles : les réponse carrés de la question posée.
+     * @throws Exception : Si erreur dans l'etat.
+     */
     @Override
     public void demanderMoiteMoite(Reponse[] reponsesPossiblesActuelles) throws Exception {
         System.out.println("Choisissez parmis ces possibilités:");
@@ -115,6 +146,10 @@ public class Console extends InterfaceDeJeu {
         getQuizz().recevoirReponseMoiteMoite(reponsesPossiblesActuelles[index - 1]);
     }
 
+    /**
+     *	Demande son nom à l'utilisateur. 
+     *	@throws Exception : Si erreur dans l'etat.
+     */
     @Override
     public void demanderNom() throws Exception {
         String content;
@@ -131,8 +166,10 @@ public class Console extends InterfaceDeJeu {
     }
 
     /**
-     * nextInt() plante en boucle si on lui donne un string, gestion d'erreur en
-     * utilisant nextLine().
+     * Redemande à l'utilisateur de rentrer un nombre lorsqu'un nombre était attendu.
+     * Vérifie que le nombre entré soit bien dans les choix.
+     * @throws QuizzException : gestion d'erreur si l'utilisateur n'encode pas un nombre.
+     * @return n : le nombre entrer par l'utilisateur.
      */
     private int demanderNombre(int min, int max) throws QuizzException {
         int n;
@@ -147,6 +184,12 @@ public class Console extends InterfaceDeJeu {
         return n;
     }
 
+    /**
+     * Demande à l'utilisateur s'il veut répondre à une des propositions carré ou s'il veut utiliser un joker.
+     * @param reponsePossibleActuelles : les réponses carrées qui lui sont proposées pour cette question.
+     * @param jokersPossibles : liste des jokers disponibles.
+     * @throws Exception : Si erreur dans l'etat.
+     */
     @Override
     public void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles)
             throws Exception {
@@ -168,6 +211,9 @@ public class Console extends InterfaceDeJeu {
 
     }
 
+    /**
+     * Demande à l'utilisateur d'inscrire en console sa réponse cash.
+     */
     @Override
     public void demanderReponseCash() throws Exception {
         System.out.println("Inscrivez votre réponse");

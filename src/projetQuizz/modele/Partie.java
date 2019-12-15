@@ -191,10 +191,9 @@ public class Partie {
         return this.difficulte;
     }
 
-   /**
+    /**
     * Getter de utilisateur.
     */
-
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }

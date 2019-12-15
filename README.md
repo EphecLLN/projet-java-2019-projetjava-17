@@ -23,9 +23,10 @@ Le projet devra respecter les contraintes suivantes :
 
 ## Description des besoins
 
-old: Le projet consiste dans le fait de développer un jeu de type quizz.
-
-new: User stories ???
+En tant qu'utilisateur, je voudrais pouvoir me créér un nouveau profil.
+En tant qu'utilisateur, je voudrais pouvoir avoir des quizz toujours différents, peu importe le theme choisis en début de partie.
+En tant qu'utilisateur, je voudrais voir les meilleurs scores pour le thème que j'ai choisis.
+En tant qu'utilisateur, je voudrais avoir un certain challenge à participer à ce quizz ou pouvoir avoir accède à une certaines aides (jokers) si je le souhaite.
 
 ### Démarrage du quizz :
 

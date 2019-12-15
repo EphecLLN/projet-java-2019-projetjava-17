@@ -130,9 +130,8 @@ public class JDBCRequests {
             Statement statement = connection.createStatement();
             statement.executeUpdate(
                     "INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
-                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", ,"
+                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", " + endedPartie.getDifficulte() + " ,"
                             + endedPartie.getTheme().getNom() + ", " + endedPartie.getResultat().getScore() + "");
-            // TODO Récupérer la difficulté de la partie
 
             connection.close();
             statement.close();
@@ -140,6 +139,44 @@ public class JDBCRequests {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getThemeNameById(int id) {
+        try {
+            Connection connection = DriverManager.getConnection(url, login, passwd);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT theme_nom FROM theme WHERE theme_id =" + id);
+
+            while(resultSet.next()){
+                return resultSet.getString("theme_nom");
+            }
+
+            connection.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String getUserNameById(int id){
+        try {
+            Connection connection = DriverManager.getConnection(url, login, passwd);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT utilisateur_pseudo FROM utilisateur WHERE utilisateur_id =" + id);
+
+            while(resultSet.next()){
+                return resultSet.getString("utilisateur_pseudo");
+            }
+
+            connection.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -151,17 +188,19 @@ public class JDBCRequests {
      * @author autome edwin
      */
     public static void showTopTenTheme(int themeId) {
+
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT * FROM `partie` WHERE theme_id = " + themeId + " ORDER BY partie_score DESC LIMIT 10");
+                    "SELECT ROW_NUMBER() OVER (ORDER BY partie_score DESC), utilisateur_id, dateEtHeure, partie_score "
+                            + "FROM `partie` WHERE theme_id = " + themeId + " ORDER BY partie_score DESC LIMIT 10");
 
+            System.out.println("Top 10 du thème " + getThemeNameById(themeId) + "\n");
+            System.out.println("\tTOP\t|\tUser\t\t|\tDate\t\t|\tScore\t|");
             while (resultSet.next()) {
-                System.out.print("partieId: " + resultSet.getInt("partie_id") + "; userId: "
-                        + resultSet.getInt("utilisateur_id") + "; dateheure: " + resultSet.getDate("DateEtHeure")
-                        + "; difficulte: " + resultSet.getString("partie_difficulte") + "; themeId: "
-                        + resultSet.getInt("theme_id") + "; score: " + resultSet.getByte("partie_score") + "\n");
+                System.out.print("\t"+resultSet.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")+
+                "\t|\t"+getUserNameById(resultSet.getInt("utilisateur_id"))+"\t|\t"+resultSet.getDate("dateEtHeure")+"\t|\t"+resultSet.getInt("partie_score")+"\t|\n");
             }
 
             connection.close();
@@ -281,7 +320,7 @@ public class JDBCRequests {
         // getThemeFromDB();
         // getQuestionFromDB(2);
         // insertPartieResult();
-        // showTopTenTheme(1);
+        //showTopTenTheme(1);
         // getQuestionFromDB(1);
         // System.out.println(userExist("Edwin"));
         //createNewUserInDB("Jojo");

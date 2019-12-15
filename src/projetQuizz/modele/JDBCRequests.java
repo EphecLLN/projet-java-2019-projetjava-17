@@ -8,9 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.Collator;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -176,8 +174,6 @@ public class JDBCRequests {
         }
     }
 
-
-
     /**
      * Vérifie si le pseudo de l'utilisateur existe dans la base de données
      *
@@ -204,6 +200,7 @@ public class JDBCRequests {
 
     /**
      * Créée un nouvel utilisateur dans la base de données
+     * 
      * @param newUsername: pseudo de l'utilisateur nouvellement créée
      */
     public static void createNewUserInDB(String newUsername) {
@@ -220,6 +217,13 @@ public class JDBCRequests {
         }
     }
 
+    /**
+     * Récupère en DB les infos de l'utilisateur dont le nom est passer en paramètre et en fait un objet Utilisateur
+     * 
+     * @param username: pseudo de l'utilisateur pour lequelle nous avons besoins des informations
+     * 
+     * @return Utilisateur: utilisateur dont le nom correponds au paramètre 
+     */
     public static Utilisateur getUserInfos(String username){
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
@@ -235,6 +239,9 @@ public class JDBCRequests {
         return null;
     }
 
+    /**
+     * Vérifie si le nom encodé par l'utilisateur existe ou s'il faut créer un nouvel utilisateur
+     */
     public static void checkUserIdentity(){
         System.out.println("Quelle est votre nom:");
         Scanner sc = new Scanner(System.in);
@@ -309,23 +316,7 @@ public class JDBCRequests {
             e.printStackTrace();
         }
 
-        //System.out.println(getThemeFromDB());
-        // getThemeFromDB();
-        // getQuestionFromDB(2);
-        //insertPartieResult();
-        // showTopTenTheme(1);
-        // getQuestionFromDB(1);
-        // System.out.println(userExist("Edwin"));
-        //createNewUserInDB("Jojo");
-        /*Collator usCollator = Collator.getInstance(Locale.US);
-        usCollator.setStrength(Collator.PRIMARY);
-        if( usCollator.compare("âbc", "ABC") == 0 ) {
-            System.out.println("Strings are equivalent");
-        }*/
-        //System.out.println(verifierReponseCash("15"));
-
-        //checkUserIdentity();
-
+        
     }
 
 }

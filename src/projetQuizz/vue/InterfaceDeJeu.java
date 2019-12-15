@@ -16,6 +16,7 @@ public abstract class InterfaceDeJeu {
         this.quizz = quizz;
     }
 
+    //---DECLARATION DES METHODES INTERFACES QUI SERONT IMPLEMENTE DANS LES CLASSES ENFANT CONSOLE ET GUI---
     public abstract void afficherErreur(Exception e);
 
     public abstract void afficherResultat(Resultat resultat) throws Exception;

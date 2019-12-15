@@ -22,9 +22,9 @@ public class Quizz {
     };
 
     /**
-     * Point d'entrée du programme, choix du type d'interface via les paramètre de la ligne de commande.
-     * @param args
-     * @throws Exception
+     * Point d'entrée du programme, choix du type d'interface via les paramètres de la ligne de commande.
+     * @param args va définir le type d'interface.
+     * @throws Exception Si erreur dans l'etat.
      */
     public static void main(String[] args) throws Exception {
         try { // Chargement du driver JDBC pour utilisation de la db
@@ -43,8 +43,8 @@ public class Quizz {
 
     /**
      * Initialise l'état du jeu et de l'interface Lance le jeu
-     * @param typeInterface
-     * @throws Exception
+     * @param typeInterface type d'interface choisie
+     * @throws Exception Si erreur dans l'etat.
      */
 
     Quizz(TypeInterface typeInterface) throws Exception {
@@ -59,7 +59,7 @@ public class Quizz {
 
     /**
      * Passe d'un état du jeu à un autre fait appel à l'interface.
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
 
     public void executeActionEtatActuel() throws Exception {

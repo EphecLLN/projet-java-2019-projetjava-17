@@ -58,7 +58,7 @@ public class Partie {
     /**
      * Getter de nomDifficulte
      * @param difficulte
-     * @return
+     * @return : String de la difficulté choisie
      */
     public static String getNomDifficulte(Difficulte difficulte) {
         switch (difficulte) {
@@ -77,7 +77,7 @@ public class Partie {
     /**
      * Getter de jokers.
      * @param joker.
-     * @return
+     * @return : String du joker choisi
      */
     public static String getNomJokers(Joker joker) {
         switch (joker) {
@@ -200,7 +200,7 @@ public class Partie {
     
     /**
      * Permet de passer à la question suivante.
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
     public void passerQuestionSuivante() throws Exception {
         verifierEtat(Partie.Etat.AFFICHER_RESULTAT_QUESTION,
@@ -211,7 +211,7 @@ public class Partie {
 	/**
 	 * Passe à l'état suivant en fonction du choix de l'utilisateur.
 	 * @param carreCash : choix de l'utilisateur entre carré et cash.
-	 * @throws Exception
+	 * @throws Exception Si erreur dans l'etat.
 	 */
     public void recevoirCarreCash(Partie.CarreCash carreCash) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_CARRE_CASH, "Aucun carre ou cash n'était attendu à ce moment.");
@@ -225,7 +225,7 @@ public class Partie {
     /**
      * Récupère le choix de difficulté et lance la première question.
      * @param difficulte choix de difficulté choisie par l'utilisateur
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
     public void recevoirDifficulte(Difficulte difficulte) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_LA_DIFFCULTE, "Aucune difficulté n'était attendue à ce moment.");
@@ -235,8 +235,8 @@ public class Partie {
     
     /**
      * Récupère le nom de l'utilisateur et passe à l'état suivant.
-     * @param nom
-     * @throws Exception
+     * @param user le nom de l'utilisateur reçu
+     * @throws Exception Si erreur dans l'etat.
      */
     public void recevoirNomUtilisateur(Utilisateur user) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_LE_NOM, "Aucun nom n'était attendu à ce moment.");
@@ -247,7 +247,7 @@ public class Partie {
     /**
      * Récupère la réponse carré que l'utilisateur à encoder, vérifie si elle est bonne, le cas échéant ajoute 1 point au résultat.
      * @param reponse : la réponse encodée par l'utilisateur.
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
     public void recevoirReponseCarre(Reponse reponse) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_REPONSE_CARRE_OU_JOKER, "Aucune réponse carré n'était attendue à ce moment.");
@@ -259,7 +259,7 @@ public class Partie {
     /**
      * Récupère la réponse cash que l'utilisateur à encoder, vérifie si elle est bonne, le cas échéant ajoute 3 points au résultat.
      * @param reponseCash : la réponse encodée par l'utilisateur.
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
     public void recevoirReponseCash(String reponseCash) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_REPONSE_CASH, "Aucune reponse cash n'était attendue à ce moment.");
@@ -271,7 +271,7 @@ public class Partie {
     /**
      * Récupère la réponse quand l'utilisateur utilise le joker Moite/Moite, vérifie si elle est bonne, le cas échéant ajoute 1 points au résultat.
      * @param reponse : la réponse encodée par l'utilisateur
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
     public void recevoirReponseMoiteMoite(Reponse reponse) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_REPONSE_MOITE_MOITE,
@@ -285,7 +285,7 @@ public class Partie {
     /**
      * Définit le thème en fonction du choix de l'utilisateur, passe ensuite à l'état suivant.
      * @param theme : thème choisi par l'utilisateur.
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
     public void recevoirTheme(Theme theme) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_LE_THEME, "Aucun thème n'était attendu à ce moment.");
@@ -295,7 +295,6 @@ public class Partie {
     
     /**
      * Setter de difficulte.
-     * @param difficulte
      */
     public void setDifficulte(Difficulte difficulte) {
         this.difficulte = difficulte;
@@ -313,7 +312,6 @@ public class Partie {
     
     /**
      * Setter de theme.
-     * @param theme
      */
     public void setTheme(Theme theme) {
         this.theme = theme;
@@ -322,7 +320,6 @@ public class Partie {
     
     /**
      * Setter d'utilisateur.
-     * @param utilisateur
      */
     public void setUtilisateur(Utilisateur utilisateur) {
         this.utilisateur = utilisateur;
@@ -331,7 +328,7 @@ public class Partie {
     /**
      * action effectuée par le programme en fonction du joker choisi par l'utilisateur.
      * @param joker : joker demandé par l'utilisateur
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
     public void utiliserJoker(Joker joker) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_REPONSE_CARRE_OU_JOKER, "Aucun joker n'était attendu à ce moment.");
@@ -364,7 +361,7 @@ public class Partie {
      * Vérification qu'on est bien dans l'état attendu.
      * @param etat : etat actuel.
      * @param messageErreur : message d'erreur.
-     * @throws Exception
+     * @throws Exception Si erreur dans l'etat.
      */
     private void verifierEtat(Partie.Etat etat, String messageErreur) throws Exception {
         if (this.etat != etat) {

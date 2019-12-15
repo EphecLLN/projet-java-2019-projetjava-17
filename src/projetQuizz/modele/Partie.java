@@ -148,6 +148,10 @@ public class Partie {
         return theme;
     }
 
+    public Difficulte getDifficulte(){
+        return this.difficulte;
+    }
+
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }

@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Scanner;
 
 /**
  * @author autome edwin
@@ -200,6 +201,10 @@ public class JDBCRequests {
         return false;
     }
 
+    /**
+     * Créée un nouvel utilisateur dans la base de données
+     * @param newUsername: pseudo de l'utilisateur nouvellement créée
+     */
     public static void createNewUserInDB(String newUsername) {
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
@@ -212,6 +217,55 @@ public class JDBCRequests {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Utilisateur getUserInfos(String username){
+        try {
+            Connection connection = DriverManager.getConnection(url, login, passwd);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM utilisateur WHERE utilisateur_pseudo ='" + username + "'");
+
+            while(resultSet.next()){
+                return new Utilisateur(resultSet.getString("utilisateur_pseudo"), resultSet.getInt("utilisateur_id"));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void checkUserIdentity(){
+        System.out.println("Quelle est votre nom:");
+        Scanner sc = new Scanner(System.in);
+        String name = sc.nextLine();
+
+        if(userExist(name)){ //Vérifie si l'utilisateur existe dans la base de données
+            Utilisateur currentUser = getUserInfos(name);
+            System.out.println("Bienvenue " + currentUser.getNom() + "[id: " + currentUser.getId() + "]");
+
+        } else {
+            System.out.println("Nom d'utilisateur inconnu ! \nVoulez-vous créér un nouvel utilisateur ? O/N \nSi vous choisssez 'non'(N), le programme s'arretera");
+            String str = sc.nextLine();
+            char choix = str.charAt(0);
+
+            if(Character.toUpperCase(choix) == 'O'){ //Création du nouvel utilisateur
+                System.out.println("Quel est le nom du nouvel utilisateur ?");
+                String newUser = sc.nextLine();
+
+                while(userExist(newUser)){ // Vérifie si le nom du nouvel utilisateur n'est pas déjà pris
+                    System.out.println("Pseudo déjà utilisé ! Veuillez en choisir un autre !");
+                    newUser = sc.nextLine();
+                }
+
+                System.out.println("Nom valide ! Création d'un nouvel utilisateur !");
+                createNewUserInDB(newUser);
+                System.out.println("Nouvel utilisateur créé !\n");
+
+            } else {
+                System.exit(0);
+            }
+        }
+        sc.close();
     }
 
     public static String simpleCase(String s) {
@@ -254,7 +308,7 @@ public class JDBCRequests {
             e.printStackTrace();
         }
 
-        System.out.println(getThemeFromDB());
+        //System.out.println(getThemeFromDB());
         // getThemeFromDB();
         // getQuestionFromDB(2);
         // insertPartieResult();
@@ -267,7 +321,9 @@ public class JDBCRequests {
         if( usCollator.compare("âbc", "ABC") == 0 ) {
             System.out.println("Strings are equivalent");
         }*/
-        System.out.println(verifierReponseCash("15"));
+        //System.out.println(verifierReponseCash("15"));
+
+        //checkUserIdentity();
     }
 
 }

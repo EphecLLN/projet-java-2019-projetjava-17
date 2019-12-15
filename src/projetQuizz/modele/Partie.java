@@ -184,7 +184,6 @@ public class Partie {
         return theme;
     }
 
-<<<<<<< HEAD
     /**
      * Getter de difficulte.
      */
@@ -195,8 +194,7 @@ public class Partie {
    /**
     * Getter de utilisateur.
     */
-=======
->>>>>>> 2433d94000fc9205c83299627e015bf7d9dea4bd
+
     public Utilisateur getUtilisateur() {
         return utilisateur;
     }
@@ -235,18 +233,13 @@ public class Partie {
         setDifficulte(difficulte);
         _passerQuestionSuivante(true);
     }
-<<<<<<< HEAD
     
     /**
      * Récupère le nom de l'utilisateur et passe à l'état suivant.
      * @param nom
      * @throws Exception
      */
-    public void recevoirNomUtilisateur(String nom) throws Exception {
-=======
-
     public void recevoirNomUtilisateur(Utilisateur user) throws Exception {
->>>>>>> 2433d94000fc9205c83299627e015bf7d9dea4bd
         verifierEtat(Partie.Etat.DEMANDER_LE_NOM, "Aucun nom n'était attendu à ce moment.");
 
         this.etat = Partie.Etat.DEMANDER_LE_THEME;
@@ -408,7 +401,6 @@ public class Partie {
         }
         return false;
     }
-<<<<<<< HEAD
     
     /**
      * Permet de mettre en string sans case et sans accent un string reçu.
@@ -444,6 +436,4 @@ public class Partie {
         }
         return ret;
     }
-=======
->>>>>>> 2433d94000fc9205c83299627e015bf7d9dea4bd
 }

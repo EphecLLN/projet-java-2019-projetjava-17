@@ -6,26 +6,14 @@
 
 ## Description contexte
 
-old: Dans le cadre du cours pratique de développement informatique orienté-objet, il est demandé aux étudiants de créer un projet informatique basé sur le langage JAVA.
-
-new: Ce quizz s'addresse à tous le monde, aussi bien à celui ou celle qui souhaite se divertir ou encore, élargir/tester ses connaissances sur les sujets que propose le quizz. C'est sujet sont la géographie, l'espace, l'histoire, les langues, la musique et les jeux.
+Ce quizz s'addresse à tous le monde, aussi bien à celui ou celle qui souhaite se divertir ou encore, élargir/tester ses connaissances sur les sujets que propose le quizz. C'est sujet sont la géographie, l'espace, l'histoire, les langues, la musique et les jeux.
 
 ## Objectif
 
-old: Ce projet aura pour objectif de proposer une application fonctionnelle et bien documentée, créée par un travail collaboratif notamment grâce à l'utilisation de la plateforme GitHub. 
-
-new :Ce quizz a pour objectif de permettre à ses utilisateurs d'apprendre en s'amusant ou de simplement se divertir le temps d'un quizz sur l'un des thèmes proposé par celui-ci.
+Ce quizz a pour objectif de permettre à ses utilisateurs d'apprendre en s'amusant ou de simplement se divertir le temps d'un quizz sur l'un des thèmes proposé par celui-ci.
 
 ## Contraintes techniques
 
-old:
-Le projet devra respecter les contraintes suivantes :
-* Respect d'une architecture MVC, permettant l'utilisation de deux interfaces utilisateurs (une interface console et une interface graphique).
-* Présence d'une base de données, d'un service web ou d'une fonction multijoueur.
-* Utilisation d'une structure de données du Framework Java Collection.
-* Implémentation de l'application via les outils de collaboration offerts par GitHub.
-
-new:
 Le projet devra respecter les contraintes suivantes :
 * Respect d'une architecture MVC, permettant l'utilisation de deux interfaces utilisateurs (une interface console et une interface graphique).
 * Utilisation d'une structure de données du Framework Java Collection.
@@ -58,7 +46,7 @@ Une mauvaise réponse ne rapporte pas de points.
 
 Plusieurs informations seront affichées en fin de partie :
 * Un classement des 10 meilleurs personnes dans le thème courant.
-* La place que le joueur a pris dans le classement global du thème courant. //Heu on implémente ou pas ?
+* La place que le joueur a pris dans le classement global du thème courant. 
 * Le nombre de questions réussies/ratées.
 Les deux premiers points expliqués ci-dessus seront fournis et mis à jour via une base de données.
 

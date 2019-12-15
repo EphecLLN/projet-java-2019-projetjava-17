@@ -11,6 +11,7 @@ import projetQuizz.modele.Partie.Joker;
 import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Theme;
 import projetQuizz.vue.Console;
+import projetQuizz.vue.GUI;
 import projetQuizz.vue.InterfaceDeJeu;
 
 /**
@@ -38,7 +39,7 @@ public class Quizz {
             e.printStackTrace();
         }
 
-        TypeInterface typeInterface = TypeInterface.CONSOLE;
+        TypeInterface typeInterface = TypeInterface.GUI;
         new Quizz(typeInterface);
     }
 
@@ -57,7 +58,7 @@ public class Quizz {
         if (typeInterface == TypeInterface.CONSOLE) {
             interfaceDeJeu = new Console(this);
         } else {
-            // interfaceDeJeu = new GUI(this);
+            interfaceDeJeu = new GUI(this);
         }
         this.partie = new Partie();
         executeActionEtatActuel();

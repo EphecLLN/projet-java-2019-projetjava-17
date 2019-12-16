@@ -423,6 +423,10 @@ public class Partie {
         return ret;
     }
 
+    /**
+     * Calcule le score de la partie sur base du tableau des résultat
+     * @return le score de la partie
+     */
     public int[] calculScore() {
         Resultat[] resultats = this.getResultats();
         int[] score = {0,0,0};

@@ -118,7 +118,7 @@ public class JDBCRequests {
      *
      * Envoi les résultats de la partie terminée dans la table 'partie' de la db
      *
-     * @param endedPartie: l'objet partie contenant les info de la partie venant de se
+     * @param endedPartie : l'objet partie contenant les info de la partie venant de se
      *                terminer
      *
      * @author autome edwin
@@ -145,6 +145,10 @@ public class JDBCRequests {
         }
     }
 
+    /**
+     * Récupère le nom d'un thème sur base de son id
+     * @param id : id du thème dont on souhaite récupérer le nom
+     */
     public static String getThemeNameById(int id) {
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
@@ -164,6 +168,11 @@ public class JDBCRequests {
         return null;
     }
 
+    /**
+     * Récupère le nom d'un utilisateur sur base de son id
+     * @param id : id de l'utilisateur dont on veut récupérer le nom
+     * @return
+     */
     public static String getUserNameById(int id){
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
@@ -188,6 +197,7 @@ public class JDBCRequests {
      * terminer
      *
      * @param themeId : id du theme de la partie terminée
+     * @param difficulte : nom de la difficulté de la partie venant de se finir
      *
      * @author autome edwin
      */
@@ -207,6 +217,12 @@ public class JDBCRequests {
         return null;
     }
 
+    /**
+     * Détermine la place de la partie finie dans tout le palmarès du thème de la partie qui vient de se terminer
+     * @param score : score final de la partie venant de se terminer
+     * @param themeId : id du thème de la partie venant de se terminer
+     * @return
+     */
     public static ResultSet showCurrentRankTheme(int score, int themeId){
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
@@ -222,7 +238,7 @@ public class JDBCRequests {
     /**
      * Vérifie si le pseudo de l'utilisateur existe dans la base de données
      *
-     * @param username: pseudo de l'utilisateur courant
+     * @param username : pseudo de l'utilisateur courant
      *
      * @return true si le pseudo existe dans la base de données sinon false
      *
@@ -245,7 +261,7 @@ public class JDBCRequests {
 
     /**
      * Créée un nouvel utilisateur dans la base de données
-     * @param newUsername: pseudo de l'utilisateur nouvellement créée
+     * @param newUsername : pseudo de l'utilisateur nouvellement créée
      */
     public static void createNewUserInDB(String newUsername) {
         try {
@@ -261,6 +277,11 @@ public class JDBCRequests {
         }
     }
 
+    /**
+     * Récupère le nom et l'id de l'utilisateur courant
+     * @param username : nom de l'utilisateur courant
+     * @return Objet Utilisateur
+     */
     public static Utilisateur getUserInfos(String username){
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
@@ -276,6 +297,11 @@ public class JDBCRequests {
         return null;
     }
 
+    /**
+     * Vérifie si l'utilisateur dont le nom vient d'être rentré
+     * @param name : nom de l'utilisateur à vérifier l'identité
+     * @return true si l'utilisateur existe ou false
+     */
     public static boolean checkUserIdentity(String name){
         if(userExist(name)) { //Vérifie si l'utilisateur existe dans la base de données
             Utilisateur currentUser = getUserInfos(name);
@@ -289,6 +315,11 @@ public class JDBCRequests {
         return false;
     }
 
+    /**
+     * Retire tous les accent du string passer en paramètre
+     * @param s : string à modifier
+     * @return 
+     */
     public static String simpleCase(String s) {
         String newString = "";
         for (String str : s.split("")) {
@@ -302,6 +333,11 @@ public class JDBCRequests {
         return newString;
     }
 
+    /**
+     * Détermine si la string en paramètre est en fait un nombre
+     * @param strNum : string à analyser
+     * @return true si la string est un nombre, false en cas d'erreur
+     */
     public static boolean isNum (String strNum) {
         boolean ret = true;
         try {

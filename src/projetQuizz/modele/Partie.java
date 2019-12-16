@@ -1,9 +1,19 @@
 package projetQuizz.modele;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import projetQuizz.QuizzException;
+
 
 /**
  *	Contient la logique de programmation du quiz.
@@ -222,12 +232,15 @@ public class Partie {
 
 	/**
 	 * Récupère le nom de l'utilisateur et passe à l'état suivant.
-	 * @param user le nom de l'utilisateur reçu
-	 * @throws Exception Si erreur dans l'etat.
+	 * @param nom le nom de l'utilisateur reçu
+	 * @throws Exception Si erreur dans l'etat ou nom vide.
 	 */
-	public void recevoirNomUtilisateur(Utilisateur user) throws Exception {
+	public void recevoirNomUtilisateur(String nom) throws Exception {
 		verifierEtat(Partie.Etat.DEMANDER_LE_NOM, "Aucun nom n'était attendu à ce moment.");
-		this.utilisateur = user;
+		if (nom.isEmpty()) {
+			throw new QuizzException("Un nom doit être donné.");
+		}
+		this.utilisateur = JDBCRequests.checkUserIdentity(nom);
 		this.etat = Partie.Etat.DEMANDER_LE_THEME;
 	}
 
@@ -237,7 +250,11 @@ public class Partie {
 	 * @throws Exception Si erreur dans l'etat.
 	 */
 	public void recevoirReponseCarre(Reponse reponse) throws Exception {
-		verifierEtat(Partie.Etat.DEMANDER_REPONSE_CARRE_OU_JOKER, "Aucune réponse carré n'était attendue à ce moment.");
+		try {
+			verifierEtat(Partie.Etat.DEMANDER_REPONSE_CARRE_OU_JOKER, "Aucune réponse carré n'était attendue à ce moment.");
+		} catch (Exception e) {
+			verifierEtat(Partie.Etat.DEMANDER_REPONSE_MOITE_MOITE, "Aucun réponse Moite/Moite n'était attendue à ce moment.");
+		}
 		boolean bonneReponse = verifierReponseCarre(reponse);
 		int pointsGagnes = bonneReponse ? 1 : 0;
 		ajouterResultat(pointsGagnes, bonneReponse);
@@ -253,20 +270,6 @@ public class Partie {
 		boolean bonneReponse = verifierReponseCash(reponseCash);
 		int pointsGagnes = bonneReponse ? 3 : 0;
 		ajouterResultat(pointsGagnes, bonneReponse);
-	}
-
-	/**
-	 * Récupère la réponse quand l'utilisateur utilise le joker Moite/Moite, vérifie si elle est bonne, le cas échéant ajoute 1 points au résultat.
-	 * @param reponse : la réponse encodée par l'utilisateur
-	 * @throws Exception Si erreur dans l'etat.
-	 */
-	public void recevoirReponseMoiteMoite(Reponse reponse) throws Exception {
-		verifierEtat(Partie.Etat.DEMANDER_REPONSE_MOITE_MOITE,
-				"Aucun réponse Moite/Moite n'était attendue à ce moment.");
-		boolean bonneReponse = verifierReponseCarre(reponse);
-		int pointsGagnes = bonneReponse ? 1 : 0;
-		ajouterResultat(pointsGagnes, bonneReponse);
-
 	}
 
 	/**
@@ -310,6 +313,42 @@ public class Partie {
 	 */
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
+	}
+
+	public String getTexteDeFin() {
+		String texte = "";
+
+		Date today = Date.valueOf(LocalDate.now());
+		int[] resultat = calculScore();
+		texte += "Votre score final est de " + resultat[2] + " point(s) avec " + resultat[0]
+				+ " bonne(s) réponse(s) et " + resultat[1] + " mauvaise(s) réponse(s).\n";
+
+		try {
+			ResultSet rank = JDBCRequests.showCurrentRankTheme(resultat[0], getTheme().getId());
+			ResultSet top = JDBCRequests.showTopTenTheme(getTheme().getId(), Partie.getNomDifficulte(getDifficulte()));
+
+			texte += "Top 10 du thème " + JDBCRequests.getThemeNameById(getTheme().getId()) + " en difficulte " + getDifficulte() + "\n\n";
+			texte += "\tTOP\t|\tUser\t\t|\tDate\t\t|\tScore\t\n";
+			while (top.next()) {
+				texte += "\t"+top.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")+
+						"\t|\t"+JDBCRequests.getUserNameById(top.getInt("utilisateur_id"))+"\t|\t"+top.getDate("dateEtHeure")+"\t|\t"+top.getInt("partie_score")+"\n\n";
+			};
+			while(rank.next()) {
+				if (rank.getInt("partie_score") == resultat[2] && rank.getDate("dateEtHeure").before(today)) {
+					texte += "Votre partie a atteint le rang "
+							+ rank.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")
+							+ " avec un score de " + rank.getInt("partie_score") + " points\n";
+					break;
+				}
+			}
+			Connection connection = DriverManager.getConnection(Partie.url, Partie.login, Partie.passwd);
+			Statement statement = connection.createStatement();
+			connection.close();
+			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return texte;
 	}
 
 	/**

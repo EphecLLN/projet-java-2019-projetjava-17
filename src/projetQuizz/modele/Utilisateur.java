@@ -22,7 +22,7 @@ public class Utilisateur {
      * Getter de nom.
      */
     public String getNom() {
-        return nom;
+        return this.nom;
     }
 
     /**
@@ -36,7 +36,7 @@ public class Utilisateur {
      * Getter de id. 
      */
     public int getId() {
-        return id;
+        return this.id;
     }
 
     /**

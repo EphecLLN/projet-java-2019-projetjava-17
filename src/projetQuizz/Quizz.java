@@ -2,6 +2,7 @@ package projetQuizz;
 
 import java.util.ArrayList;
 
+import projetQuizz.modele.JDBCRequests;
 import projetQuizz.modele.Partie;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
@@ -95,7 +96,8 @@ public class Quizz {
                     interfaceDeJeu.afficherResultat(this.partie.getResultat());
                     break;
                 case JEU_FINI:
-                    interfaceDeJeu.afficherScores(this.partie.getResultats());
+                    JDBCRequests.insertPartieResult(this.partie);
+                    interfaceDeJeu.afficherScores(this.partie);
                     break;
             }
         } 

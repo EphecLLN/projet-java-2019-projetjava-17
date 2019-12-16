@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.Collator;
 import java.util.*;
 
 /**
@@ -128,18 +127,60 @@ public class JDBCRequests {
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
+            System.out.println(endedPartie.getUtilisateur().getId());
+            System.out.println(endedPartie.getDifficulte());
+            System.out.println(endedPartie.getTheme().getNom());
+            System.out.println(endedPartie.calculScore()[2]);
             statement.executeUpdate(
                     "INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
-                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", ,"
-                            + endedPartie.getTheme().getNom() + ", " + endedPartie.getResultat().getScore() + "");
-            // TODO Récupérer la difficulté de la partie
+                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", '" + endedPartie.getNomDifficulte(endedPartie.getDifficulte()) + "', "
+                            + endedPartie.getTheme().getId() + ", " + endedPartie.calculScore()[2] + ")");
 
             connection.close();
             statement.close();
 
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getThemeNameById(int id) {
+        try {
+            Connection connection = DriverManager.getConnection(url, login, passwd);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT theme_nom FROM theme WHERE theme_id =" + id);
+
+            while(resultSet.next()){
+                return resultSet.getString("theme_nom");
+            }
+
+            connection.close();
+            statement.close();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public static String getUserNameById(int id){
+        try {
+            Connection connection = DriverManager.getConnection(url, login, passwd);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT utilisateur_pseudo FROM utilisateur WHERE utilisateur_id =" + id);
+
+            while(resultSet.next()){
+                return resultSet.getString("utilisateur_pseudo");
+            }
+
+            connection.close();
+            statement.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -150,26 +191,32 @@ public class JDBCRequests {
      *
      * @author autome edwin
      */
-    public static void showTopTenTheme(int themeId) {
+    public static ResultSet showTopTenTheme(int themeId, String difficulte) {
+
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT * FROM `partie` WHERE theme_id = " + themeId + " ORDER BY partie_score DESC LIMIT 10");
-
-            while (resultSet.next()) {
-                System.out.print("partieId: " + resultSet.getInt("partie_id") + "; userId: "
-                        + resultSet.getInt("utilisateur_id") + "; dateheure: " + resultSet.getDate("DateEtHeure")
-                        + "; difficulte: " + resultSet.getString("partie_difficulte") + "; themeId: "
-                        + resultSet.getInt("theme_id") + "; score: " + resultSet.getByte("partie_score") + "\n");
-            }
-
-            connection.close();
-            statement.close();
+                    "SELECT ROW_NUMBER() OVER (ORDER BY partie_score DESC), utilisateur_id, dateEtHeure, partie_score FROM `partie` WHERE theme_id = "
+                            + themeId + " and partie_difficulte = '" + difficulte.toLowerCase() +  "' ORDER BY partie_score DESC LIMIT 10");
+            return resultSet;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public static ResultSet showCurrentRankTheme(int score, int themeId){
+        try {
+            Connection connection = DriverManager.getConnection(url, login, passwd);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT ROW_NUMBER() OVER (ORDER BY partie_score desc), theme_id, partie_score, dateEtHeure from partie where theme_id = " + themeId);
+            return resultSet;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -266,33 +313,4 @@ public class JDBCRequests {
         }
         return ret;
     }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        //System.out.println(getThemeFromDB());
-        // getThemeFromDB();
-        // getQuestionFromDB(2);
-        // insertPartieResult();
-        // showTopTenTheme(1);
-        // getQuestionFromDB(1);
-        // System.out.println(userExist("Edwin"));
-        //createNewUserInDB("Jojo");
-        /*Collator usCollator = Collator.getInstance(Locale.US);
-        usCollator.setStrength(Collator.PRIMARY);
-        if( usCollator.compare("âbc", "ABC") == 0 ) {
-            System.out.println("Strings are equivalent");
-        }*/
-        //System.out.println(verifierReponseCash("15"));
-
-        //checkUserIdentity();
-    }
-
 }

@@ -1,14 +1,12 @@
 package projetQuizz.vue;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 import projetQuizz.Quizz;
+import projetQuizz.modele.*;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
-import projetQuizz.modele.Question;
-import projetQuizz.modele.Reponse;
-import projetQuizz.modele.Resultat;
-import projetQuizz.modele.Theme;
 
 public abstract class InterfaceDeJeu {
 
@@ -22,7 +20,7 @@ public abstract class InterfaceDeJeu {
 
     public abstract void afficherResultat(Resultat resultat) throws Exception;
 
-    public abstract void afficherScores(Resultat[] resultats);
+    public abstract void afficherScores(Partie endedPartie);
 
     public abstract void choisirTheme(ArrayList<Theme> themesPossibles) throws Exception;
 

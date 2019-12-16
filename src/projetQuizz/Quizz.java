@@ -2,6 +2,7 @@ package projetQuizz;
 
 import java.util.ArrayList;
 
+import projetQuizz.modele.JDBCRequests;
 import projetQuizz.modele.Partie;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
@@ -26,8 +27,6 @@ public class Quizz {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        // TODO définir typeInterface en fonction de args
-
         try { // Chargement du driver JDBC pour utilisation de la db
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -95,7 +94,8 @@ public class Quizz {
                     interfaceDeJeu.afficherResultat(this.partie.getResultat());
                     break;
                 case JEU_FINI:
-                    interfaceDeJeu.afficherScores(this.partie.getResultats());
+                    JDBCRequests.insertPartieResult(this.partie);
+                    interfaceDeJeu.afficherScores(this.partie);
                     break;
             }
         } 

@@ -32,14 +32,14 @@ public abstract class InterfaceDeJeu {
 
 	public abstract void demanderDifficulte(Difficulte[] difficultes) throws Exception;
 
-	public abstract void demanderMoiteMoite(Reponse[] reponsesPossiblesActuelles) throws Exception;
+	public abstract void demanderMoiteMoite(Question question, Reponse[] reponsesPossiblesActuelles) throws Exception;
 
 	public abstract void demanderNom() throws Exception;
 
-	public abstract void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles)
+	public abstract void demanderReponseCarreJoker(Question question, Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles)
 			throws Exception;
 
-	public abstract void demanderReponseCash() throws Exception;
+	public abstract void demanderReponseCash(Question question) throws Exception;
 
 	public Quizz getQuizz() {
 		return quizz;

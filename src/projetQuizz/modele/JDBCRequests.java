@@ -280,7 +280,7 @@ public class JDBCRequests {
 	 * @param username : nom de l'utilisateur courant
 	 * @return Objet Utilisateur
 	 */
-	public static Utilisateur getUserInfos(String username){
+	public static Utilisateur getUserInfos(String username) {
 		try {
 			Connection connection = DriverManager.getConnection(url, login, passwd);
 			Statement statement = connection.createStatement();
@@ -296,25 +296,20 @@ public class JDBCRequests {
 	}
 
 	/**
-	 * Vérifie si l'utilisateur dont le nom vient d'être rentré
+	 * Vérifie si l'utilisateur dont le nom vient d'être rentré existe en base de données
+	 * et le crée si nécessaire.
 	 * @param name : nom de l'utilisateur à vérifier l'identité
-	 * @return true si l'utilisateur existe ou false
+	 * @return  Objet Utilisateur
 	 */
-	public static boolean checkUserIdentity(String name){
-		if(userExist(name)) { //Vérifie si l'utilisateur existe dans la base de données
-			Utilisateur currentUser = getUserInfos(name);
-			return true;
-		}
-		if (name != null && !name.isEmpty()) {
+	public static Utilisateur checkUserIdentity(String name) {
+		if(!userExist(name)) { // Vérifie si l'utilisateur existe dans la base de données
 			createNewUserInDB(name);
-			getUserInfos(name);
-			return true;
 		}
-		return false;
+		return getUserInfos(name);
 	}
 
 	/**
-	 * Retire tous les accent du string passer en paramètre
+	 * Retire tous les accent du string passé en paramètre
 	 * @param s : string à modifier
 	 * @return
 	 */

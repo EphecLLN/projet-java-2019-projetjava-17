@@ -124,27 +124,28 @@ public class JDBCRequests {
      * @author autome edwin
      */
     public static void insertPartieResult(Partie endedPartie) {
-        System.out.println(endedPartie.getDifficulte());
-        System.out.println(endedPartie.getResultat().getScore());
-        System.out.println(endedPartie.getTheme().getId());
-        System.out.println(endedPartie.getUtilisateur().getId());
-        /*try {
+        try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
+            System.out.println(endedPartie.getUtilisateur().getId());
+            System.out.println(endedPartie.getDifficulte());
+            System.out.println(endedPartie.getTheme().getNom());
+            System.out.println(endedPartie.calculScore()[2]);
             statement.executeUpdate(
                     "INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
-                            + "VALUES (" + quizz.getUtilisateur().getId() + ", " + quizz.getDifficulte() + " ,"
-                            + quizz.getTheme().getNom() + ", " + quizz.getResultat().getScore() + "");
+                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", '" + endedPartie.getNomDifficulte(endedPartie.getDifficulte()) + "', "
+                            + endedPartie.getTheme().getId() + ", " + endedPartie.calculScore()[2] + ")");
 
             connection.close();
             statement.close();
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
-    private static String getThemeNameById(int id) {
+    public static String getThemeNameById(int id) {
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
@@ -163,7 +164,7 @@ public class JDBCRequests {
         return null;
     }
 
-    private static String getUserNameById(int id){
+    public static String getUserNameById(int id){
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
@@ -190,50 +191,32 @@ public class JDBCRequests {
      *
      * @author autome edwin
      */
-    public static void showTopTenTheme(int themeId) {
+    public static ResultSet showTopTenTheme(int themeId, String difficulte) {
 
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(
-                    "SELECT ROW_NUMBER() OVER (ORDER BY partie_score DESC), utilisateur_id, dateEtHeure, partie_score "
-                            + "FROM `partie` WHERE theme_id = " + themeId + " ORDER BY partie_score DESC LIMIT 10");
-
-            System.out.println("Top 10 du thème " + getThemeNameById(themeId) + "\n");
-            System.out.println("\tTOP\t|\tUser\t\t|\tDate\t\t|\tScore\t|");
-            while (resultSet.next()) {
-                System.out.print("\t"+resultSet.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")+
-                "\t|\t"+getUserNameById(resultSet.getInt("utilisateur_id"))+"\t|\t"+resultSet.getDate("dateEtHeure")+"\t|\t"+resultSet.getInt("partie_score")+"\t|\n");
-            }
-
-            connection.close();
-            statement.close();
+                    "SELECT ROW_NUMBER() OVER (ORDER BY partie_score DESC), utilisateur_id, dateEtHeure, partie_score FROM `partie` WHERE theme_id = "
+                            + themeId + " and partie_difficulte = '" + difficulte.toLowerCase() +  "' ORDER BY partie_score DESC LIMIT 10");
+            return resultSet;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    public static void showCurrentRankTheme(int score, int themeId){
+    public static ResultSet showCurrentRankTheme(int score, int themeId){
         try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT ROW_NUMBER() OVER (ORDER BY partie_score desc), theme_id, partie_score from partie where theme_id = " + themeId);
-
-            while(resultSet.next()){
-                if(resultSet.getInt("partie_score") == score){
-                    System.out.println("Votre partie a atteint le rang " 
-                    + resultSet.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)") 
-                    + " avec un score de " + resultSet.getInt("partie_score") + " points");
-                }
-            }
-
-            connection.close();
-            statement.close();
-
+            ResultSet resultSet = statement.executeQuery("SELECT ROW_NUMBER() OVER (ORDER BY partie_score desc), theme_id, partie_score, dateEtHeure from partie where theme_id = " + themeId);
+            return resultSet;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**

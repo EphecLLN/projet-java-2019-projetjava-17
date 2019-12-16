@@ -99,9 +99,9 @@ public class Partie {
     private List<Question> questionsPossibles = new ArrayList<Question>();
     private List<Resultat> resultats = new ArrayList<Resultat>();
     private List<Joker> jokersPossibles = new ArrayList<Joker>();
-    static String url = "jdbc:mysql://localhost/projetjava";
-    static String login = "root";
-    static String passwd = "";
+    public static String url = "jdbc:mysql://localhost/projetjava";
+    public static String login = "root";
+    public static String passwd = "";
     
     /**
      * Passe à l'état suivant en en fonction de l'avancement du quizz.
@@ -241,7 +241,7 @@ public class Partie {
      */
     public void recevoirNomUtilisateur(Utilisateur user) throws Exception {
         verifierEtat(Partie.Etat.DEMANDER_LE_NOM, "Aucun nom n'était attendu à ce moment.");
-
+        this.utilisateur = user;
         this.etat = Partie.Etat.DEMANDER_LE_THEME;
     }
 
@@ -435,5 +435,21 @@ public class Partie {
             ret = false;
         }
         return ret;
+    }
+
+    public int[] calculScore() {
+        Resultat[] resultats = this.getResultats();
+        int[] score = {0,0,0};
+        int nbBonnesReponses = 0;
+        int nbMauvaisesReponses = 0;
+        for (int i = 0; i < resultats.length; i++) {
+            if (resultats[i].getEstBonneReponse()) {
+                score[0]++;
+            } else {
+                score[1]++;
+            }
+            score[2] += resultats[i].getScore();
+        }
+        return score;
     }
 }

@@ -96,10 +96,8 @@ public class Quizz {
                     interfaceDeJeu.afficherResultat(this.partie.getResultat());
                     break;
                 case JEU_FINI:
-                    interfaceDeJeu.afficherScores(this.partie.getResultats());
-                    //JDBCRequests.insertPartieResult(this.partie); Bug problème récupération id user
-                    JDBCRequests.showTopTenTheme(this.partie.getTheme().getId());
-                    JDBCRequests.showCurrentRankTheme(this.partie.getResultat().getScore(), this.partie.getTheme().getId());
+                    JDBCRequests.insertPartieResult(this.partie);
+                    interfaceDeJeu.afficherScores(this.partie);
                     break;
             }
         } 

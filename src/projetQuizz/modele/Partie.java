@@ -16,32 +16,22 @@ public class Partie {
         CARRE, CASH
     }
 
-    ;
-
     public enum Difficulte {
         FACILE, MOYEN, DIFFICILE, EXPERT
     }
-
-    ;
 
     public enum Etat {
         DEMANDER_LE_NOM, DEMANDER_LE_THEME, DEMANDER_LA_DIFFCULTE, DEMANDER_CARRE_CASH, DEMANDER_REPONSE_CASH,
         DEMANDER_REPONSE_CARRE_OU_JOKER, DEMANDER_REPONSE_MOITE_MOITE, AFFICHER_RESULTAT_QUESTION, JEU_FINI
     }
 
-    ;
-
     public enum Joker {
         MOITE_MOITE, SWITCH, DONNE_MON_POINT
     }
 
-    ;
-
     public enum ReponseCarreOuJoker {
         UN, DEUX, TROIS, QUATRE, JOKER
     }
-
-    ;
 
     public static Map<String, String> Case = Map.of(
             "à", "a",

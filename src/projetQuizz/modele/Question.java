@@ -4,31 +4,31 @@ import java.util.ArrayList;
 
 public class Question {
 
-    private int id;
-    private String question;
-    private ArrayList<Reponse> reponses;
-    
-    /**
-     *	Constructeur de la classe Question.
-     */
-    Question(int id, String question, ArrayList<Reponse> reponses) {
-        this.id = id;
-        this.question = question;
-        this.reponses = reponses;
-    }
+	private int id;
+	private String question;
+	private ArrayList<Reponse> reponses;
 
-    /**
-     * Getter de question.
-     */
-    public String getQuestion() {
-        return this.question;
-    }
-    
-    /**
-     * Getter de reponses
-     */
-    public ArrayList<Reponse> getReponses() {
-        return reponses;
-    }
+	/**
+	 *	Constructeur de la classe Question.
+	 */
+	Question(int id, String question, ArrayList<Reponse> reponses) {
+		this.id = id;
+		this.question = question;
+		this.reponses = reponses;
+	}
+
+	/**
+	 * Getter de question.
+	 */
+	public String getQuestion() {
+		return this.question;
+	}
+
+	/**
+	 * Getter de reponses
+	 */
+	public ArrayList<Reponse> getReponses() {
+		return reponses;
+	}
 
 }

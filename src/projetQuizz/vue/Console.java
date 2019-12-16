@@ -2,20 +2,11 @@ package projetQuizz.vue;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 import projetQuizz.Quizz;
 import projetQuizz.QuizzException;
-import projetQuizz.modele.JDBCRequests;
 import projetQuizz.modele.Partie;
 import projetQuizz.modele.Partie.CarreCash;
 import projetQuizz.modele.Partie.Difficulte;
@@ -63,36 +54,7 @@ public class Console extends InterfaceDeJeu {
 	 */
 	@Override
 	public void afficherScores(Partie endedPartie) {
-		Date today = Date.valueOf(LocalDate.now());
-		int[] resultat = endedPartie.calculScore();
-		System.out.println("Votre score final est de " + resultat[2] + " point(s) avec " + resultat[0]
-				+ " bonne(s) réponse(s) et " + resultat[1] + " mauvaise(s) réponse(s).");
-
-		try {
-			ResultSet rank = JDBCRequests.showCurrentRankTheme(resultat[0], endedPartie.getTheme().getId());
-			ResultSet top = JDBCRequests.showTopTenTheme(endedPartie.getTheme().getId(), Partie.getNomDifficulte(endedPartie.getDifficulte()));
-
-			System.out.println("Top 10 du thème " + JDBCRequests.getThemeNameById(endedPartie.getTheme().getId()) + " en difficulte " + endedPartie.getDifficulte() + "\n");
-			System.out.println("\tTOP\t|\tUser\t\t|\tDate\t\t|\tScore\t");
-			while (top.next()) {
-				System.out.print("\t"+top.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")+
-						"\t|\t"+JDBCRequests.getUserNameById(top.getInt("utilisateur_id"))+"\t|\t"+top.getDate("dateEtHeure")+"\t|\t"+top.getInt("partie_score")+"\n");
-			};
-			while(rank.next()) {
-				if (rank.getInt("partie_score") == resultat[2] && rank.getDate("dateEtHeure").before(today)) {
-					System.out.println("Votre partie a atteint le rang "
-							+ rank.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")
-							+ " avec un score de " + rank.getInt("partie_score") + " points");
-					break;
-				}
-			}
-			Connection connection = DriverManager.getConnection(Partie.url, Partie.login, Partie.passwd);
-			Statement statement = connection.createStatement();
-			connection.close();
-			statement.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		System.out.println(endedPartie.getTexteDeFin());
 	}
 
 	/**
@@ -118,7 +80,7 @@ public class Console extends InterfaceDeJeu {
 	@Override
 	public void demanderCarreCash(Question questionActuelle) throws Exception {
 		System.out.println(questionActuelle.getQuestion());
-		System.out.println("Choisissez parmis:");
+		System.out.println("Choisissez parmi:");
 		System.out.println("1. carré");
 		System.out.println("2. cash");
 		int carreCash = demanderNombre(1, 2);
@@ -146,13 +108,17 @@ public class Console extends InterfaceDeJeu {
 	 * @throws Exception : Si erreur dans l'etat.
 	 */
 	@Override
-	public void demanderMoiteMoite(Reponse[] reponsesPossiblesActuelles) throws Exception {
+	public void demanderMoiteMoite(Question question, Reponse[] reponsesPossiblesActuelles) throws Exception {
+		poserQuestion(question, reponsesPossiblesActuelles);
+		int index = demanderNombre(1, reponsesPossiblesActuelles.length);
+		getQuizz().recevoirReponseCarre(reponsesPossiblesActuelles[index - 1]);
+	}
+
+	private void poserQuestion(Question question, Reponse[] reponsesPossiblesActuelles) {
 		System.out.println("Choisissez parmis ces possibilités:");
 		for (int i = 0; i < reponsesPossiblesActuelles.length; i++) {
 			System.out.println(Integer.toString(i + 1) + ". " + reponsesPossiblesActuelles[i].getReponse());
 		}
-		int index = demanderNombre(1, reponsesPossiblesActuelles.length);
-		getQuizz().recevoirReponseMoiteMoite(reponsesPossiblesActuelles[index - 1]);
 	}
 
 	/**
@@ -161,17 +127,12 @@ public class Console extends InterfaceDeJeu {
 	 */
 	@Override
 	public void demanderNom() throws Exception {
-		String content;
-		content = new String(Files.readAllBytes(Paths.get("regles.txt")));
+		String content = new String(Files.readAllBytes(Paths.get("regles.txt")));
 		System.out.println(content);
-		TimeUnit.SECONDS.sleep(7);
 
-		String name = "";
 		System.out.println("Quel est votre nom:");
-		while (!JDBCRequests.checkUserIdentity(name = in.nextLine())) {
-			System.out.println("Quel est votre nom:");
-		}
-		getQuizz().recevoirNomUtilisateur(JDBCRequests.getUserInfos(name));
+		String name = in.nextLine();
+		getQuizz().recevoirNomUtilisateur(name);
 	}
 
 	/**
@@ -195,17 +156,14 @@ public class Console extends InterfaceDeJeu {
 
 	/**
 	 * Demande à l'utilisateur s'il veut répondre à une des propositions carré ou s'il veut utiliser un joker.
-	 * @param reponsePossibleActuelles : les réponses carrées qui lui sont proposées pour cette question.
 	 * @param jokersPossibles : liste des jokers disponibles.
+	 * @param reponsePossibleActuelles : les réponses carrées qui lui sont proposées pour cette question.
 	 * @throws Exception : Si erreur dans l'etat.
 	 */
 	@Override
-	public void demanderReponseCarreJoker(Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles)
+	public void demanderReponseCarreJoker(Question question, Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles)
 			throws Exception {
-		System.out.println("Choisissez parmis ces possibilités:");
-		for (int i = 0; i < reponsesPossiblesActuelles.length; i++) {
-			System.out.println(Integer.toString(i + 1) + ". " + reponsesPossiblesActuelles[i].getReponse());
-		}
+		poserQuestion(question, reponsesPossiblesActuelles);
 		for (int i = 0; i < jokersPossibles.length; i++) {
 			System.out.println(Integer.toString(i + 1 + reponsesPossiblesActuelles.length) + ". "
 					+ Partie.getNomJokers(jokersPossibles[i]));
@@ -224,7 +182,7 @@ public class Console extends InterfaceDeJeu {
 	 * Demande à l'utilisateur d'inscrire en console sa réponse cash.
 	 */
 	@Override
-	public void demanderReponseCash() throws Exception {
+	public void demanderReponseCash(Question question) throws Exception {
 		System.out.println("Inscrivez votre réponse");
 		getQuizz().recevoirReponseCash(in.nextLine());
 	}

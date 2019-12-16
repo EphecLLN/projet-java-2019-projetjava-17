@@ -8,7 +8,6 @@ import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
 import projetQuizz.modele.Reponse;
 import projetQuizz.modele.Theme;
-import projetQuizz.modele.Utilisateur;
 import projetQuizz.vue.Console;
 import projetQuizz.vue.GUI;
 import projetQuizz.vue.InterfaceDeJeu;
@@ -17,139 +16,132 @@ import projetQuizz.vue.InterfaceDeJeu;
  *	Il s'agit du controleur qui fait le lien entre l'interface de jeu et la logique de partie
  */
 public class Quizz {
-    enum TypeInterface {
-        CONSOLE, GUI
-    };
+	enum TypeInterface {
+		CONSOLE, GUI
+	};
 
-    /**
-     * Point d'entrée du programme, choix du type d'interface via les paramètres de la ligne de commande.
-     * @param args va définir le type d'interface.
-     * @throws Exception Si erreur dans l'etat.
-     */
-    public static void main(String[] args) throws Exception {
-        try { // Chargement du driver JDBC pour utilisation de la db
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+	/**
+	 * Point d'entrée du programme, choix du type d'interface via les paramètres de la ligne de commande.
+	 * @param args va définir le type d'interface.
+	 * @throws Exception Si erreur dans l'etat.
+	 */
+	public static void main(String[] args) throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		TypeInterface typeInterface = TypeInterface.CONSOLE;
+		if (args.length > 0 && args[0].contains("gui")) {
+			typeInterface = TypeInterface.GUI;
+		}
+		new Quizz(typeInterface);
+	}
 
-        TypeInterface typeInterface = TypeInterface.CONSOLE;
-        new Quizz(typeInterface);
-    }
+	private Partie partie;
 
-    private Partie partie;
+	private InterfaceDeJeu interfaceDeJeu;
 
-    private InterfaceDeJeu interfaceDeJeu;
+	/**
+	 * Initialise l'état du jeu et de l'interface Lance le jeu
+	 * @param typeInterface type d'interface choisie
+	 * @throws Exception Si erreur dans l'etat.
+	 */
 
-    /**
-     * Initialise l'état du jeu et de l'interface Lance le jeu
-     * @param typeInterface type d'interface choisie
-     * @throws Exception Si erreur dans l'etat.
-     */
+	Quizz(TypeInterface typeInterface) throws Exception {
+		if (typeInterface == TypeInterface.CONSOLE) {
+			interfaceDeJeu = new Console(this);
+		} else {
+			interfaceDeJeu = new GUI(this);
+		}
+		this.partie = new Partie();
+		executeActionEtatActuel();
+	}
 
-    Quizz(TypeInterface typeInterface) throws Exception {
-        if (typeInterface == TypeInterface.CONSOLE) {
-            interfaceDeJeu = new Console(this);
-        } else {
-            interfaceDeJeu = new GUI(this);
-        }
-        this.partie = new Partie();
-        executeActionEtatActuel();
-    }
+	/**
+	 * Passe d'un état du jeu à un autre fait appel à l'interface.
+	 * @throws Exception Si erreur dans l'etat.
+	 */
 
-    /**
-     * Passe d'un état du jeu à un autre fait appel à l'interface.
-     * @throws Exception Si erreur dans l'etat.
-     */
+	public void executeActionEtatActuel() throws Exception {
+		try {
+			switch (partie.getEtat()) {
+			case DEMANDER_LE_NOM:
+				interfaceDeJeu.demanderNom();
+				break;
+			case DEMANDER_LE_THEME:
+				ArrayList<Theme> themes = Theme.chargerThemes();
+				interfaceDeJeu.choisirTheme(themes);
+				break;
+			case DEMANDER_LA_DIFFCULTE:
+				Difficulte[] difficulte = { Difficulte.FACILE, Difficulte.MOYEN, Difficulte.DIFFICILE,
+						Difficulte.EXPERT };
+				interfaceDeJeu.demanderDifficulte(difficulte);
+				break;
+			case DEMANDER_CARRE_CASH:
+				interfaceDeJeu.demanderCarreCash(partie.getQuestionActuelle());
+				break;
+			case DEMANDER_REPONSE_CASH:
+				interfaceDeJeu.demanderReponseCash(partie.getQuestionActuelle());
+				break;
+			case DEMANDER_REPONSE_CARRE_OU_JOKER:
+				interfaceDeJeu.demanderReponseCarreJoker(partie.getQuestionActuelle(),
+						partie.getReponsesPossiblesActuelles(), partie.getJokersPossibles());
+				break;
+			case DEMANDER_REPONSE_MOITE_MOITE:
+				interfaceDeJeu.demanderMoiteMoite(partie.getQuestionActuelle(), partie.getReponsesPossiblesActuelles());
+				break;
+			case AFFICHER_RESULTAT_QUESTION:
+				interfaceDeJeu.afficherResultat(partie.getResultat());
+				break;
+			case JEU_FINI:
+				JDBCRequests.insertPartieResult(partie);
+				interfaceDeJeu.afficherScores(partie);
+				break;
+			}
+		}
+		// Tant que l'utilisateur n'a pas encodé ce qu'il fallait répète l'action de l'état actuel.
+		catch (QuizzException e) {
+			interfaceDeJeu.afficherErreur(e);
+			executeActionEtatActuel();
+		}
+	}
 
-    public void executeActionEtatActuel() throws Exception {
-        try {
-            switch (partie.getEtat()) {
-                case DEMANDER_LE_NOM:
-                    interfaceDeJeu.demanderNom();
-                    break;
-                case DEMANDER_LE_THEME:
-                    ArrayList<Theme> themes = Theme.chargerThemes();
-                    interfaceDeJeu.choisirTheme(themes);
-                    break;
-                case DEMANDER_LA_DIFFCULTE:
-                    Difficulte[] difficulte = { Difficulte.FACILE, Difficulte.MOYEN, Difficulte.DIFFICILE,
-                            Difficulte.EXPERT };
-                    interfaceDeJeu.demanderDifficulte(difficulte);
-                    break;
-                case DEMANDER_CARRE_CASH:
-                    interfaceDeJeu.demanderCarreCash(this.partie.getQuestionActuelle());
-                    break;
-                case DEMANDER_REPONSE_CASH:
-                    interfaceDeJeu.demanderReponseCash();
-                    break;
-                case DEMANDER_REPONSE_CARRE_OU_JOKER:
-                    interfaceDeJeu.demanderReponseCarreJoker(this.partie.getReponsesPossiblesActuelles(),
-                            partie.getJokersPossibles());
-                    break;
-                case DEMANDER_REPONSE_MOITE_MOITE:
-                    interfaceDeJeu.demanderMoiteMoite(this.partie.getReponsesPossiblesActuelles());
-                    break;
-                case AFFICHER_RESULTAT_QUESTION:
-                    interfaceDeJeu.afficherResultat(this.partie.getResultat());
-                    break;
-                case JEU_FINI:
-                    JDBCRequests.insertPartieResult(this.partie);
-                    interfaceDeJeu.afficherScores(this.partie);
-                    break;
-            }
-        } 
-        // Tant que l'utilisateur n'a pas encodé ce qu'il fallait répète l'action de l'état actuel.
-        catch (QuizzException e) {
-            interfaceDeJeu.afficherErreur(e);
-            executeActionEtatActuel();
-        }
-    }
-    
-    // ---METHODES GERANT LE DEROULEMENT DE LA PARTIE EN FAISANT LE LIEN ENTRE LES METHODES DU MODELE ET LES METHODES DE LA VUE---
-    
-    public void passerQuestionSuivante() throws Exception {
-        partie.passerQuestionSuivante();
-        executeActionEtatActuel();
-    }
+	// ---METHODES GERANT LE DEROULEMENT DE LA PARTIE EN FAISANT LE LIEN ENTRE LES METHODES DU MODELE ET LES METHODES DE LA VUE---
 
-    public void recevoirCarreCash(Partie.CarreCash carreCash) throws Exception {
-        this.partie.recevoirCarreCash(carreCash);
-        executeActionEtatActuel();
-    }
+	public void passerQuestionSuivante() throws Exception {
+		partie.passerQuestionSuivante();
+		executeActionEtatActuel();
+	}
 
-    public void recevoirDifficulte(Difficulte difficulte) throws Exception {
-        this.partie.recevoirDifficulte(difficulte);
-        executeActionEtatActuel();
-    }
+	public void recevoirCarreCash(Partie.CarreCash carreCash) throws Exception {
+		partie.recevoirCarreCash(carreCash);
+		executeActionEtatActuel();
+	}
 
-    public void recevoirJoker(Joker joker) throws Exception {
-        this.partie.utiliserJoker(joker);
-        executeActionEtatActuel();
-    }
+	public void recevoirDifficulte(Difficulte difficulte) throws Exception {
+		partie.recevoirDifficulte(difficulte);
+		executeActionEtatActuel();
+	}
 
-    public void recevoirNomUtilisateur(Utilisateur user) throws Exception {
-        this.partie.recevoirNomUtilisateur(user);
-        executeActionEtatActuel();
-    }
+	public void recevoirJoker(Joker joker) throws Exception {
+		partie.utiliserJoker(joker);
+		executeActionEtatActuel();
+	}
 
-    public void recevoirReponseCarre(Reponse reponse) throws Exception {
-        this.partie.recevoirReponseCarre(reponse);
-        executeActionEtatActuel();
-    }
+	public void recevoirNomUtilisateur(String nom) throws Exception {
+		partie.recevoirNomUtilisateur(nom);
+		executeActionEtatActuel();
+	}
 
-    public void recevoirReponseCash(String reponseCash) throws Exception {
-        this.partie.recevoirReponseCash(reponseCash);
-        executeActionEtatActuel();
-    }
+	public void recevoirReponseCarre(Reponse reponse) throws Exception {
+		partie.recevoirReponseCarre(reponse);
+		executeActionEtatActuel();
+	}
 
-    public void recevoirReponseMoiteMoite(Reponse reponse) throws Exception {
-        this.partie.recevoirReponseMoiteMoite(reponse);
-        executeActionEtatActuel();
-    }
+	public void recevoirReponseCash(String reponseCash) throws Exception {
+		partie.recevoirReponseCash(reponseCash);
+		executeActionEtatActuel();
+	}
 
-    public void recevoirTheme(Theme theme) throws Exception {
-        this.partie.recevoirTheme(theme);
-        executeActionEtatActuel();
-    }
+	public void recevoirTheme(Theme theme) throws Exception {
+		partie.recevoirTheme(theme);
+		executeActionEtatActuel();
+	}
 }

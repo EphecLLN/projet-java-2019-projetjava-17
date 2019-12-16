@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
 import projetQuizz.Quizz;

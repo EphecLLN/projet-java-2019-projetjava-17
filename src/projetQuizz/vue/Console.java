@@ -1,10 +1,12 @@
 package projetQuizz.vue;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 import projetQuizz.Quizz;
@@ -22,6 +24,7 @@ public class Console extends InterfaceDeJeu {
         super(quizz);
         in = new Scanner(System.in);
     }
+
 
     @Override
     public void afficherErreur(Exception e) {
@@ -53,7 +56,7 @@ public class Console extends InterfaceDeJeu {
             System.out.println("\tTOP\t|\tUser\t\t|\tDate\t\t|\tScore\t");
             while (top.next()) {
                 System.out.print("\t"+top.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")+
-                "\t|\t"+JDBCRequests.getUserNameById(top.getInt("utilisateur_id"))+"\t|\t"+top.getDate("dateEtHeure")+"\t|\t"+top.getInt("partie_score")+"\t|\n");
+                "\t|\t"+JDBCRequests.getUserNameById(top.getInt("utilisateur_id"))+"\t|\t"+top.getDate("dateEtHeure")+"\t|\t"+top.getInt("partie_score")+"\n");
             };
             while(rank.next()) {
                 if (rank.getInt("partie_score") == resultat[2] && rank.getDate("dateEtHeure").before(today)) {
@@ -114,6 +117,11 @@ public class Console extends InterfaceDeJeu {
 
     @Override
     public void demanderNom() throws Exception {
+        String content;
+        content = new String(Files.readAllBytes(Paths.get("regles.txt")));
+        System.out.println(content);
+        TimeUnit.SECONDS.sleep(7);
+
         String name = "";
         System.out.println("Quel est votre nom:");
         while (!JDBCRequests.checkUserIdentity(name = in.nextLine())) {

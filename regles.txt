@@ -1,0 +1,22 @@
+Bienvenue dans l'EPHEQuizz, un quizz sympa pour des gens sympas !
+
+Voici comment se déroule le quizz :
+*Entrez votre nom d'utilisateur, en respectant bien son écriture si vous souhaitez conserver votre profil.
+*Choisissez un thème parmis ceux disponibles
+*Choisissez votre difficulte entre les 4 disponibles : Facile, Moyen, Difficile, Expert.
+    Il existe 3 jokers différents :
+        -Le "Moite/Moite" : Deux propositions incorrectes sont supprimées parmi les quatre disponibles. Donne un point si la bonne réponse est trouvée.
+        -Le "Change moi ça, j'aime pas ta question" : Permet à l'utilisateur de changer de question.
+        -Le "J'en sais rien, donne-moi mon point" : Permet de réussir la question au prix d'un seul point gagné.
+
+    Chaque difficulte vous octroie un certain nombre de joker, expliqué comme suit :
+        -En mode "facile", les trois jokers seront utilisables.
+        -En mode "normal", l'utilisateur aura accès au "Moite/Moite" et au "Change moi ça, j'aime pas ta question".
+        -En mode "difficile", le joueur ne pourra bénéficier que du "Moite/Moite".
+        -En mode "expert", aucun joker n'est à la disposition de l'utilisateur.
+
+    Chaque joker n'est utilisable qu'une fois par partie, et n'est accessible qu'une fois une réponse "cash" choisie (cfr ci-dessous).
+*Pour chaque question, 2 moyens de réponse sont possibles :
+       -"Cash" : Écrire sa réponse manuellement, offrant 3points.
+       -"Carré" : Choisir une réponse parmi quatre proposées à l'écran, offrant 1point.
+*Partez à l'assaut du classement !

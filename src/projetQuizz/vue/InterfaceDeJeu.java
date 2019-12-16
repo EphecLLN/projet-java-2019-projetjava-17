@@ -1,6 +1,7 @@
 package projetQuizz.vue;
 
 import java.util.ArrayList;
+import java.util.Observer;
 
 import projetQuizz.Quizz;
 import projetQuizz.modele.*;

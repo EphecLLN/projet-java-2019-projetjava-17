@@ -313,35 +313,4 @@ public class JDBCRequests {
         }
         return ret;
     }
-
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        //System.out.println(getThemeFromDB());
-        // getThemeFromDB();
-        // getQuestionFromDB(2);
-        // insertPartieResult();
-        //showTopTenTheme(1);
-        // getQuestionFromDB(1);
-        // System.out.println(userExist("Edwin"));
-        //createNewUserInDB("Jojo");
-        /*Collator usCollator = Collator.getInstance(Locale.US);
-        usCollator.setStrength(Collator.PRIMARY);
-        if( usCollator.compare("âbc", "ABC") == 0 ) {
-            System.out.println("Strings are equivalent");
-        }*/
-        //System.out.println(verifierReponseCash("15"));
-
-        //checkUserIdentity();
-        //showCurrentRankTheme(9, 1);
-        
-    }
-
 }

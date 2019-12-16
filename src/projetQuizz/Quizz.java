@@ -2,6 +2,7 @@ package projetQuizz;
 
 import java.util.ArrayList;
 
+import projetQuizz.modele.JDBCRequests;
 import projetQuizz.modele.Partie;
 import projetQuizz.modele.Partie.Difficulte;
 import projetQuizz.modele.Partie.Joker;
@@ -96,6 +97,9 @@ public class Quizz {
                     break;
                 case JEU_FINI:
                     interfaceDeJeu.afficherScores(this.partie.getResultats());
+                    //JDBCRequests.insertPartieResult(this.partie); Bug problème récupération id user
+                    JDBCRequests.showTopTenTheme(this.partie.getTheme().getId());
+                    JDBCRequests.showCurrentRankTheme(this.partie.getResultat().getScore(), this.partie.getTheme().getId());
                     break;
             }
         } 

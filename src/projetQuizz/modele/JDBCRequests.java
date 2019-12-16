@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.Collator;
 import java.util.*;
 
 /**
@@ -125,20 +124,24 @@ public class JDBCRequests {
      * @author autome edwin
      */
     public static void insertPartieResult(Partie endedPartie) {
-        try {
+        System.out.println(endedPartie.getDifficulte());
+        System.out.println(endedPartie.getResultat().getScore());
+        System.out.println(endedPartie.getTheme().getId());
+        System.out.println(endedPartie.getUtilisateur().getId());
+        /*try {
             Connection connection = DriverManager.getConnection(url, login, passwd);
             Statement statement = connection.createStatement();
             statement.executeUpdate(
                     "INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
-                            + "VALUES (" + endedPartie.getUtilisateur().getId() + ", " + endedPartie.getDifficulte() + " ,"
-                            + endedPartie.getTheme().getNom() + ", " + endedPartie.getResultat().getScore() + "");
+                            + "VALUES (" + quizz.getUtilisateur().getId() + ", " + quizz.getDifficulte() + " ,"
+                            + quizz.getTheme().getNom() + ", " + quizz.getResultat().getScore() + "");
 
             connection.close();
             statement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private static String getThemeNameById(int id) {
@@ -201,6 +204,28 @@ public class JDBCRequests {
             while (resultSet.next()) {
                 System.out.print("\t"+resultSet.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")+
                 "\t|\t"+getUserNameById(resultSet.getInt("utilisateur_id"))+"\t|\t"+resultSet.getDate("dateEtHeure")+"\t|\t"+resultSet.getInt("partie_score")+"\t|\n");
+            }
+
+            connection.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void showCurrentRankTheme(int score, int themeId){
+        try {
+            Connection connection = DriverManager.getConnection(url, login, passwd);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT ROW_NUMBER() OVER (ORDER BY partie_score desc), theme_id, partie_score from partie where theme_id = " + themeId);
+
+            while(resultSet.next()){
+                if(resultSet.getInt("partie_score") == score){
+                    System.out.println("Votre partie a atteint le rang " 
+                    + resultSet.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)") 
+                    + " avec un score de " + resultSet.getInt("partie_score") + " points");
+                }
             }
 
             connection.close();
@@ -332,6 +357,8 @@ public class JDBCRequests {
         //System.out.println(verifierReponseCash("15"));
 
         //checkUserIdentity();
+        //showCurrentRankTheme(9, 1);
+        
     }
 
 }

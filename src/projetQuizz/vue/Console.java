@@ -95,7 +95,7 @@ public class Console extends InterfaceDeJeu {
     public void demanderNom() throws Exception {
         String name = "";
         System.out.println("Quel est votre nom:");
-        while (JDBCRequests.checkUserIdentity(name = in.nextLine())) {
+        while (!JDBCRequests.checkUserIdentity(name = in.nextLine())) {
             System.out.println("Quel est votre nom:");
         }
         getQuizz().recevoirNomUtilisateur(JDBCRequests.getUserInfos(name));

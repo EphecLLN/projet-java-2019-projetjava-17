@@ -54,7 +54,7 @@ Les deux premiers points expliqués ci-dessus seront fournis et mis à jour via 
 ### Principe des jokers : 
 
 Il y aura un système de trois jokers mis en place :
-* Le "Moite/Moite" : Deux propositions incorrectes sont supprimées parmis les quatres disponibles. Donne un point si la bonne réponse est trouvée.
+* Le "Moite/Moite" : Deux propositions incorrectes sont supprimées parmi les quatre disponibles. Donne un point si la bonne réponse est trouvée.
 * Le "Change moi ça, j'aime pas ta question" : Permet à l'utilisateur de changer de question.
 * Le "J'en sais rien, donne-moi mon point" : Permet de réussir la question au prix d'un seul point gagné.
 

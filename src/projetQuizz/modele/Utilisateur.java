@@ -2,15 +2,6 @@ package projetQuizz.modele;
 
 public class Utilisateur {
 
-    /** Constructeur d'un Objet Utilisateur
-     * @param nom : nom de l'utilisateur
-     * @param id : id de l'utilisateur
-     * @return new Utilisateur
-     */
-    public static Utilisateur choisirOuCreer(String nom, int id) {
-        return new Utilisateur(nom, id);
-    }
-
     private String nom;
     private int id;
 

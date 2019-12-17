@@ -31,4 +31,9 @@ public class Question {
 		return reponses;
 	}
 
+	/**
+	 * Getter de l'id de la question
+	 */
+	public int getId() {return this.id;}
+
 }

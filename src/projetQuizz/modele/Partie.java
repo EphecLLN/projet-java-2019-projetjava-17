@@ -478,4 +478,22 @@ public class Partie {
 		}
 		return score;
 	}
+
+	//Méthode utile poyur les test
+
+	/**
+	 * Setter de l'état
+	 * @param etat l'état dans lequel le programme doit rentrer
+	 */
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
+	/**
+	 * Setter des questions possibles
+	 * @param questions les questions à insérer
+	 */
+	public void setQuestionsPossibles (ArrayList<Question> questions) {
+		this.questionsPossibles = questions;
+	}
 }

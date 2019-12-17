@@ -125,10 +125,6 @@ public class JDBCRequests {
 		try {
 			Connection connection = DriverManager.getConnection(url, login, passwd);
 			Statement statement = connection.createStatement();
-			System.out.println(endedPartie.getUtilisateur().getId());
-			System.out.println(endedPartie.getDifficulte());
-			System.out.println(endedPartie.getTheme().getNom());
-			System.out.println(endedPartie.calculScore()[2]);
 			statement.executeUpdate(
 					"INSERT INTO partie (`utilisateur_id`, `partie_difficulte`, `theme_id`, `partie_score`) "
 							+ "VALUES (" + endedPartie.getUtilisateur().getId() + ", '" + Partie.getNomDifficulte(endedPartie.getDifficulte()) + "', "

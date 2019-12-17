@@ -73,7 +73,7 @@ public class Partie {
 
 	/**
 	 * Getter de jokers.
-	 * @param joker.
+	 * @param joker
 	 * @return : String du joker choisi
 	 */
 	public static String getNomJokers(Joker joker) {
@@ -337,7 +337,7 @@ public class Partie {
 				if (rank.getInt("partie_score") == resultat[2] && rank.getDate("dateEtHeure").before(today)) {
 					texte += "Votre partie a atteint le rang "
 							+ rank.getInt("ROW_NUMBER() OVER (ORDER BY partie_score DESC)")
-							+ " avec un score de " + rank.getInt("partie_score") + " points\n";
+							+ " avec un score de " + rank.getInt("partie_score") + " points\n\n";
 					break;
 				}
 			}
@@ -376,7 +376,6 @@ public class Partie {
 			_passerQuestionSuivante(true);
 			break;
 		case DONNE_MON_POINT:
-			// TODO afficher un message propre au joker (afficher bonne reponse).
 			ajouterResultat(1, true);
 			break;
 		}
@@ -479,7 +478,7 @@ public class Partie {
 		return score;
 	}
 
-	//Méthode utile poyur les test
+	//Méthode utile pour les test
 
 	/**
 	 * Setter de l'état
@@ -496,4 +495,8 @@ public class Partie {
 	public void setQuestionsPossibles (ArrayList<Question> questions) {
 		this.questionsPossibles = questions;
 	}
+
+	public void setReponsesPossiblesActuelles(ArrayList<Reponse> reponses) {this.reponsesPossiblesActuelles = reponses;}
+
+	public void setResultats(ArrayList<Resultat> resultats) {this.resultats = resultats;}
 }

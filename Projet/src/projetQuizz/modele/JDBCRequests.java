@@ -19,7 +19,6 @@ public class JDBCRequests {
 
 	/**
 	 * Récupère en db tous les thèmes possibles du quizz et les ajoute dans
-	 * ArrayList<Theme> themes
 	 *
 	 * @return l'ArrayList contenant tous les objets Theme
 	 *
@@ -142,6 +141,7 @@ public class JDBCRequests {
 	/**
 	 * Récupère le nom d'un thème sur base de son id
 	 * @param id : id du thème dont on souhaite récupérer le nom
+	 * @return les String des nom de thèmes
 	 */
 	public static String getThemeNameById(int id) {
 		try {
@@ -165,7 +165,7 @@ public class JDBCRequests {
 	/**
 	 * Récupère le nom d'un utilisateur sur base de son id
 	 * @param id : id de l'utilisateur dont on veut récupérer le nom
-	 * @return
+	 * @return le pseudo de l'utilisateur
 	 */
 	public static String getUserNameById(int id){
 		try {
@@ -192,6 +192,7 @@ public class JDBCRequests {
 	 *
 	 * @param themeId : id du theme de la partie terminée
 	 * @param difficulte : nom de la difficulté de la partie venant de se finir
+	 * @return le ResultSet de la requête formulée
 	 *
 	 * @author autome edwin
 	 */
@@ -215,7 +216,7 @@ public class JDBCRequests {
 	 * Détermine la place de la partie finie dans tout le palmarès du thème de la partie qui vient de se terminer
 	 * @param score : score final de la partie venant de se terminer
 	 * @param themeId : id du thème de la partie venant de se terminer
-	 * @return
+	 * @return le Resultset de la requête formulée
 	 */
 	public static ResultSet showCurrentRankTheme(int score, int themeId){
 		try {
@@ -307,7 +308,7 @@ public class JDBCRequests {
 	/**
 	 * Retire tous les accent du string passé en paramètre
 	 * @param s : string à modifier
-	 * @return
+	 * @return le string simplifié
 	 */
 	public static String simpleCase(String s) {
 		String newString = "";

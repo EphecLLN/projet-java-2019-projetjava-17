@@ -13,6 +13,7 @@ public class Theme {
 
 	/**
 	 * Récupère dans la base de données tous les thèmes, en fait un objet de chacun d'entre eux (id et nom) et les insèrent dans un ArrayList
+	 * @return les themes importés
 	 */
 	public static ArrayList<Theme> chargerThemes() {
 		try {
@@ -38,6 +39,8 @@ public class Theme {
 
 	/**
 	 * Constructeur de l'objet Theme
+	 * @param id l'id du thème
+	 * @param nom le nonm du thème
 	 */
 	Theme(int id, String nom) {
 		this.id = id;

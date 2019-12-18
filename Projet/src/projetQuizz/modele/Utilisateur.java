@@ -7,6 +7,8 @@ public class Utilisateur {
 
 	/**
 	 * Constructeur de la classe Utilisateur.
+	 * @param nom le nom de l'utilisateur
+	 * @param id l'id de l'utilisateur en db
 	 */
 	public Utilisateur(String nom, int id) {
 		super();
@@ -16,6 +18,7 @@ public class Utilisateur {
 
 	/**
 	 * Getter de nom.
+	 * @return le nom de l'utilisateur
 	 */
 	public String getNom() {
 		return this.nom;
@@ -23,6 +26,7 @@ public class Utilisateur {
 
 	/**
 	 * Setter de nom.
+	 * @param nom le nom d'utilisateur
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
@@ -30,6 +34,7 @@ public class Utilisateur {
 
 	/**
 	 * Getter de id.
+	 * @return l'id de l'utilisateur
 	 */
 	public int getId() {
 		return this.id;
@@ -37,6 +42,7 @@ public class Utilisateur {
 
 	/**
 	 * Setter de id.
+	 * @param id l'id
 	 */
 	public void setId(int id) {
 		this.id = id;

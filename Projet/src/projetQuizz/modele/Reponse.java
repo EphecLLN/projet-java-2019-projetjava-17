@@ -8,6 +8,8 @@ public class Reponse {
 
 	/**
 	 * Constructeur de la classe Reponse.
+	 * @param id l'id de la réponse
+	 * @param reponse la reponse
 	 */
 	Reponse(int id, String reponse) {
 		this(id, reponse, false);
@@ -15,6 +17,9 @@ public class Reponse {
 
 	/**
 	 * Autre constructeur de la classe Reponse.
+	 * @param id l'id de la réponse
+	 * @param reponse la reponse
+	 * @param estBonneReponse true si la réponse est la correcte
 	 */
 	Reponse(int id, String reponse, boolean estBonneReponse) {
 		this.id = id;
@@ -24,6 +29,7 @@ public class Reponse {
 
 	/**
 	 * Getter de estBonneReponse.
+	 * @return true si la réponse est correcte
 	 */
 	public boolean getEstBonneReponse() {
 		return estBonneReponse;
@@ -31,6 +37,7 @@ public class Reponse {
 
 	/**
 	 * Getter de reponse.
+	 * @return la réponse
 	 */
 	public String getReponse() {
 		return reponse;

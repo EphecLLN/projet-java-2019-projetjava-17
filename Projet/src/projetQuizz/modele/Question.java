@@ -19,6 +19,7 @@ public class Question {
 
 	/**
 	 * Getter de question.
+	 * @return la question
 	 */
 	public String getQuestion() {
 		return this.question;
@@ -26,6 +27,7 @@ public class Question {
 
 	/**
 	 * Getter de reponses
+	 * @return les réponses
 	 */
 	public ArrayList<Reponse> getReponses() {
 		return reponses;
@@ -33,6 +35,7 @@ public class Question {
 
 	/**
 	 * Getter de l'id de la question
+	 * @return les reponses
 	 */
 	public int getId() {return this.id;}
 

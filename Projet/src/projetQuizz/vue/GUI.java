@@ -34,7 +34,8 @@ public class GUI extends InterfaceDeJeu {
 	private Box horizontalBoxJoker;
 
 	/**
-	 * @param quizz
+	 * Initialisation de la gui
+	 * @param quizz le quizz en cours
 	 */
 	public GUI(Quizz quizz) {
 		super(quizz);
@@ -48,12 +49,20 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
+	/**
+	 * Méthode exécutée en cas de problème
+	 * @param e l'exception envoyée
+	 */
 	public void afficherErreur(Exception e) {
 		// TODO afficher un popup? ou un message "fermable" dans la fenetre
 		// System.out.println(e.getMessage());
 	}
 
 	@Override
+	/**
+	 * Affiche le résultat de la question
+	 * @param resultat le resultat obtenu
+	 */
 	public void afficherResultat(Resultat resultat) {
 		JButton envoyer = new JButton("Question suivante");
 
@@ -72,7 +81,6 @@ public class GUI extends InterfaceDeJeu {
 					horizontalBox.removeAll();
 					getQuizz().passerQuestionSuivante();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -80,11 +88,19 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
+	/**
+	 * affiche le score final
+	 * @param endedPartie la partie en cours
+	 */
 	public void afficherScores(Partie endedPartie) {
 		textArea.setText(endedPartie.getTexteDeFin());
 	}
 
 	@Override
+	/**
+	 * Interroge l'utilisateur sur le thème voulu
+	 * @param themesPossibles les thèmes disponibles
+	 */
 	public void choisirTheme(ArrayList<Theme> themesPossibles) throws Exception {
 		textArea.setText("Choisissez parmis ces thèmes:");
 		for (int i = 0; i < themesPossibles.size(); i++) {
@@ -98,7 +114,6 @@ public class GUI extends InterfaceDeJeu {
 						horizontalBox.removeAll();
 						getQuizz().recevoirTheme(theme);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -108,6 +123,10 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
+	/**
+	 * Demande le mode de réponse voulu par l'utilisateur pour la question en cours
+	 * @param questionActuelle la question en cours
+	 */
 	public void demanderCarreCash(Question questionActuelle) {
 		textArea.setText(questionActuelle.getQuestion() + "\n\nChoisissez parmi:");
 
@@ -120,7 +139,6 @@ public class GUI extends InterfaceDeJeu {
 					horizontalBox.removeAll();
 					getQuizz().recevoirCarreCash(CarreCash.CARRE);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -134,7 +152,6 @@ public class GUI extends InterfaceDeJeu {
 					horizontalBox.removeAll();
 					getQuizz().recevoirCarreCash(CarreCash.CASH);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -145,6 +162,10 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
+	/**
+	 * Interoge l'utilisateur quant à la difficullté désirée
+	 * @param difficultes les difficultés disponibles
+	 */
 	public void demanderDifficulte(Difficulte[] difficultes) throws Exception {
 		textArea.setText("Choisissez parmis ces difficultés:");
 		for (int i = 0; i < difficultes.length; i++) {
@@ -158,7 +179,6 @@ public class GUI extends InterfaceDeJeu {
 						horizontalBox.removeAll();
 						getQuizz().recevoirDifficulte(difficulte);
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -168,10 +188,20 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
+	/**
+	 * Repose la question en cours avec 2 réponses au lieu de 4
+	 * @param questino la question en cours
+	 * @param reponsesPossiblesActuelles les réponses possibles actuelles
+	 */
 	public void demanderMoiteMoite(Question question, Reponse[] reponsesPossiblesActuelles) {
 		poserQuestion(question, reponsesPossiblesActuelles);
 	}
 
+	/**
+	 * pose la question et lance une méthode particulière en fonction de l'action utilisateur
+	 * @param question la question en cours
+	 * @param reponsesPossiblesActuelles les reponses possibles actuelles
+	 */
 	private void poserQuestion(Question question, Reponse[] reponsesPossiblesActuelles) {
 		textArea.setText(question.getQuestion() + "\n\nChoisissez parmi ces possibilités:");
 
@@ -198,6 +228,9 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
+	/**
+	 * Demande le nom del'utilisateur
+	 */
 	public void demanderNom() throws IOException {
 		JButton envoyer = new JButton("Envoyer");
 		JTextField textInput = new JTextField();
@@ -210,7 +243,6 @@ public class GUI extends InterfaceDeJeu {
 					horizontalBox.removeAll();
 					getQuizz().recevoirNomUtilisateur(nom);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -225,6 +257,13 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
+	/**
+	 * Affiche les réponses et les jokers disponibles
+	 * @param question la question en cours
+	 * @param reponsesPossiblesActuelles les réponses possibles actuelles
+	 * @param jokersPossibles les jokers disponibles
+	 *
+	 */
 	public void demanderReponseCarreJoker(Question question, Reponse[] reponsesPossiblesActuelles, Joker[] jokersPossibles) {
 		poserQuestion(question, reponsesPossiblesActuelles);
 
@@ -252,6 +291,10 @@ public class GUI extends InterfaceDeJeu {
 	}
 
 	@Override
+	/**
+	 * Permet à l'utilisateur d'encoder lui-même une réponse
+	 * @param questino al question en cours
+	 */
 	public void demanderReponseCash(Question question) {
 		JButton envoyer = new JButton("Envoyer");
 		JTextField textInput = new JTextField();
@@ -265,7 +308,6 @@ public class GUI extends InterfaceDeJeu {
 					horizontalBox.removeAll();
 					getQuizz().recevoirReponseCash(reponseCash);
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

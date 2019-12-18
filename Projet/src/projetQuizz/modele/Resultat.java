@@ -10,6 +10,9 @@ public class Resultat {
 
 	/**
 	 * Constructeur de la classe Resultat.
+	 * @param question la question
+	 * @param score le nomrbe de point obtenus par cette question
+	 * @param estBonneReponse true si la réponse est correcte
 	 */
 	public Resultat(Question question, int score, boolean estBonneReponse) {
 		this.question = question;
@@ -19,6 +22,7 @@ public class Resultat {
 
 	/**
 	 * Getter de bonneReponse.
+	 * @return la bonne réponse
 	 */
 	public Reponse getBonneReponse() {
 		ArrayList<Reponse> reponses = question.getReponses();
@@ -32,6 +36,7 @@ public class Resultat {
 
 	/**
 	 * Getter de score.
+	 * @return le score
 	 */
 	public int getScore() {
 		return score;
@@ -39,6 +44,7 @@ public class Resultat {
 
 	/**
 	 * Getter de estBonneReponse.
+	 * @return true si la question a été correctement répondue
 	 */
 	public boolean getEstBonneReponse() {
 		return estBonneReponse;

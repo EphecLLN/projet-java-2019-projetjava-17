@@ -50,7 +50,7 @@ public class Console extends InterfaceDeJeu {
 
 	/**
 	 * Affiche le résultat final qu'à eu l'utilisateur à la fin du quizz.
-	 * @param resultats : résultat du total des questions durant la partie.
+	 * @param endedPartie : résultat du total des questions durant la partie.
 	 */
 	@Override
 	public void afficherScores(Partie endedPartie) {
@@ -156,8 +156,9 @@ public class Console extends InterfaceDeJeu {
 
 	/**
 	 * Demande à l'utilisateur s'il veut répondre à une des propositions carré ou s'il veut utiliser un joker.
+	 * @param question la question à poser
 	 * @param jokersPossibles : liste des jokers disponibles.
-	 * @param reponsePossibleActuelles : les réponses carrées qui lui sont proposées pour cette question.
+	 * @param reponsesPossiblesActuelles : les réponses carrées qui lui sont proposées pour cette question.
 	 * @throws Exception : Si erreur dans l'etat.
 	 */
 	@Override
@@ -180,6 +181,7 @@ public class Console extends InterfaceDeJeu {
 
 	/**
 	 * Demande à l'utilisateur d'inscrire en console sa réponse cash.
+	 * @param question la question à poser
 	 */
 	@Override
 	public void demanderReponseCash(Question question) throws Exception {

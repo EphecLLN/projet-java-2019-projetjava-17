@@ -54,7 +54,7 @@ public class Partie {
 
 	/**
 	 * Getter de nomDifficulte
-	 * @param difficulte
+	 * @param difficulte la difficulté en cours
 	 * @return : String de la difficulté choisie
 	 */
 	public static String getNomDifficulte(Difficulte difficulte) {
@@ -73,7 +73,7 @@ public class Partie {
 
 	/**
 	 * Getter de jokers.
-	 * @param joker
+	 * @param joker le joker choisi
 	 * @return : String du joker choisi
 	 */
 	public static String getNomJokers(Joker joker) {
@@ -128,6 +128,7 @@ public class Partie {
 
 	/**
 	 * Getter de etat.
+	 * @return l'état
 	 */
 	public Etat getEtat() {
 		return this.etat;
@@ -135,6 +136,7 @@ public class Partie {
 
 	/**
 	 * Getter de jokersPossible.
+	 * @return Array des jokers encore disponibles
 	 */
 	public Joker[] getJokersPossibles() {
 		Joker[] jokers = new Joker[jokersPossibles.size()];
@@ -144,6 +146,7 @@ public class Partie {
 
 	/**
 	 * Getter de questionActuelle.
+	 * @return la question actuelle
 	 */
 	public Question getQuestionActuelle() {
 		return questionsPossibles.get(0);
@@ -151,6 +154,7 @@ public class Partie {
 
 	/**
 	 * Getter de reponsesPossiblesActuelles.
+	 * @return un array des Reponses possibles actuelles
 	 */
 	public Reponse[] getReponsesPossiblesActuelles() {
 		Reponse[] reponses = new Reponse[reponsesPossiblesActuelles.size()];
@@ -160,6 +164,7 @@ public class Partie {
 
 	/**
 	 * Getter de resultat.
+	 * @return le dernier résultat disponible
 	 */
 	public Resultat getResultat() {
 		return resultats.get(resultats.size() - 1);
@@ -167,6 +172,7 @@ public class Partie {
 
 	/**
 	 * Getter de resultats.
+	 * @return un Array des résultat disponibles
 	 */
 	public Resultat[] getResultats() {
 		Resultat[] resultats = new Resultat[this.resultats.size()];
@@ -176,6 +182,7 @@ public class Partie {
 
 	/**
 	 * Getter de theme.
+	 * @return le theme
 	 */
 	public Theme getTheme() {
 		return theme;
@@ -183,6 +190,7 @@ public class Partie {
 
 	/**
 	 * Getter de difficulte.
+	 * @return la difficulte
 	 */
 	public Difficulte getDifficulte(){
 		return this.difficulte;
@@ -190,6 +198,7 @@ public class Partie {
 
 	/**
 	 * Getter de utilisateur.
+	 * @return l'utilisateur
 	 */
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
@@ -285,6 +294,7 @@ public class Partie {
 
 	/**
 	 * Setter de difficulte.
+	 * @param difficulte la difficulte choisie
 	 */
 	public void setDifficulte(Difficulte difficulte) {
 		this.difficulte = difficulte;
@@ -302,6 +312,7 @@ public class Partie {
 
 	/**
 	 * Setter de theme.
+	 *@param theme le thème choisi
 	 */
 	public void setTheme(Theme theme) {
 		this.theme = theme;
@@ -310,11 +321,16 @@ public class Partie {
 
 	/**
 	 * Setter d'utilisateur.
+	 * @param utilisateur l'utilisateur choisi
 	 */
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
 	}
 
+	/**
+	 * Transmet le message de fin
+	 * @return le message de fin de partie
+	 */
 	public String getTexteDeFin() {
 		String texte = "";
 
